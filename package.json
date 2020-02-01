@@ -1,0 +1,61 @@
+{
+  "name": "charged-particles-web",
+  "description": "DeFi NFTs",
+  "version": "0.0.5",
+  "author": "Rob Secord <robsecord.eth>",
+  "keywords": [],
+  "scripts": {
+    "start": "npm run develop",
+    "develop": "gatsby develop",
+    "build": "version update -p && gatsby build --prefix-paths",
+    "serve": "gatsby serve"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "dependencies": {
+    "@arkane-network/arkane-connect": "^1.12.0",
+    "@material-ui/core": "^4.9.0",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/styles": "^4.9.0",
+    "@portis/web3": "^2.0.0-beta.54",
+    "@reach/dialog": "^0.8.0",
+    "@reach/tabs": "^0.8.0",
+    "@reach/visually-hidden": "^0.8.0",
+    "@toruslabs/torus-embed": "^0.2.6",
+    "@walletconnect/browser": "^1.0.0-beta.39",
+    "@walletconnect/qrcode-modal": "^1.0.0-beta.39",
+    "authereum": "^0.0.4-beta.47",
+    "bitski": "^0.10.6",
+    "fortmatic": "^1.0.0",
+    "gatsby": "^2.18.2",
+    "gatsby-image": "^2.2.17",
+    "gatsby-plugin-create-client-paths": "^2.1.17",
+    "gatsby-plugin-lodash": "^3.1.15",
+    "gatsby-plugin-manifest": "^2.2.29",
+    "gatsby-plugin-netlify": "^2.1.25",
+    "gatsby-plugin-offline": "^3.0.33",
+    "gatsby-plugin-react-helmet": "^3.1.15",
+    "gatsby-plugin-sharp": "^2.3.2",
+    "gatsby-source-filesystem": "^2.1.38",
+    "gatsby-transformer-sharp": "^2.3.5",
+    "lodash": "^4.17.15",
+    "mobx": "^5.15.0",
+    "mobx-react-lite": "^1.5.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-helmet": "^5.2.1",
+    "rimble-ui": "^0.11.0",
+    "squarelink": "^1.1.4",
+    "styled-components": "^5.0.0",
+    "uport": "^0.7.0-alpha-13",
+    "uport-connect": "^1.1.11",
+    "walletlink": "^1.0.0",
+    "web3": "^1.2.4"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {
+    "@reach/router": "^1.2.1"
+  }
+}
