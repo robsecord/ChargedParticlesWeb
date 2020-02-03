@@ -63,14 +63,14 @@ Join our community, share ideas and help support the project in anyway you want!
  - NodeJS **v12.14.1**
  - GatsbyJS **v2.18.2**
  - React **v16.9.0**
- - Web2 **v1.2.4**
- - Material UI
+ - Web3.js **v1.2.4**
+ - Material UI + Rimble UI
  - Wallet APIs: 
     - Arkane
     - Authereum
     - Bitski
     - Fortmatic
-    - MetaMask
+    - MetaMask (or any browser based wallet)
     - Portis
     - Squarelink
     - Torus
