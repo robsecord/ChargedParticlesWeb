@@ -1,20 +1,21 @@
 {
   "name": "charged-particles-web",
   "description": "DeFi NFTs",
-  "version": "0.0.5",
+  "version": "0.0.10",
   "author": "Rob Secord <robsecord.eth>",
   "keywords": [],
   "scripts": {
     "start": "npm run develop",
     "develop": "gatsby develop",
-    "build": "version update -p && gatsby build --prefix-paths",
-    "serve": "gatsby serve"
+    "build": "gatsby build --prefix-paths",
+    "deploy-stg": "./deploy.sh \"Deploy Staging\""
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "dependencies": {
     "@arkane-network/arkane-connect": "^1.12.0",
+    "@dfuse/client": "^0.3.7",
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "^4.9.0",
@@ -31,9 +32,10 @@
     "gatsby": "^2.18.2",
     "gatsby-image": "^2.2.17",
     "gatsby-plugin-create-client-paths": "^2.1.17",
+    "gatsby-plugin-ipfs": "^2.0.2",
     "gatsby-plugin-lodash": "^3.1.15",
     "gatsby-plugin-manifest": "^2.2.29",
-    "gatsby-plugin-netlify": "^2.1.25",
+    "gatsby-plugin-netlify": "^2.1.32",
     "gatsby-plugin-offline": "^3.0.33",
     "gatsby-plugin-react-helmet": "^3.1.15",
     "gatsby-plugin-sharp": "^2.3.2",

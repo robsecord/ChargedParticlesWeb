@@ -6,15 +6,13 @@ module.exports = {
 
     manifestName: 'Charged Particles',
     manifestShortName: 'DeFi-NFTs', // max 12 characters
-    manifestStartUrl: 'https://charged.particles.network',
+    manifestStartUrl: 'charged.particles.eth.link',
     manifestBackgroundColor: '#FFFFFF',
     manifestThemeColor: '#FFFFFF',
     manifestDisplay: 'standalone',
     manifestIcon: 'src/images/gatsby-icon.png',
 
-    // This path is subpath of your hosting https://your.domain/gatsby-eth-dapp-starter/
-    // pathPrefix: `/gatsby-eth-dapp-starter/`,
-    pathPrefix: '/',
+    pathPrefix: './',   //'__GATSBY_IPFS_PATH_PREFIX__',
 
     // social
     socialLinks: [

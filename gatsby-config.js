@@ -12,6 +12,8 @@ module.exports = {
 
     plugins: [
         `gatsby-plugin-react-helmet`,
+        `gatsby-plugin-netlify`,
+        // 'gatsby-plugin-ipfs',
         {
             resolve: `gatsby-plugin-create-client-paths`,
             options: {prefixes: [`/app/*`]},
@@ -38,7 +40,6 @@ module.exports = {
             },
         },
         `gatsby-plugin-lodash`,
-        `gatsby-plugin-netlify`,
 
         // this (optional) plugin enables Progressive Web App + Offline functionality
         // To learn more, visit: https://gatsby.dev/offline
