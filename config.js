@@ -12,7 +12,7 @@ module.exports = {
     manifestDisplay: 'standalone',
     manifestIcon: 'src/images/gatsby-icon.png',
 
-    pathPrefix: './',   //'__GATSBY_IPFS_PATH_PREFIX__',
+    pathPrefix: '/',   //'__GATSBY_IPFS_PATH_PREFIX__',
 
     // social
     socialLinks: [
