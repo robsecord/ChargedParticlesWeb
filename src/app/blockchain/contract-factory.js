@@ -1,36 +1,42 @@
 
-import { _ } from 'lodash';
+import * as _ from 'lodash';
 
-import { CC_GLOBAL } from '../../utils/globals';
+const RECEIPT_WATCH_INTERVAL = 1000;
 
 export const ContractFactory = {
 
-    create({addressName, abi}) {
+    create({name, abi}) {
         let _instance;
         let _utils;
 
-        function _createInstance() {
+        function _createInstance({logger}) {
             return Object.create(_.assignIn({}, ContractFactory.objInterface, {
-                contractAddressName: addressName,
-                contractAbi: abi,
                 contractReady: false,
+                contractName: name,
+                contractAddress: null,
+                contractAbi: abi,
                 contract: null,
                 web3: null,
-                log: _utils.logger || console.log,
+                log: logger || console.log,
             }));
         }
 
+        function _connect() {
+            if (!_utils) {
+                throw new Error(`Contract Instance for "${name}" has not been prepared!`);
+            }
+            _instance = _createInstance(_utils);
+            _instance.connectToContract(_utils);
+        }
+
         return {
-            prepare: ({web3, networkVersion, logger}) => {
-                _utils = {web3, networkVersion, logger};
+            prepare: ({web3, address, logger}) => {
+                _utils = {web3, address, logger};
             },
+            reconnect: _connect,
             instance: () => {
                 if (!_instance) {
-                    if (!_utils) {
-                        throw new Error(`CryptoCards Contract Instance for "${addressName}" has not been prepared!`);
-                    }
-                    _instance = _createInstance();
-                    _instance.connectToContract(_utils);
+                    _connect();
                 }
                 return _instance;
             }
@@ -38,7 +44,7 @@ export const ContractFactory = {
     },
 
     objInterface: {
-        getNetworkVersion() {
+        getNetworkId() {
             return this.web3.eth.net.getId();
         },
 
@@ -50,10 +56,10 @@ export const ContractFactory = {
             return this.web3.eth.net.getPeerCount();
         },
 
-        connectToContract({web3, networkVersion}) {
-            const address = CC_GLOBAL.CONTRACT_ADDRESS[networkVersion][this.contractAddressName];
+        connectToContract({web3, address}) {
             this.web3 = web3;
-            this.contract = new this.web3.eth.Contract(this.contractAbi, address);
+            this.contractAddress = address;
+            this.contract = new this.web3.eth.Contract(this.contractAbi, this.contractAddress);
             this.contractReady = (this.contract instanceof this.web3.eth.Contract);
         },
 
@@ -67,14 +73,14 @@ export const ContractFactory = {
 
         callContractFn(contractMethod, ...args) {
             if (!this.contractReady) {
-                return Promise.reject(`Web3 Provider not ready (calling "${this.contractAddressName}->${contractMethod}")`);
+                return Promise.reject(`Web3 Provider not ready (calling "${this.contractName}->${contractMethod}")`);
             }
             return this.contract.methods[contractMethod](...args).call();
         },
 
         tryContractTx(contractMethod, tx, ...args) {
             if (!this.contractReady) {
-                return Promise.reject(`Web3 Provider not ready (calling "${this.contractAddressName}->${contractMethod}")`);
+                return Promise.reject(`Web3 Provider not ready (calling "${this.contractName}->${contractMethod}")`);
             }
             return this.contract.methods[contractMethod](...args).send(tx);
         },
@@ -89,10 +95,10 @@ export const ContractFactory = {
                     this.getReceipt(hash)
                         .then(receipt => {
                             if (receipt === null) {
-                                // Try again in 1 second
+                                // Try again in X seconds
                                 setTimeout(() => {
                                     _getReceipt();
-                                }, CC_GLOBAL.WATCH_INTERVAL.RECEIPT);
+                                }, RECEIPT_WATCH_INTERVAL);
                                 return;
                             }
                             resolve(receipt);
