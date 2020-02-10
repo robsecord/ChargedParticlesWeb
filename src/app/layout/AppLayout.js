@@ -29,7 +29,11 @@ import {
 import ChargedParticlesData from '../blockchain/contracts/ChargedParticles';
 import ChargedParticlesEscrowData from '../blockchain/contracts/ChargedParticlesEscrow';
 
+// Transactions Monitor
+import Transactions from '../blockchain/transactions';
+
 // Data Context for State
+import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
 
 const theme = createMuiTheme();
@@ -38,6 +42,7 @@ const theme = createMuiTheme();
 function AppLayout({ children }) {
     const classes = useRootStyles();
     const wallet = Wallet.instance();
+    const [, rootDispatch] = useContext(RootContext);
     const [walletState, walletDispatch] = useContext(WalletContext);
     const [mobileOpen, setMobileOpen] = useState(false);
     const { allReady: isWalletReady, connectedType, networkId } = walletState;
@@ -45,8 +50,7 @@ function AppLayout({ children }) {
 
     // Prepare Wallet Interface
     useEffect(() => {
-        wallet.init({walletDispatch})
-            .catch(console.error);
+        wallet.init({walletDispatch});
     }, [wallet, walletDispatch]);
 
     // Reconnect to Contracts on network change
@@ -62,6 +66,15 @@ function AppLayout({ children }) {
 
             ChargedParticlesEscrow.prepare({web3, address: chargedParticlesEscrowAddress});
             ChargedParticlesEscrow.reconnect();
+        }
+    }, [isWalletReady, connectedType, networkId, wallet]);
+
+    // Reconnect to Network Monitor on network change
+    useEffect(() => {
+        if (isWalletReady) {
+            const transactions = Transactions.instance();
+            transactions.init({rootDispatch});
+            transactions.connectToNetwork({networkId});
         }
     }, [isWalletReady, connectedType, networkId, wallet]);
 

@@ -6,6 +6,19 @@ const RootReducer = (state, action) => {
                 ...state,
                 acceleratorTab: action.payload
             };
+        case 'CONNECTED_NETWORK':
+            return {
+                ...state,
+                networkId          : action.payload.networkId,
+                isNetworkConnected : action.payload.isNetworkConnected,
+                networkErrors      : action.payload.networkErrors,
+            };
+        case 'DISCONNECTED_NETWORK':
+            return {
+                ...state,
+                isNetworkConnected : action.payload.isNetworkConnected,
+                networkErrors      : action.payload.networkErrors,
+            };
         default:
             return state;
     }

@@ -4,6 +4,11 @@ import RootReducer from './root.reducer'
 
 const initialState = {
     acceleratorTab: 0,
+
+    networkId: 0,
+    isNetworkConnected: false,
+    networkErrors: [],
+
     errors: null
 };
 

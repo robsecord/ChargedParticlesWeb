@@ -17,7 +17,7 @@ const View = () => {
     const { allReady, connectedAddress } = walletState;
 
     const [peerCount, setPeerCount] = useState(0);
-    const [contractOwner, setContractOwner] = useState('0x0');
+    const [contractVersion, setContractVersion] = useState('not loaded');
 
     useEffect(() => {
         if (allReady) {
@@ -28,11 +28,11 @@ const View = () => {
                 const peers = await cp.getNetworkPeerCount();
                 setPeerCount(peers);
 
-                const owner = await cp.callContractFn('owner');
-                setContractOwner(owner);
+                const version = await cp.callContractFn('version');
+                setContractVersion(cp.web3.utils.hexToAscii(version));
             })();
         }
-    }, [allReady, setPeerCount, setContractOwner]);
+    }, [allReady, setPeerCount, setContractVersion]);
 
     const _getAccountData = () => {
         if (!allReady) { return 'Not Connected'; }
@@ -49,8 +49,8 @@ const View = () => {
 
         return (
             <div>
-                <span>Contract Owner: </span>
-                {contractOwner}
+                <span>ChargedParticles: </span>
+                {contractVersion}
             </div>
         );
     };

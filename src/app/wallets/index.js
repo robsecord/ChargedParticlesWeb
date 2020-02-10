@@ -31,7 +31,7 @@ class Wallet {
         return Wallet.__instance;
     }
 
-    async init({walletDispatch}) {
+    init({walletDispatch}) {
         this.dispatchState = walletDispatch;
     }
 
