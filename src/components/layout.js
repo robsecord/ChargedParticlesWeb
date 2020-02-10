@@ -1,7 +1,7 @@
 // Frameworks
 import React from 'react';
-import { ThemeProvider } from 'styled-components'
-import { theme, Box } from 'rimble-ui'
+import { ThemeProvider } from 'styled-components';
+import { theme, Box } from 'rimble-ui';
 import { navigate, useStaticQuery, graphql } from 'gatsby';
 
 // Layout Components

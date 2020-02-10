@@ -37,7 +37,6 @@ class Transactions {
                 }
             }
         });
-        console.log('dFuse should be connected to ', Helpers.getNetworkName(networkId));
     }
 
     onClose() {

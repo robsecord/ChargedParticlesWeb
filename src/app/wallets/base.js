@@ -38,7 +38,6 @@ class IWalletBase {
         };
         this.dispatchState({type: 'ALL_READY', payload: false});
         this.dispatchState({type: 'CONNECTED_ACCOUNT', payload});
-        console.log('cleared state');
 
         const accounts = await this.web3.eth.getAccounts();
         if (_.isEmpty(accounts)) { return; }
@@ -61,7 +60,6 @@ class IWalletBase {
 
         setTimeout(() => {
             this.dispatchState({type: 'ALL_READY', payload: true});
-            console.log('set ready state');
         }, 1);
 
         return payload;
