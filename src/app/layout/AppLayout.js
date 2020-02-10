@@ -1,5 +1,6 @@
 // Frameworks
 import React, { useContext, useEffect, useState } from 'react';
+import * as _ from 'lodash';
 
 // Material UI
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -53,10 +54,13 @@ function AppLayout({ children }) {
         if (isWalletReady) {
             const web3 = wallet.getWeb3();
 
-            ChargedParticles.prepare({web3, address: ChargedParticlesData.networks[networkId].address});
+            const chargedParticlesAddress = _.get(ChargedParticlesData.networks[networkId], 'address', '');
+            const chargedParticlesEscrowAddress = _.get(ChargedParticlesEscrowData.networks[networkId], 'address', '');
+
+            ChargedParticles.prepare({web3, address: chargedParticlesAddress});
             ChargedParticles.reconnect();
 
-            ChargedParticlesEscrow.prepare({web3, address: ChargedParticlesEscrowData.networks[networkId].address});
+            ChargedParticlesEscrow.prepare({web3, address: chargedParticlesEscrowAddress});
             ChargedParticlesEscrow.reconnect();
         }
     }, [isWalletReady, connectedType, networkId, wallet]);

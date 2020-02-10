@@ -23,6 +23,7 @@ const View = () => {
         if (allReady) {
             (async () => {
                 const cp = ChargedParticles.instance();
+                if (!cp.isReady()) { return; }
 
                 const peers = await cp.getNetworkPeerCount();
                 setPeerCount(peers);

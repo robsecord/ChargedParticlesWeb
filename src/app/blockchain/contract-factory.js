@@ -59,6 +59,10 @@ export const ContractFactory = {
         connectToContract({web3, address}) {
             this.web3 = web3;
             this.contractAddress = address;
+            if (_.isEmpty(address)) {
+                this.contractReady = false;
+                return;
+            }
             this.contract = new this.web3.eth.Contract(this.contractAbi, this.contractAddress);
             this.contractReady = (this.contract instanceof this.web3.eth.Contract);
         },
