@@ -49,8 +49,6 @@ function AppLayout({ children }) {
     const { allReady: isWalletReady, connectedType, networkId } = walletState;
     const siteTitle = siteOptions.metadata.title;
 
-    const isModernWeb3 = !!window.ethereum;
-    const isLegacyWeb3 = (typeof window.web3 !== 'undefined');
     const correctNetwork = _.parseInt(GLOBALS.CHAIN_ID, 10);
 
     // Prepare Wallet Interface
@@ -84,6 +82,9 @@ function AppLayout({ children }) {
     }, [isWalletReady, connectedType, networkId, wallet]);
 
     useEffect(() => {
+        const isModernWeb3 = !!window.ethereum;
+        const isLegacyWeb3 = (typeof window.web3 !== 'undefined');
+
         if (!isLegacyWeb3 && !isModernWeb3) {
             rootDispatch({type: 'CONNECTION_WARNING', payload: 'Not a Web3 capable browser'});
         } else if (_.isUndefined(networkId) || networkId === 0) {
