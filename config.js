@@ -2,7 +2,7 @@ module.exports = {
     siteTitle: 'Charged Particles',
     siteDesc: 'DeFi NFTs',
     siteAuthor: 'Rob Secord (robsecord.eth)',
-    siteLogoUrl: 'src/images/gatsby-icon.png',
+    siteLogoUrl: 'src/images/logo/cp-logo.128x128.png',
 
     manifestName: 'Charged Particles',
     manifestShortName: 'DeFi-NFTs', // max 12 characters
@@ -10,7 +10,7 @@ module.exports = {
     manifestBackgroundColor: '#FFFFFF',
     manifestThemeColor: '#FFFFFF',
     manifestDisplay: 'standalone',
-    manifestIcon: 'src/images/gatsby-icon.png',
+    manifestIcon: 'src/images/logo/cp-logo.128x128.png',
 
     pathPrefix: '/',   //'__GATSBY_IPFS_PATH_PREFIX__',
 

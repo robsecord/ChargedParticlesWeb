@@ -18,6 +18,7 @@ import useRootStyles from './styles/root.styles';
 // App Components
 import siteOptions from '../../utils/site-options';
 import Wallet from '../wallets';
+import { GLOBALS } from '../../utils/globals';
 import { HeaderBar } from '../components/HeaderBar';
 import { Sidemenu } from '../components/Sidemenu';
 
@@ -48,6 +49,10 @@ function AppLayout({ children }) {
     const { allReady: isWalletReady, connectedType, networkId } = walletState;
     const siteTitle = siteOptions.metadata.title;
 
+    const isModernWeb3 = !!window.ethereum;
+    const isLegacyWeb3 = (typeof window.web3 !== 'undefined');
+    const correctNetwork = _.parseInt(GLOBALS.CHAIN_ID, 10);
+
     // Prepare Wallet Interface
     useEffect(() => {
         wallet.init({walletDispatch});
@@ -77,6 +82,18 @@ function AppLayout({ children }) {
             transactions.connectToNetwork({networkId});
         }
     }, [isWalletReady, connectedType, networkId, wallet]);
+
+    useEffect(() => {
+        if (!isLegacyWeb3 && !isModernWeb3) {
+            rootDispatch({type: 'CONNECTION_WARNING', payload: 'Not a Web3 capable browser'});
+        } else if (_.isUndefined(networkId) || networkId === 0) {
+            rootDispatch({type: 'CONNECTION_WARNING', payload: 'Not connected to network'});
+        } else if (networkId !== correctNetwork) {
+            rootDispatch({type: 'CONNECTION_WARNING', payload: 'Wrong Ethereum network'});
+        } else {
+            rootDispatch({type: 'CONNECTION_WARNING', payload: ''});
+        }
+    }, [networkId, rootDispatch]);
 
 
     const _handleDrawerToggle = () => {

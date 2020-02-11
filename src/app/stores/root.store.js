@@ -9,6 +9,8 @@ const initialState = {
     isNetworkConnected: false,
     networkErrors: [],
 
+    connectionWarning: '',
+
     errors: null
 };
 

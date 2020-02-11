@@ -1,6 +1,8 @@
 // Frameworks
 import * as _ from 'lodash';
 
+// App Components
+import Wallet from '../app/wallets';
 
 export const Helpers = {};
 
@@ -25,4 +27,9 @@ Helpers.getNetworkName = (networkId) => {
         default:
             return 'development';
     }
+};
+
+Helpers.toBytes16 = (str) => {
+    const wallet = Wallet.instance();
+    return wallet.getWeb3().utils.utf8ToHex(str);
 };

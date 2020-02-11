@@ -6,6 +6,11 @@ const RootReducer = (state, action) => {
                 ...state,
                 acceleratorTab: action.payload
             };
+        case 'CONNECTION_WARNING':
+            return {
+                ...state,
+                connectionWarning: action.payload
+            };
         case 'CONNECTED_NETWORK':
             return {
                 ...state,

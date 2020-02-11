@@ -6,11 +6,18 @@ export const GLOBALS = {};
 GLOBALS.CODENAME = 'ChargedParticles';
 GLOBALS.CODENAME_ABBR = 'CP';
 GLOBALS.CODE_VERSION = '0.0.1';
-GLOBALS.BASE_URL = 'https://particles.network';
-GLOBALS.ACCELERATOR_URL = 'https://charged.particles.network';
+GLOBALS.BASE_URL = 'https://charged-particles.netlify.com';
+GLOBALS.ACCELERATOR_URL = 'https://charged-particles.netlify.com';
 GLOBALS.ACCELERATOR_ROOT = '/app';
 GLOBALS.CODE_VERSION_MAJOR = _.join(_.split(GLOBALS.CODE_VERSION, '.', 1), '.');
 GLOBALS.CODE_VERSION_MINOR = _.join(_.split(GLOBALS.CODE_VERSION, '.', 2), '.');
+
+GLOBALS.ETH_UNIT      = 1e18;
+GLOBALS.ETH_PRECISION = 18;
+
+GLOBALS.DEPOSIT_FEE_MODIFIER    = 1e4;  // 10000  (100%)
+GLOBALS.MAX_CUSTOM_DEPOSIT_FEE  = 5e3;  // 5000   (50%)
+GLOBALS.MIN_DEPOSIT_FEE         = 1e6;  // 1000000 (0.000000000001 ETH  or  1000000 WEI)
 
 GLOBALS.RPC_URL = process.env.GATSBY_ETH_JSONRPC_URL;
 GLOBALS.CHAIN_ID = process.env.GATSBY_ETH_CHAIN_ID;

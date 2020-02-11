@@ -16,6 +16,7 @@ import { RootContext } from '../stores/root.store';
 import useRootStyles from '../layout/styles/root.styles';
 
 // App Components
+import { ConnectionWarning } from '../components/ConnectionWarning.js';
 import SEO from '../layout/SEO';
 
 // Route Templates
@@ -58,6 +59,7 @@ const Accelerator = () => {
         <div className={classes.tabBar}>
             <SEO title="Particle Accelerator" />
             <Container fixed>
+                <ConnectionWarning />
                 <Hidden xsDown implementation="css">
                     <AppBar position="static" color="default">
                         <Tabs
