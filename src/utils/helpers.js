@@ -22,6 +22,8 @@ Helpers.getNetworkName = (networkId) => {
     switch (_.parseInt(networkId, 10)) {
         case 1:
             return 'mainnet';
+        case 3:
+            return 'ropsten';
         case 42:
             return 'kovan';
         default:

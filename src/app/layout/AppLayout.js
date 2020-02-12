@@ -1,5 +1,6 @@
 // Frameworks
 import React, { useContext, useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 import * as _ from 'lodash';
 
 // Material UI
@@ -18,6 +19,7 @@ import useRootStyles from './styles/root.styles';
 // App Components
 import siteOptions from '../../utils/site-options';
 import Wallet from '../wallets';
+import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 import { HeaderBar } from '../components/HeaderBar';
 import { Sidemenu } from '../components/Sidemenu';
@@ -32,10 +34,12 @@ import ChargedParticlesEscrowData from '../blockchain/contracts/ChargedParticles
 
 // Transactions Monitor
 import Transactions from '../blockchain/transactions';
+import TxStreamView from '../components/TxStreamView.js';
 
 // Data Context for State
 import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
+import { TransactionContext } from '../stores/transaction.store';
 
 const theme = createMuiTheme();
 
@@ -44,12 +48,14 @@ function AppLayout({ children }) {
     const classes = useRootStyles();
     const wallet = Wallet.instance();
     const [, rootDispatch] = useContext(RootContext);
+    const [, txDispatch] = useContext(TransactionContext);
     const [walletState, walletDispatch] = useContext(WalletContext);
     const [mobileOpen, setMobileOpen] = useState(false);
     const { allReady: isWalletReady, connectedType, networkId } = walletState;
     const siteTitle = siteOptions.metadata.title;
 
     const correctNetwork = _.parseInt(GLOBALS.CHAIN_ID, 10);
+    const correctNetworkName = _.upperFirst(Helpers.getNetworkName(correctNetwork));
 
     // Prepare Wallet Interface
     useEffect(() => {
@@ -76,8 +82,9 @@ function AppLayout({ children }) {
     useEffect(() => {
         if (isWalletReady) {
             const transactions = Transactions.instance();
-            transactions.init({rootDispatch});
+            transactions.init({rootDispatch, txDispatch});
             transactions.connectToNetwork({networkId});
+            transactions.resumeIncompleteStreams();
         }
     }, [isWalletReady, connectedType, networkId, wallet]);
 
@@ -88,9 +95,9 @@ function AppLayout({ children }) {
         if (!isLegacyWeb3 && !isModernWeb3) {
             rootDispatch({type: 'CONNECTION_WARNING', payload: 'Not a Web3 capable browser'});
         } else if (_.isUndefined(networkId) || networkId === 0) {
-            rootDispatch({type: 'CONNECTION_WARNING', payload: 'Not connected to network'});
+            rootDispatch({type: 'CONNECTION_WARNING', payload: 'Please connect your Web3 Wallet'});
         } else if (networkId !== correctNetwork) {
-            rootDispatch({type: 'CONNECTION_WARNING', payload: 'Wrong Ethereum network'});
+            rootDispatch({type: 'CONNECTION_WARNING', payload: `Wrong Ethereum network, please connect to ${correctNetworkName}.`});
         } else {
             rootDispatch({type: 'CONNECTION_WARNING', payload: ''});
         }
@@ -135,6 +142,8 @@ function AppLayout({ children }) {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     {children}
+                    <ToastContainer />
+                    <TxStreamView />
                 </main>
             </div>
         </ThemeProvider>

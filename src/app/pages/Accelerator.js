@@ -20,18 +20,18 @@ import { ConnectionWarning } from '../components/ConnectionWarning.js';
 import SEO from '../layout/SEO';
 
 // Route Templates
-import View from './View';
 import Create from './Create';
 import Mint from './Mint';
 import Manage from './Manage';
+import Market from './Market';
 
 import acceleratorTabsList from '../common/accelerator-tabs-list';
 
 const _tabsList = _.merge({}, acceleratorTabsList, {
-    view:   {component: () => (<View/>)},
     create: {component: () => (<Create/>)},
     mint:   {component: () => (<Mint/>)},
     manage: {component: () => (<Manage/>)},
+    market: {component: () => (<Market/>)},
 });
 
 function a11yProps(id) {

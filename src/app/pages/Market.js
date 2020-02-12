@@ -10,9 +10,14 @@ import {
     ChargedParticlesEscrow
 } from '../blockchain/contracts';
 
+// Rimble UI
+import {
+    Heading,
+} from 'rimble-ui';
+
 
 // Swap Route
-const View = () => {
+const Market = () => {
     const [walletState] = useContext(WalletContext);
     const { allReady, connectedAddress } = walletState;
 
@@ -67,7 +72,7 @@ const View = () => {
 
     return (
         <>
-            <h2>View Existing Particles!</h2>
+            <Heading as={"h2"} mt={30}>Available Particles!</Heading>
             {_getPeerCount()}
             {_getAccountData()}
             {_getContractOwner()}
@@ -75,4 +80,4 @@ const View = () => {
     )
 };
 
-export default View;
+export default Market;

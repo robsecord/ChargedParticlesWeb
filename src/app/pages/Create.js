@@ -1,73 +1,34 @@
 // Frameworks
 import React, { useState, useEffect, useContext } from 'react';
-import { Buffer } from 'buffer';
-import styled from 'styled-components'
 import * as _ from 'lodash';
 
 // App Components
-import ChargedParticlesLogo from '../../images/logo/cp-logo.128x128.png';
-import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 import IPFS from '../../utils/ipfs';
+import FormCreateParticle from '../components/FormCreateParticle.js';
+import Transactions from '../blockchain/transactions';
 
 // Contract Data
 import { ChargedParticles } from '../blockchain/contracts';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
 
-// Rimble UI
-import NetworkIndicator from '@rimble/network-indicator';
-
 // Material UI
-import { makeStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import Modal from '@material-ui/core/Modal';
+import Typography from '@material-ui/core/Typography';
 
 // Rimble UI
 import {
-    Avatar,
     Box,
-    Button,
-    Field,
     Flex,
-    Form,
+    Loader,
     Heading,
-    Input,
-    Textarea,
-    Slider,
 } from 'rimble-ui';
 
-const ShadowCheckbox = styled(Form.Check)`
-  pointer-events: none;
-`;
+// Custom Styles
+import useRootStyles from '../layout/styles/root.styles';
 
-const FileInput = styled(Input)`
-  & + button {
-    .button-text {
-      display: inline-block;
-      max-width: 250px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-`;
-
-const useCustomStyles = makeStyles(theme => ({
-    formControl: {
-        width: '100%'
-    },
-}));
-
-const customFeeSettings = {
-    'higher': {min: 1, max: 20, step: 0.1},
-    'lower': {min: 0, max: 1, step: 0.01},
-};
 
 // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1155.md#erc-1155-metadata-uri-json-schema
 // https://docs.opensea.io/docs/metadata-standards
@@ -86,161 +47,202 @@ const tokenMetadata = {
 
 // Create Route
 const Create = () => {
-    const classes = useCustomStyles();
-    const [ rootState ] = useContext(RootContext);
-    const { connectionWarning } = rootState;
+    const classes = useRootStyles();
     const [ walletState ] = useContext(WalletContext);
-    const { allReady, networkId, connectedAddress } = walletState;
-
-    const [formValidated, setFormValidated] = useState(false);
-
-    const [particleName,        setParticleName]        = useState('');
-    const [particleSymbol,      setParticleSymbol]      = useState('');
-    const [particleIcon,        setParticleIcon]        = useState('');
-    const [particleIconBuffer,  setParticleIconBuffer]  = useState('');
-    const [particleIconUrl,     setParticleIconUrl]     = useState(ChargedParticlesLogo);
-    const [particleCreator,     setParticleCreator]     = useState('');
-    const [particleDesc,        setParticleDesc]        = useState('');
-    const [particleSupply,      setParticleSupply]      = useState(0);
-    const [particleAssetPair,   setParticleAssetPair]   = useState('chai');
-    const [particleCreatorFee,  setParticleCreatorFee]  = useState(0.25);
-    const [creatorFeeMode,      setCreatorFeeMode]      = useState('lower');
-    const [isNonFungible,       setNonFungible]         = useState(true);
+    const { connectedAddress } = walletState;
+    const [ isSubmitting, setSubmitting ] = useState(false);
+    const [ txData, setTxData ] = useState({});
+    const [ loadingProgress, setLoadingProgress ] = useState('');
 
     useEffect(() => {
-        if (allReady && _.isEmpty(particleCreator)) {
-            setParticleCreator(connectedAddress);
+        if (isSubmitting && !_.isEmpty(txData)) {
+            const { transactionHash } = txData.txReceipt;
+            console.log('CreateParticle - transaction sent;');
+            console.log('  txData', txData);
+            // txData = {
+            //     "txReceipt": {
+            //         "blockHash": "0x4803d2fac723d06a26de69bbb3469b7e0313a80a0fef7c178766b912df9a0804",
+            //         "blockNumber": 16713927,
+            //         "contractAddress": null,
+            //         "cumulativeGasUsed": 214502,
+            //         "from": "0xbd04a07082fd5f2c2769de5e5572d2fe668de6d9",
+            //         "gasUsed": 214502,
+            //         "logsBloom": "...",
+            //         "root": null,
+            //         "status": true,
+            //         "to": "0x894a2a04f5dab4322ab74c21116da238f3a9b0fc",
+            //         "transactionHash": "0x17668bb3d05c1caf5e7624014582d420dd276d02c463aa8d22747b98ecfe7331",
+            //         "transactionIndex": 0,
+            //         "events": {
+            //             "TransferSingle": {
+            //                 "address": "0x894a2A04f5DAb4322AB74c21116Da238F3A9b0Fc",
+            //                 "blockHash": "0x4803d2fac723d06a26de69bbb3469b7e0313a80a0fef7c178766b912df9a0804",
+            //                 "blockNumber": 16713927,
+            //                 "logIndex": 0,
+            //                 "removed": false,
+            //                 "transactionHash": "0x17668bb3d05c1caf5e7624014582d420dd276d02c463aa8d22747b98ecfe7331",
+            //                 "transactionIndex": 0,
+            //                 "transactionLogIndex": "0x0",
+            //                 "type": "mined",
+            //                 "id": "log_93de07cd",
+            //                 "returnValues": {
+            //                     "0": "0xBD04A07082fD5F2C2769dE5e5572d2fe668dE6D9",
+            //                     "1": "0x0000000000000000000000000000000000000000",
+            //                     "2": "0x0000000000000000000000000000000000000000",
+            //                     "3": "57896044618658097711785492504343953927655839433583097410118915826251869454336",
+            //                     "4": "0",
+            //                     "_operator": "0xBD04A07082fD5F2C2769dE5e5572d2fe668dE6D9",
+            //                     "_from": "0x0000000000000000000000000000000000000000",
+            //                     "_to": "0x0000000000000000000000000000000000000000",
+            //                     "_id": "57896044618658097711785492504343953927655839433583097410118915826251869454336",
+            //                     "_amount": "0"
+            //                 },
+            //                 "event": "TransferSingle",
+            //                 "signature": "0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62",
+            //                 "raw": {...}
+            //             },
+            //             "URI": {
+            //                 "address": "0x894a2A04f5DAb4322AB74c21116Da238F3A9b0Fc",
+            //                 "blockHash": "0x4803d2fac723d06a26de69bbb3469b7e0313a80a0fef7c178766b912df9a0804",
+            //                 "blockNumber": 16713927,
+            //                 "logIndex": 1,
+            //                 "removed": false,
+            //                 "transactionHash": "0x17668bb3d05c1caf5e7624014582d420dd276d02c463aa8d22747b98ecfe7331",
+            //                 "transactionIndex": 0,
+            //                 "transactionLogIndex": "0x1",
+            //                 "type": "mined",
+            //                 "id": "log_00e806da",
+            //                 "returnValues": {
+            //                     "0": "https://ipfs.io/ipfs/QmR95kwsEcG7ty3roRFDEPt7rmPv4AjizCMt3RYukaGMgD",
+            //                     "1": "57896044618658097711785492504343953927655839433583097410118915826251869454336",
+            //                     "_uri": "https://ipfs.io/ipfs/QmR95kwsEcG7ty3roRFDEPt7rmPv4AjizCMt3RYukaGMgD",
+            //                     "_type": "57896044618658097711785492504343953927655839433583097410118915826251869454336"
+            //                 },
+            //                 "event": "URI",
+            //                 "signature": "0x6bb7ff708619ba0610cba295a58592e0451dee2622938c8755667688daf3529b",
+            //                 "raw": {...}
+            //             },
+            //             "ParticleTypeCreated": {
+            //                 "address": "0x894a2A04f5DAb4322AB74c21116Da238F3A9b0Fc",
+            //                 "blockHash": "0x4803d2fac723d06a26de69bbb3469b7e0313a80a0fef7c178766b912df9a0804",
+            //                 "blockNumber": 16713927,
+            //                 "logIndex": 2,
+            //                 "removed": false,
+            //                 "transactionHash": "0x17668bb3d05c1caf5e7624014582d420dd276d02c463aa8d22747b98ecfe7331",
+            //                 "transactionIndex": 0,
+            //                 "transactionLogIndex": "0x2",
+            //                 "type": "mined",
+            //                 "id": "log_9fd91619",
+            //                 "returnValues": {
+            //                     "0": "57896044618658097711785492504343953927655839433583097410118915826251869454336",
+            //                     "1": "https://ipfs.io/ipfs/QmR95kwsEcG7ty3roRFDEPt7rmPv4AjizCMt3RYukaGMgD",
+            //                     "2": true,
+            //                     "3": true,
+            //                     "4": "chai",
+            //                     "5": "0",
+            //                     "_particleTypeId": "57896044618658097711785492504343953927655839433583097410118915826251869454336",
+            //                     "_uri": "https://ipfs.io/ipfs/QmR95kwsEcG7ty3roRFDEPt7rmPv4AjizCMt3RYukaGMgD",
+            //                     "_isNF": true,
+            //                     "_isPrivate": true,
+            //                     "_assetPairId": "chai",
+            //                     "_maxSupply": "0"
+            //                 },
+            //                 "event": "ParticleTypeCreated",
+            //                 "signature": "0xc201e7d2252eddeae969c897081b09a2442f097cb2b71d5257d1b22b26f265da",
+            //                 "raw": {...}
+            //             }
+            //         }
+            //     },
+            //     "params": {
+            //         "tx": {
+            //             "from": "0xbd04a07082fd5f2c2769de5e5572d2fe668de6d9",
+            //             "value": "0x3faa25226000",
+            //             "data": "...",
+            //             "gasPrice": "0x218711a00",
+            //             "to": "0x894a2a04f5dab4322ab74c21116da238f3a9b0fc"
+            //         },
+            //         "args": [
+            //             "https://ipfs.io/ipfs/QmR95kwsEcG7ty3roRFDEPt7rmPv4AjizCMt3RYukaGMgD",
+            //             true,
+            //             true,
+            //             "chai",
+            //             "0",
+            //             "25"
+            //         ]
+            //     },
+            //     "type": "CreateParticle"
+            // }
+
+            // dFuse - watch transaction
+            (async () => {
+                const transactions = Transactions.instance();
+                await transactions.streamTransaction({transactionHash});
+            })();
+
+            setLoadingProgress('Transaction created, monitoring has begun in background');
+            setTimeout(() => {
+                // All Done, clean up
+                setSubmitting(false);
+                setTxData({});
+            }, 1000);
+
+            // Redirect to Manage Screen
+            // ...
         }
-    }, [allReady]);
+    }, [isSubmitting, txData, setSubmitting, setTxData]);
 
-    useEffect(() => {
-        validateForm();
-    }, [
-        setFormValidated,
-        particleName,
-        particleIcon,
-        particleCreator,
-        particleDesc,
-    ]);
-
-    const validateForm = () => {
-        const conditions = [
-            _.isEmpty(connectionWarning),
-            !_.isEmpty(particleName),
-            !_.isEmpty(particleIcon),
-            !_.isEmpty(particleCreator),
-            !_.isEmpty(particleDesc),
-        ];
-        setFormValidated(_.every(conditions, Boolean));
-    };
-
-    const validateInput = evt => {
-        evt.target.parentNode.classList.add('was-validated');
-    };
-
-    const updateParticleName = evt => {
-        setParticleName(evt.target.value);
-        validateInput(evt);
-    };
-
-    const updateParticleSymbol = evt => {
-        setParticleSymbol(_.toUpper(evt.target.value));
-        validateInput(evt);
-    };
-
-    const updateParticleCreator = evt => {
-        setParticleCreator(evt.target.value);
-        validateInput(evt);
-    };
-
-    const updateParticleIcon = evt => {
-        setParticleIcon(evt.target.value);
-        validateInput(evt);
-
-        const file = evt.target.files[0];
-        if (_.isUndefined(file)) { return; }
-
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onloadend = () => {
-            setParticleIconBuffer(Buffer(reader.result));
-        };
-    };
-
-    const updateParticleDesc = evt => {
-        setParticleDesc(evt.target.value);
-        validateInput(evt);
-    };
-
-    const updateParticleSupply = evt => {
-        setParticleSupply(evt.target.value);
-        validateInput(evt);
-    };
-
-    const updateParticleAssetPair = evt => {
-        setParticleAssetPair(evt.target.value);
-    };
-
-    const updateParticleCreatorFee = evt => {
-        setParticleCreatorFee(evt.target.value);
-        validateInput(evt);
-    };
-
-    const toggleNonFungible = (evt, expanded) => {
-        setNonFungible(expanded);
-    };
-
-    const toggleHigherFees = (evt) => {
-        evt.preventDefault();
-        evt.stopPropagation();
-        setParticleCreatorFee(customFeeSettings.lower.max);
-        setCreatorFeeMode(creatorFeeMode === 'lower' ? 'higher' : 'lower');
-    };
-
-    const handleSubmit = async evt => {
-        evt.preventDefault();
+    const handleSubmit = async ({formData}) => {
+        let txReceipt;
         try {
-            const imageFileUrl = await IPFS.saveImageFile({fileBuffer: particleIconBuffer});
-            setParticleIconUrl(imageFileUrl);
+            setSubmitting(true);
 
-            tokenMetadata.name = particleName;
-            tokenMetadata.description = particleDesc;
+            // Save Image File to IPFS
+            setLoadingProgress('Saving Image to IPFS..');
+            const imageFileUrl = await IPFS.saveImageFile({fileBuffer: formData.particleIconBuffer});
+            console.log('imageFileUrl', imageFileUrl);
+
+            // Generate Token Metadata
+            tokenMetadata.name = formData.particleName;
+            tokenMetadata.description = formData.particleDesc;
             tokenMetadata.external_url = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
             tokenMetadata.image = imageFileUrl;
             // tokenMetadata.properties = {};
             // tokenMetadata.attributes = [];
 
-            console.log('Token Metadata:', tokenMetadata);
-
+            // Save Metadata to IPFS
+            setLoadingProgress('Saving Metadata to IPFS..');
             const jsonFileUrl = await IPFS.saveJsonFile({jsonObj: tokenMetadata});
-            console.log('Token Metadata URI:', jsonFileUrl);
+            console.log('jsonFileUrl', jsonFileUrl);
 
-            const assetPair = Helpers.toBytes16(particleAssetPair);
-            const maxSupply = particleSupply * GLOBALS.ETH_UNIT;
-            const creatorFee = particleCreatorFee * GLOBALS.DEPOSIT_FEE_MODIFIER / 100;
-
+            // Create Particle on Blockchain
+            setLoadingProgress('Creating Blockchain Transaction..');
             const chargedParticles = ChargedParticles.instance();
-            const tx = {from: connectedAddress};
+            const tx = {
+                from: connectedAddress,
+                value : formData.isNonFungible ? '70000000000000' : '35000000000000'
+            };
             const args = [
-                jsonFileUrl,        // string memory _uri,
-                isNonFungible,      // bool _isNF,
-                true,               // bool _isPrivate, // TODO
-                assetPair,          // bytes16 _assetPairId,
-                `${maxSupply}`,     // uint256 _maxSupply,
-                `${creatorFee}`,    // uint16 _creatorFee
+                jsonFileUrl,                        // string memory _uri,
+                formData.isNonFungible,             // bool _isNF,
+                formData.isPrivate,                 // bool _isPrivate,
+                formData.particleAssetPair,         // string _assetPairId,
+                `${formData.particleSupply}`,       // uint256 _maxSupply,
+                `${formData.particleCreatorFee}`,   // uint16 _creatorFee
             ];
-            const txReceipt = await chargedParticles.tryContractTx('createParticleWithEther', tx, ...args);
 
-            console.log('openPack - transaction sent;');
-            console.log('  txReceipt', txReceipt);
-            console.log('  tx', tx);
-            console.log('  args', args);
-
-
-            // return {txReceipt, params: {tx, args}, type: 'CreateParticle'};
+            // Submit Transaction and wait for Receipt
+            txReceipt = await chargedParticles.tryContractTx('createParticleWithEther', tx, ...args);
+            setTxData({txReceipt, params: {tx, args}, type: 'CreateParticle'});
         }
         catch (err) {
-            console.error(err);
+            if (_.isUndefined(txReceipt)) {
+                setLoadingProgress('Transaction cancelled by user..');
+                setTimeout(() => {
+                    setSubmitting(false);
+                }, 3000);
+            } else {
+                console.error(err);
+            }
         }
     };
 
@@ -248,194 +250,31 @@ const Create = () => {
         <>
             <Heading as={"h2"} mt={30}>Create a new Particle Type</Heading>
 
-            <Box p={4}>
-                <Form onSubmit={handleSubmit} validated={formValidated}>
-                    <Flex mx={-3} flexWrap={"wrap"}>
-                        <Box width={[1, 1, 1/2]} pr={3}>
-                            <Field label="Name" width={1}>
-                                <Input
-                                    id="particleTypeName"
-                                    type="text"
-                                    required
-                                    onChange={updateParticleName}
-                                    value={particleName}
-                                    width={1}
-                                />
-                            </Field>
-                        </Box>
+            <FormCreateParticle
+                onSubmitForm={handleSubmit}
+            />
 
-                        <Box width={[1, 1, 1/2]} pl={3}>
-                            <Field label="Symbol" width={1}>
-                                <Input
-                                    id="particleTypeSymbol"
-                                    type="text"
-                                    maxLength={16}
-                                    required
-                                    onChange={updateParticleSymbol}
-                                    value={particleSymbol}
-                                    width={1}
-                                />
-                            </Field>
+            <Modal
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={isSubmitting}
+            >
+                <div className={classes.simpleModal}>
+                    <Flex flexWrap={"wrap"}>
+                        <Box width={1/4}>
+                            <Loader size="80px" />
+                        </Box>
+                        <Box width={3/4} pl={10}>
+                            <Typography variant="h6" id="modal-title">
+                                Creating Particle!
+                            </Typography>
+                            <Typography variant="subtitle1" id="simple-modal-description">
+                                {loadingProgress}
+                            </Typography>
                         </Box>
                     </Flex>
-
-                    <Flex mx={-3} flexWrap={"wrap"}>
-                        <Box width={1}>
-                            <Field label="Creator" width={1}>
-                                <Input
-                                    id="particleTypeCreator"
-                                    type="text"
-                                    required
-                                    placeholder="connect your wallet"
-                                    onChange={updateParticleCreator}
-                                    value={particleCreator}
-                                    width={1}
-                                />
-                            </Field>
-                        </Box>
-                    </Flex>
-
-                    <Flex mx={-3} flexWrap={"wrap"}>
-                        <Box width={1}>
-                            <Field label="Description" width={1}>
-                                <Textarea
-                                    id="particleTypeDesc"
-                                    rows={4}
-                                    width={1}
-                                    required
-                                    onChange={updateParticleDesc}
-                                />
-                            </Field>
-                        </Box>
-                    </Flex>
-
-                    <Flex mx={-3} flexWrap={"wrap"}>
-                        <Box width={[1, 1, 1/2]} pr={3}>
-                            <Flex mx={-3} flexWrap={"wrap"}>
-                                <Box width={[1/5]} pr={3}>
-                                    <Field label="&nbsp;">
-                                        <Avatar
-                                            required
-                                            mt={1} ml={3}
-                                            size="medium"
-                                            bg="#eee"
-                                            src={particleIconUrl}
-                                        />
-                                    </Field>
-                                </Box>
-
-                                <Box width={[4/5]} pr={3}>
-                                    <Field label="Icon">
-                                        <FileInput
-                                            id="particleTypeIcon"
-                                            type="file"
-                                            required
-                                            onChange={updateParticleIcon}
-                                            value={particleIcon}
-                                            accept="image/png, image/jpeg, image/jpg, image/gif"
-                                        />
-                                    </Field>
-                                </Box>
-                            </Flex>
-                        </Box>
-
-                        <Box width={[1, 1, 1/2]} pl={3}>
-                            <Field label="Max-Supply" width={1}>
-                                <Input
-                                    id="particleTypeSupply"
-                                    type="number"
-                                    min={0}
-                                    max={1e27}
-                                    onChange={updateParticleSupply}
-                                    value={particleSupply}
-                                    width={1}
-                                />
-                            </Field>
-                        </Box>
-                    </Flex>
-
-                    <Flex mx={-3} mb={30} flexWrap={"wrap"}>
-                        <Box width={1}>
-                            <ExpansionPanel defaultExpanded onChange={toggleNonFungible} mx={-5}>
-                                <ExpansionPanelSummary>
-                                    <Heading as={"h4"}>
-                                        <ShadowCheckbox
-                                            checked={isNonFungible}
-                                            readOnly
-                                            required
-                                            label="Non-Fungible"
-                                        />
-                                    </Heading>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails>
-                                    <Box width={[1, 1, 1/2]} pr={3}>
-                                        <Field label="Asset-Interest Pair" width={1}>
-                                            <FormControl variant="outlined" className={classes.formControl}>
-                                                <Select
-                                                    width={1}
-                                                    value={particleAssetPair}
-                                                    onChange={updateParticleAssetPair}
-                                                >
-                                                    <MenuItem value={'chai'}>DAI - CHAI</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </Field>
-                                    </Box>
-
-                                    <Box width={[1, 1, 1/2]} pl={3}>
-                                        <Flex flexWrap={"wrap"}>
-                                            <Field label="Deposit Fee (as %)" width={1/2} pr={3}>
-                                                <Input
-                                                    id="particleTypeCreatorFee"
-                                                    type="number"
-                                                    required
-                                                    min={customFeeSettings[creatorFeeMode].min}
-                                                    max={customFeeSettings[creatorFeeMode].max}
-                                                    step={customFeeSettings[creatorFeeMode].step}
-                                                    value={particleCreatorFee}
-                                                    onChange={updateParticleCreatorFee}
-                                                    width={1}
-                                                />
-                                            </Field>
-                                            <Field label="&nbsp;" width={1/2} pl={3}>
-                                                <Button.Text
-                                                    required
-                                                    onClick={toggleHigherFees}
-                                                >
-                                                    {creatorFeeMode === 'higher' ? 'lower' : 'higher'}
-                                                </Button.Text>
-                                            </Field>
-                                        </Flex>
-
-                                        <Slider
-                                            min={customFeeSettings[creatorFeeMode].min}
-                                            max={customFeeSettings[creatorFeeMode].max}
-                                            step={customFeeSettings[creatorFeeMode].step}
-                                            required
-                                            width={1}
-                                            value={particleCreatorFee}
-                                            onChange={updateParticleCreatorFee}
-                                        />
-                                    </Box>
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        </Box>
-                    </Flex>
-
-                    <Box width={1}>
-                        <Flex mx={-3} mb={30} flexWrap={"wrap"}>
-                            <Button type="submit" disabled={!formValidated} mr={3}>
-                                Create Particle
-                            </Button>
-                            <NetworkIndicator
-                                currentNetwork={networkId}
-                                requiredNetwork={_.parseInt(GLOBALS.CHAIN_ID, 10)}
-                            />
-                        </Flex>
-                    </Box>
-                </Form>
-            </Box>
-
+                </div>
+            </Modal>
         </>
     )
 };

@@ -49,4 +49,17 @@ export default makeStyles(theme => ({
         width: '100%',
         // backgroundColor: theme.palette.background.paper,
     },
+
+    simpleModal: {
+        position: 'absolute',
+        top: `50%`,
+        left: `50%`,
+        transform: `translate(-50%, -50%)`,
+        width: theme.spacing.unit * 60,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        borderRadius: '5px',
+        padding: theme.spacing(4),
+        outline: 'none',
+    },
 }));

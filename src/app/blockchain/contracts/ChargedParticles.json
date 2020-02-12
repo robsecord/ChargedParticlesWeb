@@ -119,9 +119,9 @@
         },
         {
           "indexed": false,
-          "internalType": "bytes16",
+          "internalType": "string",
           "name": "_assetPairId",
-          "type": "bytes16"
+          "type": "string"
         },
         {
           "indexed": false,
@@ -364,9 +364,9 @@
           "type": "bool"
         },
         {
-          "internalType": "bytes16",
+          "internalType": "string",
           "name": "_assetPairId",
-          "type": "bytes16"
+          "type": "string"
         },
         {
           "internalType": "uint256",
@@ -410,9 +410,9 @@
           "type": "bool"
         },
         {
-          "internalType": "bytes16",
+          "internalType": "string",
           "name": "_assetPairId",
-          "type": "bytes16"
+          "type": "string"
         },
         {
           "internalType": "uint256",
@@ -462,9 +462,9 @@
       "constant": false,
       "inputs": [
         {
-          "internalType": "bytes16",
+          "internalType": "string",
           "name": "_assetPairId",
-          "type": "bytes16"
+          "type": "string"
         }
       ],
       "name": "disableAssetPair",
@@ -790,9 +790,9 @@
       "constant": false,
       "inputs": [
         {
-          "internalType": "bytes16",
+          "internalType": "string",
           "name": "_assetPairId",
-          "type": "bytes16"
+          "type": "string"
         }
       ],
       "name": "registerAssetPair",
@@ -1026,18 +1026,27 @@
       "type": "function"
     }
   ],
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "petersburg"
+  },
   "networks": {
+    "3": {
+      "links": {},
+      "events": {},
+      "address": "0xaf41736125c756EE9B4a6DC09BB477DFb5A4EC11",
+      "updated_at": 1581494305962
+    },
     "42": {
       "links": {},
       "events": {},
-      "address": "0x4071B093afd7cDABe1823180f607B3F23E499534",
-      "updated_at": 1581286041683
-    },
-    "1581275453004": {
-      "links": {},
-      "events": {},
-      "address": "0x86072CbFF48dA3C1F01824a6761A03F105BCC697",
-      "updated_at": 1581285799595
+      "address": "0x894a2A04f5DAb4322AB74c21116Da238F3A9b0Fc",
+      "updated_at": 1581479709509
     }
   }
 }

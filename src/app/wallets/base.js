@@ -1,6 +1,9 @@
 // Frameworks
 import * as _ from 'lodash';
 
+// App Components
+import { Helpers } from '../../utils/helpers';
+
 class IWalletBase {
     constructor(type, dispatch) {
         this.type = type;
@@ -66,10 +69,7 @@ class IWalletBase {
     }
 
     getChainName(chainId) {
-        if (chainId === '1') { return 'mainnet'; }
-        if (chainId === '3') { return 'ropsten'; }
-        if (chainId === '42') { return 'kovan'; }
-        return 'localhost';
+        return Helpers.getNetworkName(chainId);
     }
 
     _hookCommonEvents() {

@@ -698,9 +698,9 @@
       "constant": false,
       "inputs": [
         {
-          "internalType": "bytes16",
+          "internalType": "string",
           "name": "_assetPairId",
-          "type": "bytes16"
+          "type": "string"
         },
         {
           "internalType": "address",
@@ -1010,18 +1010,27 @@
       "type": "function"
     }
   ],
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "petersburg"
+  },
   "networks": {
+    "3": {
+      "links": {},
+      "events": {},
+      "address": "0x747a1f4F30aC18406512D55b034D372A1D263284",
+      "updated_at": 1581494257026
+    },
     "42": {
       "links": {},
       "events": {},
-      "address": "0x75c47e25dA71b620d2f86083fF11E72921496c52",
-      "updated_at": 1581286061153
-    },
-    "1581275453004": {
-      "links": {},
-      "events": {},
-      "address": "0x5017A545b09ab9a30499DE7F431DF0855bCb7275",
-      "updated_at": 1581285796684
+      "address": "0x6716AF75845726Da39E804359E6901e973f0a7CD",
+      "updated_at": 1581479686070
     }
   }
 }
