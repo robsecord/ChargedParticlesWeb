@@ -7,7 +7,7 @@ giving the Token a "Charge".
 https://charged-particles.netlify.com/app/
 
 #### Video Demo (for SustainWeb3 Hackathon - dFuse integration)
-https://charged-particles.netlify.com/images/dfuse_demo/ChargedParticlesDemo.mov
+https://drive.google.com/file/d/1gm-VDLYFfKjGuw29Vkj72zdl49DqhQ2a/view?usp=sharing
 
 
 #### Value
