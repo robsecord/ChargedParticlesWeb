@@ -3,6 +3,13 @@
 **Charged Particles** are Non-Fungible Tokens (NFTs) that are minted with **DAI** and accrue interest via **CHAI** 
 giving the Token a "Charge". 
 
+###Demo
+https://charged-particles.netlify.com/app/
+
+####Video Demo
+https://charged-particles.netlify.com/images/dfuse_demo/ChargedParticlesDemo.mov
+
+
 #### Value
 ```text
 Particle Value
