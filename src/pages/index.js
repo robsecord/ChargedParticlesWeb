@@ -56,6 +56,14 @@ const StyledButton = withStyles(theme => ({
 }))(Button);
 
 
+const LrgScreen = styled(Hidden).attrs(props => ({
+    xsDown: true,
+    implementation: 'css',
+}))`
+  display: inline;
+`;
+
+
 const StyledPre = styled.pre`
   width: 100%;
   padding: 10px 0;
@@ -147,9 +155,9 @@ const IndexPage = () => {
                     </p>
                     <StyledPre>
                         <u><strong>Particle Value = </strong></u><br/>
-                        <strong>Intrinsic Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<Hidden xsDown implementation="css">underlying asset, </Hidden>ie. Dai)<br/>
-                        <strong>+ Speculative Value</strong>&nbsp;(<Hidden xsDown implementation="css">non-fungible </Hidden>rarity)<br/>
-                        <strong>+ Interest Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;(ie. Chai<Hidden xsDown implementation="css">, rDai, cDai, aToken, yToken, and more!</Hidden>)<br/>
+                        <strong>Intrinsic Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<LrgScreen>underlying asset, </LrgScreen>ie. Dai)<br/>
+                        <strong>+ Speculative Value</strong>&nbsp;(<LrgScreen>non-fungible </LrgScreen>rarity)<br/>
+                        <strong>+ Interest Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;(ie. Chai<LrgScreen>, rDai, cDai, aToken, yToken, and more!</LrgScreen>)<br/>
                     </StyledPre>
 
                     <Heading as={"h4"} className={classes.glowHeader}>
