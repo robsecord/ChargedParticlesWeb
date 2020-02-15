@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { navigate, useStaticQuery, graphql } from 'gatsby';
 
+import './styles/reset.css';
+import './styles/overrides.css';
+
 // Rimble UI
 import {
-    theme as rimbleTheme,
     Box
 } from 'rimble-ui';
 
@@ -14,6 +16,9 @@ import {
 // see https://v3.material-ui.com/style/color/
 // see https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=EC407A&secondary.color=8E24AA
 const theme = createMuiTheme({
+    typography: {
+        useNextVariants: true,
+    },
     palette: {
         primary: {
             main: '#EC407A',
@@ -23,10 +28,6 @@ const theme = createMuiTheme({
         },
     },
 });
-
-
-import './styles/reset.css';
-import './styles/overrides.css';
 
 // Layout Components
 import { ParticleBG } from '../components/ParticleBG';
@@ -55,7 +56,7 @@ const Layout = ({children, noHeader}) => {
     const _goHome = () => { navigate(GLOBALS.ACCELERATOR_ROOT) };
 
     return (
-        <ThemeProvider theme={{...rimbleTheme, ...theme}}>
+        <ThemeProvider theme={theme}>
             {
                 !noHeader && (
                     <Header siteTitle={data.site.siteMetadata.title} onClick={_goHome}/>

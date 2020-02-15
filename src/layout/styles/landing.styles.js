@@ -32,6 +32,7 @@ export default makeStyles(theme => ({
         position: 'relative',
         color: '#fff',
         fontWeight: '100',
+        fontFamily: 'Montserrat, Arial, sans-serif',
         fontSize: '40px',
         padding: '0',
         margin: '50px',
