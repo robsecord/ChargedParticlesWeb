@@ -3,14 +3,14 @@ import React from 'react';
 import Particles from 'react-particles-js';
 
 // Custom Theme
-import useRootStyles from '../layout/styles/root.styles';
+import useLandingStyles from '../layout/styles/landing.styles';
 
 // Particle Background
 const ParticleBG = () => {
-    const rootClasses = useRootStyles();
+    const classes = useLandingStyles();
     return (
         <Particles
-            className={rootClasses.particleBackground}
+            className={classes.particleBackground}
             params={{
                 'particles': {
                     'number': {

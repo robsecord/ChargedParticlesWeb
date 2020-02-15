@@ -24,22 +24,24 @@ const theme = createMuiTheme({
     },
 });
 
+
+import './styles/reset.css';
+import './styles/overrides.css';
+
 // Layout Components
 import { ParticleBG } from '../components/ParticleBG';
 import Header from '../components/header';
-import './styles/reset.css';
-import './styles/overrides.css';
 
 // Common
 import { GLOBALS } from '../utils/globals';
 
 // Custom Theme
-import useRootStyles from './styles/root.styles';
+import useLandingStyles from '../layout/styles/landing.styles';
 
 
 // Layout Wrapper
 const Layout = ({children, noHeader}) => {
-    const rootClasses = useRootStyles();
+    const classes = useLandingStyles();
     const data = useStaticQuery(graphql`
         query SiteTitleQuery {
             site {
@@ -60,7 +62,7 @@ const Layout = ({children, noHeader}) => {
                 )
             }
             <ParticleBG />
-            <div className={rootClasses.primaryContainer}>
+            <div className={classes.primaryContainer}>
                 <main>{children}</main>
                 <footer>
                     <Box mt={4}>

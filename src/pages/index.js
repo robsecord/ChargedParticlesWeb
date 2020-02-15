@@ -21,7 +21,7 @@ import SEO from '../components/seo';
 import { ParticleText } from '../components/ParticleText';
 
 // Custom Theme
-import useRootStyles from '../layout/styles/root.styles';
+import useLandingStyles from '../layout/styles/landing.styles';
 
 
 const DarkPaper = withStyles({
@@ -51,7 +51,7 @@ const StyledButton = withStyles({
 
 // Static Route
 const IndexPage = () => {
-    const rootClasses = useRootStyles();
+    const classes = useLandingStyles();
 
     const _gotoGithub = (ercType) => () => {
         let url = '';
@@ -76,14 +76,14 @@ const IndexPage = () => {
                 direction="row"
                 justify="center"
                 alignItems="stretch"
-                className={rootClasses.heroContainer}
+                className={classes.heroContainer}
             >
                 <Grid
                     container
                     direction="column"
                     justify="center"
                     alignItems="center"
-                    className={rootClasses.heroHeader}
+                    className={classes.heroHeader}
                 >
                     <ParticleText
                         width={600}
@@ -93,11 +93,11 @@ const IndexPage = () => {
                         text="CHARGED\nPARTICLES"
                     />
 
-                    <Heading as={"h3"} className={rootClasses.glowTitle}>
+                    <Heading as={"h3"} className={classes.glowTitle}>
                         DeFi NFTs that earn you Interest!
                     </Heading>
 
-                    <Text.p className={rootClasses.glowTitle}>
+                    <Text.p className={classes.glowTitle}>
                         &#709;
                     </Text.p>
                 </Grid>
@@ -108,7 +108,7 @@ const IndexPage = () => {
                 direction="column"
                 justify="center"
                 alignItems="center"
-                className={rootClasses.heroMargin}
+                className={classes.heroMargin}
             >
                 <StyledButton size="large" as="a" href="/app/">Enter Particle Accelerator</StyledButton>
             </Grid>
@@ -121,8 +121,8 @@ const IndexPage = () => {
                 justify="flex-start"
                 alignItems="stretch"
             >
-                <DarkPaper className={classNames(rootClasses.heroPadding, rootClasses.heroMargin)} elevation={2}>
-                    <Heading as={"h4"} className={rootClasses.glowHeader}>
+                <DarkPaper className={classNames(classes.heroPadding, classes.heroMargin)} elevation={2}>
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         What are Charged Particles?
                     </Heading>
                     <Text.p>
@@ -138,7 +138,7 @@ const IndexPage = () => {
                         <strong>+ Interest Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;(ie. Chai, rDai, cDai, aToken, yToken, and more!)<br/>
                     </pre>
 
-                    <Heading as={"h4"} className={rootClasses.glowHeader}>
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         Value Appreciation
                     </Heading>
                     <Text.p>
@@ -146,7 +146,7 @@ const IndexPage = () => {
                         Or a piece of digital-art holding $10 and constantly appreciating in value!
                     </Text.p>
 
-                    <Heading as={"h4"} className={rootClasses.glowHeader}>
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         Ownership
                     </Heading>
                     <Text.p>
@@ -159,7 +159,7 @@ const IndexPage = () => {
                         And just like any other NFT, you may trade, transfer or sell your Charged Particles!  You can even discharge the interest to a different address - a friend? a donation? You're in Charge!
                     </Text.p>
 
-                    <Heading as={"h4"} className={rootClasses.glowHeader}>
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         Custom Token Mechanics
                     </Heading>
                     <Text.p>
@@ -172,7 +172,7 @@ const IndexPage = () => {
                         Other possibilities include battling over the "charge" of a particle - the winner earns the interest from their competitor's particles.
                     </Text.p>
 
-                    <Heading as={"h4"} className={rootClasses.glowHeader}>
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         Particle Accelerator
                     </Heading>
                     <Text.p>
@@ -187,7 +187,7 @@ const IndexPage = () => {
                         Minted Particles will accrue interest over time giving the Particle its "Charge".
                     </Text.p>
 
-                    <Heading as={"h4"} className={rootClasses.glowHeader}>
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         Open-Source Flavors
                     </Heading>
                     <Text.p>
@@ -216,14 +216,14 @@ const IndexPage = () => {
                         </li>
                     </ul>
 
-                    <Heading as={"h4"} className={rootClasses.glowHeader}>
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         Research &amp; Development
                     </Heading>
                     <Text.p>
                         We are currently researching other token flavors (ie. ERC-998) as well as a plethora of different funding mechanisms using various interest-bearing tokens, such as; cDai, rDai, pDai, xDai, aTokens, yTokens, DeFiZaps, TokenSets and Real-Estate Rental Income from RealT.
                     </Text.p>
 
-                    <Heading as={"h4"} className={rootClasses.glowHeader}>
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         Community
                     </Heading>
                     <Text.p>
