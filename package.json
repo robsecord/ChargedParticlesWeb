@@ -45,6 +45,7 @@
     "gatsby-plugin-sharp": "^2.3.2",
     "gatsby-source-filesystem": "^2.1.38",
     "gatsby-transformer-sharp": "^2.3.5",
+    "global": "^4.4.0",
     "ipfs-http-client": "^42.0.0",
     "lodash": "^4.17.15",
     "mobx": "^5.15.0",

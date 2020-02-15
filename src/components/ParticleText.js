@@ -1,6 +1,7 @@
 // Frameworks
 import React, { useRef, useEffect } from 'react';
 import * as _ from 'lodash';
+import window from 'global';
 
 // https://codepen.io/plasm/pen/zwjMPy
 class Particle {

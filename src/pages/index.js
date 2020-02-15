@@ -1,7 +1,7 @@
 // Frameworks
 import React from 'react';
 import classNames from 'classnames';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';

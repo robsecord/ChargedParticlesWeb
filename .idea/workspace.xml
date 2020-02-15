@@ -3,10 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="8d80ab86-5c89-4003-b2b5-36e4c924ec65" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ParticleText.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ParticleText.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/styles/landing.styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/styles/landing.styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -34,7 +35,7 @@
             <entry file="file://$PROJECT_DIR$/package.json">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="810">
-                  <caret line="56" column="19" selection-start-line="55" selection-start-column="5" selection-end-line="56" selection-end-column="19" />
+                  <caret line="57" column="19" selection-start-line="56" selection-start-column="5" selection-end-line="57" selection-end-column="19" />
                 </state>
               </provider>
             </entry>
@@ -70,7 +71,7 @@
             <entry file="file://$PROJECT_DIR$/gatsby-config.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="22">
-                  <caret line="57" column="22" lean-forward="true" selection-start-line="57" selection-start-column="22" selection-end-line="57" selection-end-column="22" />
+                  <caret line="57" column="22" selection-start-line="57" selection-start-column="22" selection-end-line="57" selection-end-column="22" />
                 </state>
               </provider>
             </entry>
@@ -87,7 +88,7 @@
         </leaf>
       </split-first>
       <split-second>
-        <splitter split-orientation="vertical" split-proportion="0.23549885">
+        <splitter split-orientation="vertical" split-proportion="0.44663572">
           <split-first>
             <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
               <file pinned="false" current-in-tab="false">
@@ -148,7 +149,7 @@
                 <entry file="file://$PROJECT_DIR$/src/app/components/TxStreamView.js">
                   <provider selected="true" editor-type-id="text-editor">
                     <state relative-caret-position="73">
-                      <caret line="29" column="51" lean-forward="true" selection-start-line="29" selection-start-column="51" selection-end-line="29" selection-end-column="51" />
+                      <caret line="29" column="51" selection-start-line="29" selection-start-column="51" selection-end-line="29" selection-end-column="51" />
                     </state>
                   </provider>
                 </entry>
@@ -156,8 +157,8 @@
               <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/components/ParticleText.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="87">
-                      <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+                    <state relative-caret-position="180">
+                      <caret line="12" column="19" lean-forward="true" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
                     </state>
                   </provider>
                 </entry>
@@ -166,7 +167,7 @@
                 <entry file="file://$PROJECT_DIR$/src/components/ParticleBG.js">
                   <provider selected="true" editor-type-id="text-editor">
                     <state relative-caret-position="215">
-                      <caret line="24" column="39" lean-forward="true" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
+                      <caret line="24" column="39" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
                     </state>
                   </provider>
                 </entry>
@@ -181,7 +182,7 @@
                     <entry file="file://$PROJECT_DIR$/src/layout/layout.js">
                       <provider selected="true" editor-type-id="text-editor">
                         <state relative-caret-position="-176">
-                          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+                          <caret line="8" selection-start-line="8" selection-end-line="8" />
                         </state>
                       </provider>
                     </entry>
@@ -199,7 +200,7 @@
                     <entry file="file://$PROJECT_DIR$/src/layout/styles/overrides.css">
                       <provider selected="true" editor-type-id="text-editor">
                         <state relative-caret-position="75">
-                          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+                          <caret line="5" selection-start-line="5" selection-end-line="5" />
                         </state>
                       </provider>
                     </entry>
@@ -207,8 +208,8 @@
                   <file pinned="false" current-in-tab="true">
                     <entry file="file://$PROJECT_DIR$/src/pages/index.js">
                       <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="191">
-                          <caret line="113" column="34" selection-start-line="113" selection-start-column="34" selection-end-line="113" selection-end-column="34" />
+                        <state relative-caret-position="137">
+                          <caret line="110" column="57" selection-start-line="110" selection-start-column="57" selection-end-line="110" selection-end-column="57" />
                         </state>
                       </provider>
                     </entry>
@@ -309,8 +310,8 @@
       <find>Source Sans Pro</find>
       <find>Typography</find>
       <find>Text.p</find>
-      <find>styled</find>
       <find>Hidden</find>
+      <find>styled</find>
     </findStrings>
     <replaceStrings>
       <replace>- $1</replace>
@@ -373,10 +374,10 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/components/ParticleBG.js" />
         <option value="$PROJECT_DIR$/src/layout/layout.js" />
-        <option value="$PROJECT_DIR$/src/components/ParticleText.js" />
         <option value="$PROJECT_DIR$/src/layout/styles/landing.styles.js" />
-        <option value="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" />
         <option value="$PROJECT_DIR$/src/pages/index.js" />
+        <option value="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" />
+        <option value="$PROJECT_DIR$/src/components/ParticleText.js" />
       </list>
     </option>
   </component>
@@ -560,7 +561,7 @@
       <workItem from="1581469473191" duration="17261000" />
       <workItem from="1581533283991" duration="16138000" />
       <workItem from="1581649090713" duration="613000" />
-      <workItem from="1581700494069" duration="27341000" />
+      <workItem from="1581700494069" duration="28948000" />
     </task>
     <task id="LOCAL-00001" summary="Added MetaMask&#10;Minor updates and refactors">
       <created>1574140795624</created>
@@ -828,11 +829,18 @@
       <option name="project" value="LOCAL" />
       <updated>1581741896361</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Updates for mobile">
+      <created>1581746456733</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1581746456733</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="191042000" />
+    <option name="totallyTimeSpent" value="192649000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -873,7 +881,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Add Squarelink, Arkane, Authereum, Bitski support&#10;refactors" />
     <MESSAGE value="Fix package.json" />
     <MESSAGE value="Add RimbleUI&#10;minor fixes" />
     <MESSAGE value="Updates to UI/Readme" />
@@ -898,7 +905,8 @@
     <MESSAGE value="Fix paths" />
     <MESSAGE value="Fix styling" />
     <MESSAGE value="Force style overrides" />
-    <option name="LAST_COMMIT_MESSAGE" value="Force style overrides" />
+    <MESSAGE value="Updates for mobile" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updates for mobile" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/app/wallets/index.js">
@@ -1000,7 +1008,7 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
-          <caret line="56" column="19" selection-start-line="55" selection-start-column="5" selection-end-line="56" selection-end-column="19" />
+          <caret line="57" column="19" selection-start-line="56" selection-start-column="5" selection-end-line="57" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -1185,7 +1193,7 @@
     <entry file="file://$PROJECT_DIR$/gatsby-config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
-          <caret line="57" column="22" lean-forward="true" selection-start-line="57" selection-start-column="22" selection-end-line="57" selection-end-column="22" />
+          <caret line="57" column="22" selection-start-line="57" selection-start-column="22" selection-end-line="57" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -1202,35 +1210,28 @@
     <entry file="file://$PROJECT_DIR$/src/app/components/TxStreamView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="73">
-          <caret line="29" column="51" lean-forward="true" selection-start-line="29" selection-start-column="51" selection-end-line="29" selection-end-column="51" />
+          <caret line="29" column="51" selection-start-line="29" selection-start-column="51" selection-end-line="29" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/layout/styles/overrides.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/layout/layout.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-176">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/ParticleBG.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
-          <caret line="24" column="39" lean-forward="true" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ParticleText.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+          <caret line="24" column="39" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -1243,8 +1244,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="113" column="34" selection-start-line="113" selection-start-column="34" selection-end-line="113" selection-end-column="34" />
+        <state relative-caret-position="137">
+          <caret line="110" column="57" selection-start-line="110" selection-start-column="57" selection-end-line="110" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ParticleText.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="19" lean-forward="true" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
         </state>
       </provider>
     </entry>

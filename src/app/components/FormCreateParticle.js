@@ -1,5 +1,6 @@
 // Frameworks
 import React, { useState, useEffect, useContext } from 'react';
+import styled from 'styled-components';
 import { Buffer } from 'buffer';
 import * as _ from 'lodash';
 
