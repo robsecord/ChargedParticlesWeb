@@ -1,11 +1,13 @@
-import {Link} from 'gatsby';
-import PropTypes from 'prop-types';
+// Frameworks
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'gatsby';
+
 
 const Header = ({siteTitle}) => (
     <header
         style={{
-            background: `rebeccapurple`,
+            background: `black`,
             marginBottom: `1.45rem`,
         }}
     >

@@ -40,6 +40,25 @@ module.exports = {
             },
         },
         `gatsby-plugin-lodash`,
+        {
+            resolve: `gatsby-plugin-prefetch-google-fonts`,
+            options: {
+                fonts: [
+                    {
+                        family: `Roboto`,
+                        variants: [`300`, `400`, `500`]
+                    },
+                    {
+                        family: `Montserrat`,
+                        variants: [`400`, `700`]
+                    },
+                    {
+                        family: `Open Sans`,
+                        variants: [`400`, `700`]
+                    },
+                ],
+            },
+        },
 
         // this (optional) plugin enables Progressive Web App + Offline functionality
         // To learn more, visit: https://gatsby.dev/offline

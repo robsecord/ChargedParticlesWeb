@@ -24,7 +24,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
-import LaunchIcon from '@material-ui/icons/Launch';
 
 import red from '@material-ui/core/colors/red';
 import orange from '@material-ui/core/colors/orange';
