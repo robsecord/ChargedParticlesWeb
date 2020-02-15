@@ -31,12 +31,12 @@ export default makeStyles(theme => ({
     glowTitle: {
         position: 'relative',
         color: '#fff',
-        fontWeight: '100',
-        fontFamily: 'Montserrat, Arial, sans-serif',
-        fontSize: '40px',
+        fontWeight: '100 !important',
+        fontFamily: 'Montserrat, Arial, sans-serif !important',
+        fontSize: '40px !important',
         padding: '0',
         margin: '50px',
-        lineHeight: '1',
+        lineHeight: '1 !important',
         textShadow: '0 0 5px #ff006c, 0 0 10px #ff006c, 0 0 15px #ff006c, 0 0 20px #ff417d, 0 0 35px #ff417d, 0 0 40px #ff417d, 0 0 50px #ff417d, 0 0 75px #ff417d',
     },
     glowHeader: {
