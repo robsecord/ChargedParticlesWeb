@@ -8,8 +8,13 @@ export default makeStyles(theme => ({
     primaryContainer: {
         margin: `0 auto`,
         maxWidth: 960,
-        padding: `0 1.0875rem 1.45rem`,
+        padding: `0 20px 30px`,
         paddingTop: 0,
+
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: 'none',
+            width: '100%',
+        },
     },
     particleBackground: {
         position: 'fixed',
@@ -38,6 +43,11 @@ export default makeStyles(theme => ({
         margin: '50px !important',
         lineHeight: '1 !important',
         textShadow: '0 0 5px #ff006c, 0 0 10px #ff006c, 0 0 15px #ff006c, 0 0 20px #ff417d, 0 0 35px #ff417d, 0 0 40px #ff417d, 0 0 50px #ff417d, 0 0 75px #ff417d',
+
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '28px !important',
+            margin: '34px 20px !important',
+        },
     },
     glowHeader: {
         position: 'relative',
@@ -54,5 +64,7 @@ export default makeStyles(theme => ({
         fontWeight: '700',
         fontSize: '40px',
     },
-
+    centerAlign: {
+        textAlign: 'center',
+    }
 }));

@@ -1,12 +1,14 @@
 // Frameworks
 import React from 'react';
 import classNames from 'classnames';
+import styled from 'styled-components'
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 
 // Rimble UI
 import {
@@ -23,29 +25,42 @@ import { ParticleText } from '../components/ParticleText';
 import useLandingStyles from '../layout/styles/landing.styles';
 
 
-const DarkPaper = withStyles({
+const DarkPaper = withStyles(theme => ({
     root: {
+        width: '100%',
         color: '#eee',
         backgroundColor: '#191919',
     }
-})(Paper);
+}))(Paper);
 
 
-const StyledButton = withStyles({
+const StyledButton = withStyles(theme => ({
     root: {
+        height: 60,
+        padding: '0 30px',
         background: 'linear-gradient(45deg, #ff006c 30%, #ff417d 90%)',
         borderRadius: 7,
         border: 0,
         color: 'white',
         fontSize: '1.5rem',
         fontWeight: '100',
-        height: 60,
-        padding: '0 30px',
+
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '1.15rem',
+            padding: '0 20px',
+        },
     },
     label: {
         textTransform: 'capitalize',
     },
-})(Button);
+}))(Button);
+
+
+const StyledPre = styled.pre`
+  width: 100%;
+  padding: 10px 0;
+  overflow: scroll;
+`;
 
 
 // Static Route
@@ -92,7 +107,7 @@ const IndexPage = () => {
                         text="CHARGED\nPARTICLES"
                     />
 
-                    <Heading as={"h3"} className={classes.glowTitle}>
+                    <Heading as={"h3"} className={classNames(classes.glowTitle, classes.centerAlign)}>
                         DeFi NFTs that earn you Interest!
                     </Heading>
 
@@ -130,12 +145,12 @@ const IndexPage = () => {
                     <p>
                         The amount of interest earned from the token represents the "Charge" that the Particle has amassed.
                     </p>
-                    <pre>
+                    <StyledPre>
                         <u><strong>Particle Value = </strong></u><br/>
-                        <strong>Intrinsic Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(underlying asset, ie. Dai)<br/>
-                        <strong>+ Speculative Value</strong>&nbsp;(non-fungible rarity)<br/>
-                        <strong>+ Interest Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;(ie. Chai, rDai, cDai, aToken, yToken, and more!)<br/>
-                    </pre>
+                        <strong>Intrinsic Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<Hidden xsDown implementation="css">underlying asset, </Hidden>ie. Dai)<br/>
+                        <strong>+ Speculative Value</strong>&nbsp;(<Hidden xsDown implementation="css">non-fungible </Hidden>rarity)<br/>
+                        <strong>+ Interest Value</strong>&nbsp;&nbsp;&nbsp;&nbsp;(ie. Chai<Hidden xsDown implementation="css">, rDai, cDai, aToken, yToken, and more!</Hidden>)<br/>
+                    </StyledPre>
 
                     <Heading as={"h4"} className={classes.glowHeader}>
                         Value Appreciation

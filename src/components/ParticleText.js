@@ -14,7 +14,6 @@ class Particle {
         this.h = options.height;
         this.radius = 0.5 + Math.random() * 20;
         this.color  = this.radius > 5 ? '#ff006c' : '#ff417d'
-        // this.color  = this.radius > 5 ? '#FF5E4C' : '#ED413C'
     }
 
     render() {
@@ -51,6 +50,17 @@ function ParticleText({ text, width, height, fontSize, lineHeight }) {
     let c3 = {};
     let particles = [];
     let frequency = 15;
+    let aspectRatio = 1;
+    let xPadding = 40;
+
+    // Responsive Size Correction
+    if (width > window.innerWidth - xPadding) {
+        width = window.innerWidth - xPadding;
+        aspectRatio = (height / (width + xPadding));
+        height *= aspectRatio;
+        fontSize *= (aspectRatio - 0.05);
+        lineHeight *= aspectRatio;
+    }
 
     useEffect(() => {
         c1 = createCanvas();
