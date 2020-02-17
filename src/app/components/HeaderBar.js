@@ -23,7 +23,7 @@ const HeaderBar = ({ title, drawerToggle }) => {
     return (
         <AppBar position="fixed" className={rootClasses.appBar}>
             <Toolbar>
-                <Hidden smUp implementation="css">
+                <Hidden mdUp implementation="css">
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"

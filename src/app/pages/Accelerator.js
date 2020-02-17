@@ -58,9 +58,9 @@ const Accelerator = () => {
     return (
         <div className={classes.tabBar}>
             <SEO title="Particle Accelerator" />
-            <Container fixed>
+            <Container maxWidth="md">
                 <ConnectionWarning />
-                <Hidden xsDown implementation="css">
+                <Hidden smDown implementation="css">
                     <AppBar position="static" color="default">
                         <Tabs
                             value={acceleratorTab}

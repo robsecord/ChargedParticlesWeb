@@ -14,6 +14,8 @@ import { theme as rimbleTheme } from 'rimble-ui';
 
 // Custom Styles
 import './styles/overrides.css';
+// import theme from '../../layout/styles/root.theme.js'; // TODO
+const theme = createMuiTheme();
 import useRootStyles from './styles/root.styles';
 
 // App Components
@@ -40,8 +42,6 @@ import TxStreamView from '../components/TxStreamView.js';
 import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
 import { TransactionContext } from '../stores/transaction.store';
-
-const theme = createMuiTheme();
 
 
 function AppLayout({ children }) {
@@ -121,7 +121,7 @@ function AppLayout({ children }) {
                     title={siteTitle}
                     drawerToggle={_handleDrawerToggle}
                 />
-                <Hidden smUp implementation="css">
+                <Hidden mdUp implementation="css">
                     <nav className={classes.drawer} aria-label="mailbox folders">
                         <Drawer
                             variant="temporary"
