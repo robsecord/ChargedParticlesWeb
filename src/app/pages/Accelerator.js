@@ -25,7 +25,7 @@ import Mint from './Mint';
 import Manage from './Manage';
 import Market from './Market';
 
-import acceleratorTabsList from '../common/accelerator-tabs-list';
+import acceleratorTabsList from '../components/AcceleratorTabsList';
 
 const _tabsList = _.merge({}, acceleratorTabsList, {
     create: {component: () => (<Create/>)},

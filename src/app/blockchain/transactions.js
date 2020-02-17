@@ -183,7 +183,7 @@ class Transactions {
             _.forEach(node.matchingLogs, (logEntry) => {
                 // Validate Topic (Method Hash)
                 if (logEntry.topics[0] !== methodHash) {
-                    console.warn(`Skipping wrong topic ${logEntry.topics[0]}`);
+                    console.log(`Skipping wrong topic ${logEntry.topics[0]}`);
                     return;
                 }
 

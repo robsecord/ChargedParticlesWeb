@@ -25,7 +25,7 @@ import { GLOBALS } from '../../utils/globals';
 import useRootStyles from '../layout/styles/root.styles';
 
 // Tabs List for Accelerator
-import acceleratorTabsList from '../common/accelerator-tabs-list';
+import acceleratorTabsList from './AcceleratorTabsList';
 
 
 const Sidemenu = ({ title, closeDrawer }) => {
