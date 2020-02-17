@@ -4,7 +4,8 @@ import * as _ from 'lodash';
 
 // App Components
 import Transactions from '../blockchain/transactions';
-import { ContractHelpers } from '../blockchain/contract-helpers.js';
+import { ContractHelpers } from '../blockchain/contract-helpers';
+import Loading from '../components/Loading.js';
 
 // Data Context for State
 import { RootContext } from '../stores/root.store';
@@ -57,6 +58,12 @@ const Manage = () => {
         }
 
     }, [allReady, networkId, connectedAddress]);
+
+    if (searchState !== 'complete') {
+        return (
+            <Loading />
+        );
+    }
 
     return (
         <>

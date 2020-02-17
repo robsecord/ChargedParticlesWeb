@@ -55,6 +55,21 @@ export default makeStyles(theme => ({
         // backgroundColor: theme.palette.background.paper,
     },
 
+    loadingContainer: {
+        margin: '2rem 0',
+    },
+    loadingPaper: {
+        padding: '1rem 1.5rem',
+
+        '& span': {
+            marginLeft: '1.4rem',
+            fontSize: '1.15rem',
+            lineHeight: '2rem',
+            verticalAlign: 'super',
+            fontFamily: 'Roboto, Courier, monospace',
+        }
+    },
+
     simpleModal: {
         position: 'absolute',
         top: `50%`,
