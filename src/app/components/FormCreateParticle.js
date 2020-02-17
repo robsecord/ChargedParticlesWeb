@@ -203,7 +203,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
             };
 
             formData.particleAssetPair  = particleAssetPair; // Helpers.toBytes16(particleAssetPair);
-            formData.particleSupply     = particleSupply * GLOBALS.ETH_UNIT;
+            formData.particleSupply     = `${particleSupply}000000000000000000`;  //particleSupply * GLOBALS.ETH_UNIT;
             formData.particleCreatorFee = particleCreatorFee * GLOBALS.DEPOSIT_FEE_MODIFIER / 100;
 
             // Pass Form Data to Parent

@@ -165,7 +165,7 @@ const Create = () => {
                 // All Done, clean up
                 setSubmitting(false);
                 setTxData({});
-            }, 1000);
+            }, 3000);
 
             // Redirect to Manage Screen
             // ...

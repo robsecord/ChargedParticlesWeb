@@ -1,5 +1,6 @@
 // Frameworks
 import { createDfuseClient } from '@dfuse/client';
+import { reactLocalStorage } from 'reactjs-localstorage';
 import * as _ from 'lodash';
 
 // App Components
@@ -13,8 +14,9 @@ import { searchTransactionEvent } from './queries/SearchTransactionEvent';
 // Transaction Events
 const transactionEventMap = {
     'CREATE_PARTICLE_TYPE': {
+        eventName: 'ParticleTypeCreated',
         method: 'ParticleTypeCreated(uint256,string,bool,bool,string,uint256)',
-        hash: '0xc201e7d2252eddeae969c897081b09a2442f097cb2b71d5257d1b22b26f265da'
+        hash: '0xc201e7d2252eddeae969c897081b09a2442f097cb2b71d5257d1b22b26f265da',
     }
 };
 
@@ -62,8 +64,14 @@ class Transactions {
     }
 
     resumeIncompleteStreams() {
-        // TODO: check for "transactionHash" in localStorage
-        console.log('TODO: Resume Incomplete Streams..');
+        const transactionHash = reactLocalStorage.get('CP_streamTxHash');
+        if (_.isEmpty(transactionHash)) { return; }
+
+        console.log('resumeIncompleteStreams');
+
+        (async () => {
+            await this.streamTransaction({transactionHash});
+        })();
     }
 
     onClose() {
@@ -88,7 +96,7 @@ class Transactions {
         let count = 0;
         let forceEnd = false;
 
-        // TODO: save "transactionHash" to localStorage
+        reactLocalStorage.set('CP_streamTxHash', transactionHash);
 
         this.stream = await this.client.graphql(streamTransactionQuery, (message) => {
 
@@ -122,7 +130,7 @@ class Transactions {
             }
 
             if (message.type === 'complete' || forceEnd) {
-                // TODO: clear "transactionHash" from localStorage
+                reactLocalStorage.set('CP_streamTxHash', '');
                 this.txDispatch({type: 'STREAM_COMPLETE'});
                 this.stream.close();
             }
@@ -138,29 +146,16 @@ class Transactions {
     async searchTransactionsByEvent({eventId, owner}) {
         this.txDispatch({type: 'BEGIN_SEARCH', payload: {}});
 
-        const method = transactionEventMap[eventId].method;
-        // const query = `signer:${_.toLower(owner)} method:'${method}'`;
-
+        const eventName = transactionEventMap[eventId].eventName;
         const methodHash = transactionEventMap[eventId].hash;
-        const query = `signer:${_.toLower(owner)} method:'${method}' topic.0:${methodHash}`;
-
-        let searchTransactions = [];
-
-        console.log('calling dFuse search with query: ', query);
+        const query = `signer:${_.toLower(owner)} topic.0:${methodHash}`;
 
         const response = await this.client.graphql(searchTransactionEvent, {
             variables: {
                 query,
-                indexName: 'LOGS',
-                lowBlockNum: '0',
-                highBlockNum: '-1',
-                sort: 'DESC',
-                limit: '10',
-                cursor: ''
+                limit: '11',
             }
         });
-
-        console.log('response', response);
 
         if (response.errors) {
             this.txDispatch({type: 'SEARCH_ERROR', payload: {
@@ -170,9 +165,41 @@ class Transactions {
         }
 
         const edges = response.data.searchTransactions.edges || [];
-        if (edges.length > 0) {
-            searchTransactions = edges.map(edge => edge.node);
+        if (edges.length <= 0) {
+            this.txDispatch({type: 'SEARCH_COMPLETE', payload: {searchTransactions: []}});
+            return;
         }
+
+        const searchTransactions = [];
+        _.forEach(edges, ({node}) => {
+            const receiver = node.from;
+
+            // Validate Owner
+            if (_.toLower(receiver) !== _.toLower(owner)) {
+                console.log(`Skipping log event due to owner mismatch. Expected ${owner}, got ${receiver}`);
+                return;
+            }
+
+            _.forEach(node.matchingLogs, (logEntry) => {
+                // Validate Topic (Method Hash)
+                if (logEntry.topics[0] !== methodHash) {
+                    console.warn(`Skipping wrong topic ${logEntry.topics[0]}`);
+                    return;
+                }
+
+                // Get Decoded Transaction Data
+                const decoded = Helpers.decodeLog({eventName, logEntry});
+                searchTransactions.push({
+                    particleTypeId  : decoded._particleTypeId,
+                    uri             : decoded._uri,
+                    isNF            : decoded._isNF,
+                    isPrivate       : decoded._isPrivate,
+                    assetPairId     : decoded._assetPairId,
+                    maxSupply       : decoded._maxSupply,
+                });
+            });
+        });
+
         this.txDispatch({type: 'SEARCH_COMPLETE', payload: {searchTransactions}});
     }
 

@@ -22,6 +22,9 @@ import {
     Heading,
 } from 'rimble-ui';
 
+// Toast Styles
+import 'react-toastify/dist/ReactToastify.css';
+
 // Custom Styles
 import useRootStyles from '../layout/styles/root.styles';
 
@@ -42,9 +45,8 @@ const Manage = () => {
     } = txState;
 
     useEffect(() => {
-
         // dFuse - search transactions
-        if (allReady) {
+        if (allReady && searchState !== 'searching') {
             (async () => {
                 const transactions = Transactions.instance();
                 await transactions.searchTransactionsByEvent({

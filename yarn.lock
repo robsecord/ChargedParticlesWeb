@@ -13600,6 +13600,11 @@ react@^16.12.0, react@^16.9.0:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
 
+reactjs-localstorage@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/reactjs-localstorage/-/reactjs-localstorage-0.0.8.tgz#34934d3ec81a2326e4604617edd193e60c4ec914"
+  integrity sha512-4gtrf4O7J0trFRmX28eyypaj3v/HhAa9Z6Glv8PXD/sEkmFd+JkLn+JMynstCUfFqNJHWop9FOc8UB6Kwj4NqA==
+
 read-chunk@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/read-chunk/-/read-chunk-3.2.0.tgz#2984afe78ca9bfbbdb74b19387bf9e86289c16ca"
