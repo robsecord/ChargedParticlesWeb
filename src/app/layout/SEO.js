@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 import siteOptions from '../../utils/site-options';
 
@@ -11,6 +11,7 @@ function SEO({description, keywords, lang, meta, title}) {
 
     return (
         <Helmet
+            defer={false}
             htmlAttributes={{
                 lang,
             }}

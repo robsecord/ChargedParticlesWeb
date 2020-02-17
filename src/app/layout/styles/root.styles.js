@@ -10,7 +10,7 @@ export default makeStyles(theme => ({
         display: 'flex',
     },
     drawer: {
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             width: GLOBALS.SIDEMENU_WIDTH,
             flexShrink: 0,
         },
@@ -23,6 +23,11 @@ export default makeStyles(theme => ({
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
+
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: 0,
+            paddingRight: 0,
+        },
     },
 
     appBar: {
@@ -55,7 +60,7 @@ export default makeStyles(theme => ({
         top: `50%`,
         left: `50%`,
         transform: `translate(-50%, -50%)`,
-        width: theme.spacing.unit * 60,
+        width: theme.spacing(60),
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
         borderRadius: '5px',
