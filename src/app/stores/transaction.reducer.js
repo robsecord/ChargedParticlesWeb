@@ -25,6 +25,24 @@ const TransactionReducer = (state, action) => {
                 transactionHash: '',
                 streamState: 'completed'
             };
+
+        case 'BEGIN_SEARCH':
+            return {
+                ...state,
+                searchState: 'searching'
+            };
+        case 'SEARCH_ERROR':
+            return {
+                ...state,
+                searchState: 'complete',
+                searchError: action.payload.searchError
+            };
+        case 'SEARCH_COMPLETE':
+            return {
+                ...state,
+                searchState: 'complete',
+                searchTransactions: action.payload.searchTransactions
+            };
         default:
             return state;
     }

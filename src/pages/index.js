@@ -1,5 +1,6 @@
 // Frameworks
 import React from 'react';
+import { navigate } from 'gatsby';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
@@ -89,6 +90,11 @@ const IndexPage = () => {
         window.open('https://discord.gg/Syh3gjz');
     };
 
+    const _gotoApp = (evt) => {
+        evt.preventDefault();
+        navigate('/app/');
+    };
+
     return (
         <Layout noHeader={true}>
             <SEO title="Welcome" keywords={[`ethereum`, `defi`, `nft`, `charged particles`]}/>
@@ -132,7 +138,12 @@ const IndexPage = () => {
                 alignItems="center"
                 className={classes.heroMargin}
             >
-                <StyledButton size="large" as="a" href="/app/">Enter Particle Accelerator</StyledButton>
+                <StyledButton
+                    size="large"
+                    as="a"
+                    href="#"
+                    onClick={_gotoApp}
+                >Enter Particle Accelerator</StyledButton>
             </Grid>
 
             <hr/>

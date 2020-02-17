@@ -12,8 +12,6 @@ module.exports = {
 
     plugins: [
         `gatsby-plugin-react-helmet`,
-        `gatsby-plugin-netlify`,
-        // 'gatsby-plugin-ipfs',
         {
             resolve: `gatsby-plugin-create-client-paths`,
             options: {prefixes: [`/app/*`]},
@@ -32,7 +30,7 @@ module.exports = {
             options: {
                 name:               config.manifestName,
                 short_name:         config.manifestShortName,
-                start_url:          config.pathPrefix || config.manifestStartUrl,
+                start_url:          config.manifestStartUrl,
                 background_color:   config.manifestBackgroundColor,
                 theme_color:        config.manifestThemeColor,
                 display:            config.manifestDisplay,
@@ -59,6 +57,14 @@ module.exports = {
                 ],
             },
         },
+        {
+            resolve: `gatsby-plugin-styled-components`,
+            options: {
+            },
+        },
+
+        `gatsby-plugin-netlify`,
+        // 'gatsby-plugin-ipfs',
 
         // this (optional) plugin enables Progressive Web App + Offline functionality
         // To learn more, visit: https://gatsby.dev/offline

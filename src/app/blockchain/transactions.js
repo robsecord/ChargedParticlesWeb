@@ -8,6 +8,15 @@ import { GLOBALS } from '../../utils/globals';
 
 // Queries
 import { streamTransactionQuery } from './queries/StreamTransactionQuery';
+import { searchTransactionEvent } from './queries/SearchTransactionEvent';
+
+// Transaction Events
+const transactionEventMap = {
+    'CREATE_PARTICLE_TYPE': {
+        method: 'ParticleTypeCreated(uint256,string,bool,bool,string,uint256)',
+        hash: '0xc201e7d2252eddeae969c897081b09a2442f097cb2b71d5257d1b22b26f265da'
+    }
+};
 
 class Transactions {
 
@@ -124,6 +133,47 @@ class Transactions {
         });
 
         await this.stream.join();
+    }
+
+    async searchTransactionsByEvent({eventId, owner}) {
+        this.txDispatch({type: 'BEGIN_SEARCH', payload: {}});
+
+        const method = transactionEventMap[eventId].method;
+        // const query = `signer:${_.toLower(owner)} method:'${method}'`;
+
+        const methodHash = transactionEventMap[eventId].hash;
+        const query = `signer:${_.toLower(owner)} method:'${method}' topic.0:${methodHash}`;
+
+        let searchTransactions = [];
+
+        console.log('calling dFuse search with query: ', query);
+
+        const response = await this.client.graphql(searchTransactionEvent, {
+            variables: {
+                query,
+                indexName: 'LOGS',
+                lowBlockNum: '0',
+                highBlockNum: '-1',
+                sort: 'DESC',
+                limit: '10',
+                cursor: ''
+            }
+        });
+
+        console.log('response', response);
+
+        if (response.errors) {
+            this.txDispatch({type: 'SEARCH_ERROR', payload: {
+                searchError: JSON.stringify(response.errors)
+            }});
+            return;
+        }
+
+        const edges = response.data.searchTransactions.edges || [];
+        if (edges.length > 0) {
+            searchTransactions = edges.map(edge => edge.node);
+        }
+        this.txDispatch({type: 'SEARCH_COMPLETE', payload: {searchTransactions}});
     }
 
 }

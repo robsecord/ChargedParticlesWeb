@@ -22,6 +22,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Switch from '@material-ui/core/Switch';
 
 // Rimble UI
 import {
@@ -57,6 +58,9 @@ const useCustomStyles = makeStyles(theme => ({
     formControl: {
         width: '100%'
     },
+    switchControl: {
+        marginTop: '8px'
+    }
 }));
 
 const customFeeSettings = {
@@ -86,6 +90,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
     const [particleCreatorFee,  setParticleCreatorFee]  = useState(0.25);
     const [creatorFeeMode,      setCreatorFeeMode]      = useState('lower');
     const [isNonFungible,       setNonFungible]         = useState(true);
+    const [isPrivate,           setPrivate]             = useState(false);
 
     useEffect(() => {
         if (allReady && _.isEmpty(particleCreator)) {
@@ -173,6 +178,10 @@ const FormCreateParticle = ({ onSubmitForm }) => {
         setNonFungible(expanded);
     };
 
+    const togglePrivate = (evt, _private) => {
+        setPrivate(_private);
+    };
+
     const toggleHigherFees = (evt) => {
         evt.preventDefault();
         evt.stopPropagation();
@@ -190,7 +199,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                 particleCreator,
                 particleIconBuffer,
                 isNonFungible,
-                isPrivate: true, // TODO
+                isPrivate
             };
 
             formData.particleAssetPair  = particleAssetPair; // Helpers.toBytes16(particleAssetPair);
@@ -209,7 +218,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
         <Box p={4}>
             <Form validated={formValidated}>
                 <Flex mx={-3} flexWrap={"wrap"}>
-                    <Box width={[1, 1, 1/2]} pr={3}>
+                    <Box width={[1, 1, 1/2]} pr={[0, 0, 3]}>
                         <Field label="Name" width={1}>
                             <Input
                                 id="particleTypeName"
@@ -222,7 +231,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                         </Field>
                     </Box>
 
-                    <Box width={[1, 1, 1/2]} pl={3}>
+                    <Box width={[1, 1, 1/2]} pl={[0, 0, 3]}>
                         <Field label="Symbol" width={1}>
                             <Input
                                 id="particleTypeSymbol"
@@ -238,7 +247,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                 </Flex>
 
                 <Flex mx={-3} flexWrap={"wrap"}>
-                    <Box width={1}>
+                    <Box width={[1, 1, 1/2]} pr={[0, 0, 3]}>
                         <Field label="Creator" width={1}>
                             <Input
                                 id="particleTypeCreator"
@@ -248,6 +257,18 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                                 onChange={updateParticleCreator}
                                 value={particleCreator}
                                 width={1}
+                            />
+                        </Field>
+                    </Box>
+
+                    <Box width={[1, 1, 1/2]} pl={[0, 0, 3]}>
+                        <Field label="Private Minting?">
+                            <Switch
+                                className={classes.switchControl}
+                                checked={isPrivate}
+                                onChange={togglePrivate}
+                                value="private"
+                                required
                             />
                         </Field>
                     </Box>
@@ -268,7 +289,21 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                 </Flex>
 
                 <Flex mx={-3} flexWrap={"wrap"}>
-                    <Box width={[1, 1, 1/2]} pr={3}>
+                    <Box width={[1, 1, 1/2]} pr={[0, 0, 3]}>
+                        <Field label="Max-Supply" width={1}>
+                            <Input
+                                id="particleTypeSupply"
+                                type="number"
+                                min={0}
+                                max={1e27}
+                                onChange={updateParticleSupply}
+                                value={particleSupply}
+                                width={1}
+                            />
+                        </Field>
+                    </Box>
+
+                    <Box width={[1, 1, 1/2]} pl={[0, 0, 3]}>
                         <Flex mx={-3} flexWrap={"wrap"}>
                             <Box width={[1/5]} pr={3}>
                                 <Field label="&nbsp;">
@@ -296,20 +331,6 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                             </Box>
                         </Flex>
                     </Box>
-
-                    <Box width={[1, 1, 1/2]} pl={3}>
-                        <Field label="Max-Supply" width={1}>
-                            <Input
-                                id="particleTypeSupply"
-                                type="number"
-                                min={0}
-                                max={1e27}
-                                onChange={updateParticleSupply}
-                                value={particleSupply}
-                                width={1}
-                            />
-                        </Field>
-                    </Box>
                 </Flex>
 
                 <Flex mx={-3} mb={30} flexWrap={"wrap"}>
@@ -326,55 +347,57 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                                 </Heading>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <Box width={[1, 1, 1/2]} pr={3}>
-                                    <Field label="Asset-Interest Pair" width={1}>
-                                        <FormControl variant="outlined" className={classes.formControl}>
-                                            <Select
-                                                width={1}
-                                                value={particleAssetPair}
-                                                onChange={updateParticleAssetPair}
-                                            >
-                                                <MenuItem value={'chai'}>DAI - CHAI</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Field>
-                                </Box>
-
-                                <Box width={[1, 1, 1/2]} pl={3}>
-                                    <Flex flexWrap={"wrap"}>
-                                        <Field label="Deposit Fee (as %)" width={1/2} pr={3}>
-                                            <Input
-                                                id="particleTypeCreatorFee"
-                                                type="number"
-                                                required
-                                                min={customFeeSettings[creatorFeeMode].min}
-                                                max={customFeeSettings[creatorFeeMode].max}
-                                                step={customFeeSettings[creatorFeeMode].step}
-                                                value={particleCreatorFee}
-                                                onChange={updateParticleCreatorFee}
-                                                width={1}
-                                            />
+                                <Flex flexWrap={"wrap"} width={1}>
+                                    <Box width={[1, 1, 1/2]} pr={[0, 0, 3]}>
+                                        <Field label="Asset-Interest Pair" width={1}>
+                                            <FormControl variant="outlined" className={classes.formControl}>
+                                                <Select
+                                                    width={1}
+                                                    value={particleAssetPair}
+                                                    onChange={updateParticleAssetPair}
+                                                >
+                                                    <MenuItem value={'chai'}>DAI - CHAI</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </Field>
-                                        <Field label="&nbsp;" width={1/2} pl={3}>
-                                            <Button.Text
-                                                required
-                                                onClick={toggleHigherFees}
-                                            >
-                                                {creatorFeeMode === 'higher' ? 'lower' : 'higher'}
-                                            </Button.Text>
-                                        </Field>
-                                    </Flex>
+                                    </Box>
 
-                                    <Slider
-                                        min={customFeeSettings[creatorFeeMode].min}
-                                        max={customFeeSettings[creatorFeeMode].max}
-                                        step={customFeeSettings[creatorFeeMode].step}
-                                        required
-                                        width={1}
-                                        value={particleCreatorFee}
-                                        onChange={updateParticleCreatorFee}
-                                    />
-                                </Box>
+                                    <Box width={[1, 1, 1/2]} pl={[0, 0, 3]}>
+                                        <Flex flexWrap={"wrap"}>
+                                            <Field label="Deposit Fee (as %)" width={[2/3, 1/2]} pr={3}>
+                                                <Input
+                                                    id="particleTypeCreatorFee"
+                                                    type="number"
+                                                    required
+                                                    min={customFeeSettings[creatorFeeMode].min}
+                                                    max={customFeeSettings[creatorFeeMode].max}
+                                                    step={customFeeSettings[creatorFeeMode].step}
+                                                    value={particleCreatorFee}
+                                                    onChange={updateParticleCreatorFee}
+                                                    width={1}
+                                                />
+                                            </Field>
+                                            <Field label="&nbsp;" width={[1/3, 1/2]} pl={3}>
+                                                <Button.Text
+                                                    required
+                                                    onClick={toggleHigherFees}
+                                                >
+                                                    {creatorFeeMode === 'higher' ? 'lower' : 'higher'}
+                                                </Button.Text>
+                                            </Field>
+                                        </Flex>
+
+                                        <Slider
+                                            min={customFeeSettings[creatorFeeMode].min}
+                                            max={customFeeSettings[creatorFeeMode].max}
+                                            step={customFeeSettings[creatorFeeMode].step}
+                                            required
+                                            width={1}
+                                            value={particleCreatorFee}
+                                            onChange={updateParticleCreatorFee}
+                                        />
+                                    </Box>
+                                </Flex>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     </Box>

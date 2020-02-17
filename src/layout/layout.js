@@ -1,33 +1,17 @@
 // Frameworks
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { navigate, useStaticQuery, graphql } from 'gatsby';
 
 import './styles/reset.css';
 import './styles/overrides.css';
+import theme from './styles/root.theme.js';
 
 // Rimble UI
 import {
     Box
 } from 'rimble-ui';
-
-// Material UI
-// see https://v3.material-ui.com/style/color/
-// see https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=EC407A&secondary.color=8E24AA
-const theme = createMuiTheme({
-    typography: {
-        useNextVariants: true,
-    },
-    palette: {
-        primary: {
-            main: '#EC407A',
-        },
-        secondary: {
-            main: '#8E24AA',
-        },
-    },
-});
 
 // Layout Components
 import { ParticleBG } from '../components/ParticleBG';

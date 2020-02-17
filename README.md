@@ -1,10 +1,11 @@
-## Charged Particles - Particle Accelerator (Public Particle Minting Station) v0.0.12
+## Charged Particles - Particle Accelerator (Public Particle Minting Station) v0.0.14
 
 **Charged Particles** are Non-Fungible Tokens (NFTs) that are minted with **DAI** and accrue interest via **CHAI** 
 giving the Token a "Charge". 
 
 ### Demo
-https://charged-particles.netlify.com/
+Pre-Production: https://charged-particles.netlify.com/
+Staging: https://charged-particles-stage.netlify.com/
 
 #### Video Demo (for SustainWeb3 Hackathon - dFuse integration)
 https://drive.google.com/file/d/1gm-VDLYFfKjGuw29Vkj72zdl49DqhQ2a/view?usp=sharing
