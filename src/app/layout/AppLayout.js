@@ -142,10 +142,19 @@ function AppLayout({ children }) {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     {children}
-                    <ToastContainer />
                     <TxStreamView />
                 </main>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                draggable
+                pauseOnHover
+            />
         </ThemeProvider>
     );
 }

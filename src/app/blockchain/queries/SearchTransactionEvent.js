@@ -1,70 +1,30 @@
 
-const FlatCallFragment = `
-  fragment FlatCallFragment on Call {
-    index
-    depth
-    parentIndex
-    callType
-    from
-    to
-    value(encoding:WEI)
-    gasConsumed
-    inputData
-    returnData
-    logs {
-      address
-      topics
-      data
-    }
-    balanceChanges{
-      reason
-      address
-      oldValue(encoding:WEI)
-      newValue(encoding:WEI)
-    }
-    storageChanges{
-      key
-      address
-      oldValue
-      newValue
-    }
-  }
-`;
-
 const searchTransactionEvent = `
-  query ($query: String!, $indexName:TRANSACTIONS_INDEX_NAME!, $lowBlockNum: Int64, $highBlockNum: Int64, $sort: SORT!, $cursor: String!, $limit: Int64!){
-    searchTransactions(query: $query, indexName: $indexName, lowBlockNum: $lowBlockNum, highBlockNum: $highBlockNum, sort: $sort,  cursor: $cursor, limit: $limit) {
-      pageInfo {
-        startCursor
-        endCursor
-      }
-      edges {
-        undo
-        cursor
-        node {
-          value(encoding:WEI)
-          hash
-          nonce
-          gasLimit
-          gasUsed
-          gasPrice(encoding:WEI)
-          to
-          block {
-            number
+  query ($query: String! $limit: Int64!) {
+      searchTransactions(
+        indexName: LOGS, 
+        query: $query, 
+        limit: $limit, 
+        sort: DESC
+      ) {
+        edges {
+          node {
             hash
-            header {
-              timestamp
+            from
+            to
+            value(encoding: WEI)
+            gasLimit
+            gasPrice(encoding: WEI)
+            
+            matchingLogs {
+              data
+              topics
+              address
             }
-          }
-          flatCalls {
-            ...FlatCallFragment
           }
         }
       }
     }
-  }
-  
-  ${FlatCallFragment}
 `;
 
 export { searchTransactionEvent };

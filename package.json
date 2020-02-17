@@ -57,6 +57,7 @@
     "react-particles-js": "^2.7.1",
     "react-toastify": "^5.5.0",
     "react-useanimations": "^1.2.12",
+    "reactjs-localstorage": "^0.0.8",
     "rimble-ui": "^0.11.1",
     "squarelink": "^1.1.4",
     "styled-components": "4.4.1",

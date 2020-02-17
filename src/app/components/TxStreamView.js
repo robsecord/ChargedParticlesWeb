@@ -1,5 +1,6 @@
 // Frameworks
 import React, { useContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import UseAnimations from 'react-useanimations';
 import classNames from 'classnames';
 import * as _ from 'lodash';
@@ -45,8 +46,8 @@ import useRootStyles from '../layout/styles/root.styles';
 const useCustomStyles = makeStyles(theme => ({
     fab: {
         position: 'fixed',
-        bottom: theme.spacing.unit * 3,
-        right: theme.spacing.unit * 3,
+        bottom: theme.spacing(3),
+        right: theme.spacing(3),
         color: theme.palette.common.white,
         backgroundColor: orange[400],
         '&:hover': {
@@ -98,7 +99,7 @@ const TxStreamView = () => {
     const customClasses = useCustomStyles();
     const [ rootState ] = useContext(RootContext);
     const { networkId } = rootState;
-    const [ txState ] = useContext(TransactionContext);
+    const [ txState, txDispatch ] = useContext(TransactionContext);
     const {
         transactionHash,
         streamState,
@@ -106,13 +107,13 @@ const TxStreamView = () => {
         streamTransitions
     } = txState;
 
-    const [ isCompleted, setCompleted ] = useState(false);
     const [ isOpenModal, setOpenModal ] = useState(false);
     const [ currentStreamState, setCurrentStreamState ] = useState(STATE_MSG.UNKNOWN);
     const [ confirmationCount, setConfirmationCount ] = useState(-1);
     const [ includedInBlock, setIncludedInBlock ] = useState(0);
 
     const hasError = (!_.isEmpty(streamError));
+    const isCompleted = (streamState === 'completed');
     const isProcessing = !isCompleted && !hasError && !_.isEmpty(transactionHash);
     const networkName = Helpers.getNetworkName(networkId);
 
@@ -122,13 +123,18 @@ const TxStreamView = () => {
     };
 
     useEffect(() => {
+        console.log('useEffect - streamState', streamState);
         if (streamState === 'completed') {
-            setCompleted(true);
+            if (!isOpenModal) {
+                toast('🦄 Transaction Complete!');
+            }
+
             setTimeout(() => {
-                setCompleted(false);
+                console.log('useEffect - CLEAR_STREAM');
+                txDispatch({type: 'CLEAR_STREAM'});
             }, TX_COMPLETE_DELAY);
         }
-    }, [streamState, setCompleted]);
+    }, [streamState, isOpenModal]);
 
     useEffect(() => {
         const latest = _.first(streamTransitions);

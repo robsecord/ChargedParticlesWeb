@@ -25,6 +25,12 @@ const TransactionReducer = (state, action) => {
                 transactionHash: '',
                 streamState: 'completed'
             };
+        case 'CLEAR_STREAM':
+            return {
+                ...state,
+                transactionHash: '',
+                streamState: ''
+            };
 
         case 'BEGIN_SEARCH':
             return {
