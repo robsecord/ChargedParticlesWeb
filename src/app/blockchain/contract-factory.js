@@ -82,6 +82,13 @@ export const ContractFactory = {
             return this.contract.methods[contractMethod](...args).call();
         },
 
+        sendContractTx(contractMethod, tx, args, callback) {
+            if (!this.contractReady) {
+                return Promise.reject(`Web3 Provider not ready (calling "${this.contractName}->${contractMethod}")`);
+            }
+            this.contract.methods[contractMethod](...args).send(tx, callback);
+        },
+
         tryContractTx(contractMethod, tx, ...args) {
             if (!this.contractReady) {
                 return Promise.reject(`Web3 Provider not ready (calling "${this.contractName}->${contractMethod}")`);

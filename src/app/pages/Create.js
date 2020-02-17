@@ -3,13 +3,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import * as _ from 'lodash';
 
 // App Components
-import { GLOBALS } from '../../utils/globals';
-import IPFS from '../../utils/ipfs';
 import FormCreateParticle from '../components/FormCreateParticle.js';
 import Transactions from '../blockchain/transactions';
-
-// Contract Data
-import { ChargedParticles } from '../blockchain/contracts';
+import { ContractHelpers } from '../blockchain/contract-helpers.js';
 
 // Data Context for State
 import { WalletContext } from '../stores/wallet.store';
@@ -30,21 +26,6 @@ import {
 import useRootStyles from '../layout/styles/root.styles';
 
 
-// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1155.md#erc-1155-metadata-uri-json-schema
-// https://docs.opensea.io/docs/metadata-standards
-const tokenMetadata = {
-    'description'       : '',
-    'external_url'      : '',
-    'animation_url'     : '',
-    'youtube_url'       : '',
-    'image'             : '',
-    'name'              : '',
-    'decimals'          : 18,
-    'background_color'  : 'FFF',
-    'properties'        : {},
-    'attributes'        : [],   // OpenSea
-};
-
 // Create Route
 const Create = () => {
     const classes = useRootStyles();
@@ -56,7 +37,7 @@ const Create = () => {
 
     useEffect(() => {
         if (isSubmitting && !_.isEmpty(txData)) {
-            const { transactionHash } = txData.txReceipt;
+            const { transactionHash } = txData;
             console.log('CreateParticle - transaction sent;');
             console.log('  txData', txData);
             // txData = {
@@ -196,43 +177,13 @@ const Create = () => {
         try {
             setSubmitting(true);
 
-            // Save Image File to IPFS
-            setLoadingProgress('Saving Image to IPFS..');
-            const imageFileUrl = await IPFS.saveImageFile({fileBuffer: formData.particleIconBuffer});
-            console.log('imageFileUrl', imageFileUrl);
-
-            // Generate Token Metadata
-            tokenMetadata.name = formData.particleName;
-            tokenMetadata.description = formData.particleDesc;
-            tokenMetadata.external_url = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
-            tokenMetadata.image = imageFileUrl;
-            // tokenMetadata.properties = {};
-            // tokenMetadata.attributes = [];
-
-            // Save Metadata to IPFS
-            setLoadingProgress('Saving Metadata to IPFS..');
-            const jsonFileUrl = await IPFS.saveJsonFile({jsonObj: tokenMetadata});
-            console.log('jsonFileUrl', jsonFileUrl);
-
-            // Create Particle on Blockchain
-            setLoadingProgress('Creating Blockchain Transaction..');
-            const chargedParticles = ChargedParticles.instance();
-            const tx = {
+            const {tx, args, transactionHash} = await ContractHelpers.createParticleWithEth({
                 from: connectedAddress,
-                value : formData.isNonFungible ? '70000000000000' : '35000000000000'
-            };
-            const args = [
-                jsonFileUrl,                        // string memory _uri,
-                formData.isNonFungible,             // bool _isNF,
-                formData.isPrivate,                 // bool _isPrivate,
-                formData.particleAssetPair,         // string _assetPairId,
-                `${formData.particleSupply}`,       // uint256 _maxSupply,
-                `${formData.particleCreatorFee}`,   // uint16 _creatorFee
-            ];
-
-            // Submit Transaction and wait for Receipt
-            txReceipt = await chargedParticles.tryContractTx('createParticleWithEther', tx, ...args);
-            setTxData({txReceipt, params: {tx, args}, type: 'CreateParticle'});
+                particleData: formData,
+                onProgress: setLoadingProgress
+            });
+            txReceipt = transactionHash;
+            setTxData({transactionHash, params: {tx, args}, type: 'CreateParticle'});
         }
         catch (err) {
             if (_.isUndefined(txReceipt)) {

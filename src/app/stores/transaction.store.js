@@ -7,6 +7,10 @@ const initialState = {
     streamState: '',
     streamError: '',
     streamTransitions: [],
+
+    searchState: '',
+    searchError: '',
+    searchTransactions: [],
 };
 
 const TransactionStore = ({children}) => {
