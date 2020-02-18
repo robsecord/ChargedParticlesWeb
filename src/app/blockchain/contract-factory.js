@@ -56,6 +56,10 @@ export const ContractFactory = {
             return this.web3.eth.net.getPeerCount();
         },
 
+        getAddress() {
+            return this.contractAddress;
+        },
+
         connectToContract({web3, address}) {
             this.web3 = web3;
             this.contractAddress = address;

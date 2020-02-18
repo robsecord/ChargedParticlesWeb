@@ -53,6 +53,12 @@
           "internalType": "uint256",
           "name": "_receivedAmount",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_interestBalance",
+          "type": "uint256"
         }
       ],
       "name": "DischargedParticle",
@@ -82,7 +88,13 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "_interestAmount",
+          "name": "_assetBalance",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_interestBalance",
           "type": "uint256"
         }
       ],
@@ -1023,8 +1035,8 @@
     "3": {
       "links": {},
       "events": {},
-      "address": "0x747a1f4F30aC18406512D55b034D372A1D263284",
-      "updated_at": 1581494257026
+      "address": "0x840C6171efd9Dcc4Ba4F9d8CBD48679dD15567CA",
+      "updated_at": 1581997788071
     },
     "42": {
       "links": {},

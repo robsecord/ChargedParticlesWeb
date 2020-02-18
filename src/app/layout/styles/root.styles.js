@@ -17,7 +17,6 @@ export default makeStyles(theme => ({
     },
     drawerPaper: {
         width: GLOBALS.SIDEMENU_WIDTH,
-        // borderRight: `1px solid ${theme.palette.primary.main}`,
     },
     toolbar: theme.mixins.toolbar,
     content: {
@@ -31,15 +30,8 @@ export default makeStyles(theme => ({
     },
 
     appBar: {
-        // top: 'auto',
-        // bottom: 0,
-        // [theme.breakpoints.up('sm')]: {
-        //     top: 0,
-        //     bottom: 'auto',
-        //     // width: `calc(100% - ${GLOBALS.SIDEMENU_WIDTH}px)`,
-        //     // marginLeft: GLOBALS.SIDEMENU_WIDTH,
-        // },
         zIndex: 2000,
+        background: 'linear-gradient(69deg, rgba(140,15,95,1) 0%, rgba(196,40,93,1) 48%, rgba(236,64,122,1) 100%)',
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -52,7 +44,10 @@ export default makeStyles(theme => ({
     tabBar: {
         flexGrow: 1,
         width: '100%',
-        // backgroundColor: theme.palette.background.paper,
+    },
+
+    pageHeader: {
+        margin: '1.5rem 0 1rem !important',
     },
 
     loadingContainer: {

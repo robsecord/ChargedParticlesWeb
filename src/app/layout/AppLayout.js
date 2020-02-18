@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import * as _ from 'lodash';
 
 // Material UI
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -14,8 +14,7 @@ import { theme as rimbleTheme } from 'rimble-ui';
 
 // Custom Styles
 import './styles/overrides.css';
-// import theme from '../../layout/styles/root.theme.js'; // TODO
-const theme = createMuiTheme();
+import theme from '../../layout/styles/root.theme.js';
 import useRootStyles from './styles/root.styles';
 
 // App Components
