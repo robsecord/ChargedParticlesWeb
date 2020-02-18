@@ -96,7 +96,7 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "_particleTypeId",
+          "name": "_typeId",
           "type": "uint256"
         },
         {
@@ -128,9 +128,15 @@
           "internalType": "uint256",
           "name": "_maxSupply",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "_creatorFee",
+          "type": "uint16"
         }
       ],
-      "name": "ParticleTypeCreated",
+      "name": "ParticleTypeUpdated",
       "type": "event"
     },
     {
@@ -1039,8 +1045,8 @@
     "3": {
       "links": {},
       "events": {},
-      "address": "0xaf41736125c756EE9B4a6DC09BB477DFb5A4EC11",
-      "updated_at": 1581494305962
+      "address": "0x1051F55fa661fA8F2b8cfa266a4EC04DB364112e",
+      "updated_at": 1581997822045
     },
     "42": {
       "links": {},
