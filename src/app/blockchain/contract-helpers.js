@@ -32,7 +32,9 @@ const ContractHelpers = {};
 ContractHelpers.createParticleWithEth = ({ from, particleData, onProgress }) => {
     return new Promise(async (resolve) => {
 
-        const ethPrice = particleData.isNonFungible ? '70000000000000' : '35000000000000';
+        const ethPrice = particleData.isNonFungible
+            ? GLOBALS.CREATE_PARTICLE_PRICE.ETH.NFT
+            : GLOBALS.CREATE_PARTICLE_PRICE.ETH.FT;
 
         // Save Image File to IPFS
         onProgress('Saving Image to IPFS..');

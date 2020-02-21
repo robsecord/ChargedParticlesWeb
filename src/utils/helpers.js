@@ -4,8 +4,17 @@ import * as _ from 'lodash';
 // App Components
 import Wallet from '../app/wallets';
 import ChargedParticlesData from '../app/blockchain/contracts/ChargedParticles';
+import { GLOBALS } from './globals';
 
 export const Helpers = {};
+
+Helpers.getFriendlyPrice = (tokenType, isNft) => {
+    tokenType = _.toUpper(tokenType);
+    const pricing = GLOBALS.CREATE_PARTICLE_PRICE[tokenType];
+    if (_.isUndefined(pricing)) { return false; }
+    const weiPrice = _.parseInt(pricing[isNft ? 'NFT' : 'FT'], 10);
+    return `${weiPrice / GLOBALS.ETH_UNIT}`;
+};
 
 Helpers.getBlockieOptions = (walletData, opts = {}) => {
     const defaultOptions = {
