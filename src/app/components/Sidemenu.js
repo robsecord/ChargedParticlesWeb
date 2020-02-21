@@ -1,6 +1,7 @@
 // Frameworks
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { navigate } from '@reach/router';
 import * as _ from 'lodash';
 
@@ -49,9 +50,9 @@ const Sidemenu = ({ title, closeDrawer }) => {
 
     return (
         <div>
-            <AppBar position="static" className={classes.sidemenu}>
+            <AppBar position="static" className={classNames(classes.sidemenu, classes.appBar)}>
                 <Toolbar>
-                    <AppTitleLink title={title} />
+                    <AppTitleLink title="" />
                 </Toolbar>
             </AppBar>
             <Divider/>

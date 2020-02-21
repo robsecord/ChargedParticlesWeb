@@ -2,15 +2,15 @@ module.exports = {
     siteTitle: 'Charged Particles',
     siteDesc: 'DeFi NFTs',
     siteAuthor: 'Rob Secord (robsecord.eth)',
-    siteLogoUrl: 'src/images/logo/cp-logo.128x128.png',
+    siteLogoUrl: 'src/images/favicon/android-chrome-192x192.png',
 
     manifestName: 'Charged Particles',
     manifestShortName: 'DeFi-NFTs', // max 12 characters
     manifestStartUrl: '.',
-    manifestBackgroundColor: '#111111',
-    manifestThemeColor: '#111111',
+    manifestBackgroundColor: '#343434',
+    manifestThemeColor: '#EC407A',
     manifestDisplay: 'standalone',
-    manifestIcon: 'src/images/logo/cp-logo.512x512.png',
+    manifestIcon: 'src/images/favicon/android-chrome-512x512.png',
 
     pathPrefix: '/',  // '__GATSBY_IPFS_PATH_PREFIX__',
 
