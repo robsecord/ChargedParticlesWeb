@@ -123,7 +123,6 @@ const TxStreamView = () => {
     };
 
     useEffect(() => {
-        console.log('useEffect - streamState', streamState);
         if (streamState === 'completed') {
             if (!isOpenModal) {
                 toast('🦄 Transaction Complete!');

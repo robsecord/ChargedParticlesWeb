@@ -1,14 +1,11 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Buffer } from 'buffer';
 import * as _ from 'lodash';
 
 // App Components
 import { GLOBALS } from '../../utils/globals';
-
-// App Images
-import ChargedParticlesLogo from '../../images/logo/cp-logo.128x128.png';
+import { Helpers } from '../../utils/helpers';
 
 // Data Context for State
 import { RootContext } from '../stores/root.store';
@@ -16,55 +13,75 @@ import { WalletContext } from '../stores/wallet.store';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
+import Slider from '@material-ui/core/Slider';
 import Switch from '@material-ui/core/Switch';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 // Rimble UI
-import {
-    Avatar,
-    Box,
-    Button,
-    Field,
-    Flex,
-    Form,
-    Heading,
-    Input,
-    Textarea,
-    Slider,
-} from 'rimble-ui';
 import NetworkIndicator from '@rimble/network-indicator';
 
-const ShadowCheckbox = styled(Form.Check)`
-  pointer-events: none;
-`;
-
-const FileInput = styled(Input)`
-  & + button {
-    .button-text {
-      display: inline-block;
-      max-width: 250px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-`;
 
 const useCustomStyles = makeStyles(theme => ({
+    gridRow: {
+        marginTop: '0.5rem',
+    },
     formControl: {
         width: '100%'
     },
+    switchLabel: {
+        pointerEvents: 'none',
+        marginTop: -9,
+    },
     switchControl: {
-        marginTop: '8px'
+        marginTop: 8,
+        marginLeft: 7,
+        marginRight: 2,
+    },
+    fileInput: {
+        display: 'none',
+    },
+    fileName: {
+        display: 'inline-block',
+        width: '100%',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+    },
+    fileNameLabel: {
+        width: '80%',
+    },
+    outlined: {
+        background: 'transparent',
+        border: '1px solid #444',
+    },
+    visiblyDisabledButton: {
+        background: theme.palette.action.disabledBackground,
+        border: '1px solid #444',
+        color: theme.palette.text.disabled,
+
+        '&:hover': {
+            background: theme.palette.action.disabledBackground,
+            opacity: theme.palette.action.disabledOpacity,
+        }
     }
 }));
 
 const customFeeSettings = {
-    'higher': {min: 1, max: 20, step: 0.1},
+    'higher': {min: 1, max: 10, step: 0.1},
     'lower': {min: 0, max: 1, step: 0.01},
 };
 
@@ -77,76 +94,106 @@ const FormCreateParticle = ({ onSubmitForm }) => {
     const [ walletState ] = useContext(WalletContext);
     const { allReady, networkId, connectedAddress } = walletState;
 
-    const [formValidated, setFormValidated] = useState(false);
-
     const [particleName,        setParticleName]        = useState('');
     const [particleSymbol,      setParticleSymbol]      = useState('');
-    const [particleIcon,        setParticleIcon]        = useState('');
+    const [particleIcon,        setParticleIcon]        = useState('Upload Particle Icon *');
     const [particleIconBuffer,  setParticleIconBuffer]  = useState('');
     const [particleCreator,     setParticleCreator]     = useState('');
     const [particleDesc,        setParticleDesc]        = useState('');
     const [particleSupply,      setParticleSupply]      = useState(0);
     const [particleAssetPair,   setParticleAssetPair]   = useState('chai');
     const [particleCreatorFee,  setParticleCreatorFee]  = useState(0.25);
+    const [particlePaymentType, setParticlePaymentType] = useState('eth');
     const [creatorFeeMode,      setCreatorFeeMode]      = useState('lower');
     const [isNonFungible,       setNonFungible]         = useState(true);
     const [isPrivate,           setPrivate]             = useState(false);
+
+    const [formValidated,          setFormValidated]        = useState(false);
+    const [isParticleNameValid,    setParticleNameValid]    = useState(true);
+    const [isParticleSymbolValid,  setParticleSymbolValid]  = useState(true);
+    const [isParticleDescValid,    setParticleDescValid]    = useState(true);
+    const [isParticleCreatorValid, setParticleCreatorValid] = useState(true);
+    const [isParticleIconValid,    setParticleIconValid]    = useState(true);
+
+    const inputLabelRef = useRef(null);
+    const paymentInputLabelRef = useRef(null);
+    const [labelWidth, setLabelWidth] = React.useState(0);
+    const [paymentTypeLabelWidth, setPaymentTypeLabelWidth] = React.useState(0);
+    useEffect(() => {
+        setLabelWidth(inputLabelRef.current.offsetWidth);
+        setPaymentTypeLabelWidth(paymentInputLabelRef.current.offsetWidth);
+    }, []);
 
     useEffect(() => {
         if (allReady && _.isEmpty(particleCreator)) {
             setParticleCreator(connectedAddress);
         }
-    }, [allReady]);
+    }, [allReady, connectedAddress, setParticleCreator]);
 
     useEffect(() => {
         validateForm();
     }, [
         setFormValidated,
+        connectionWarning,
         particleName,
-        particleIcon,
-        particleCreator,
+        particleSymbol,
         particleDesc,
+        particleCreator,
+        particleIconBuffer,
     ]);
+
+    const validateAll = () => {
+        setParticleNameValid(!_.isEmpty(particleName));
+        setParticleSymbolValid(!_.isEmpty(particleSymbol));
+        setParticleCreatorValid(!_.isEmpty(particleCreator));
+        setParticleIconValid(!_.isEmpty(particleIconBuffer));
+        setParticleDescValid(!_.isEmpty(particleDesc));
+    };
 
     const validateForm = () => {
         const conditions = [
             _.isEmpty(connectionWarning),
             !_.isEmpty(particleName),
-            !_.isEmpty(particleIcon),
-            !_.isEmpty(particleCreator),
+            !_.isEmpty(particleSymbol),
             !_.isEmpty(particleDesc),
+            !_.isEmpty(particleCreator),
+            !_.isEmpty(particleIconBuffer),
         ];
         setFormValidated(_.every(conditions, Boolean));
     };
 
-    const validateInput = evt => {
-        evt.target.parentNode.classList.add('was-validated');
+    const _cleanParticleIconDisplay = (filename) => {
+        return _.last(filename.split('\\'));
     };
 
     const updateParticleName = evt => {
-        setParticleName(evt.target.value);
-        validateInput(evt);
+        const value = _.trim(evt.target.value);
+        setParticleName(value);
+        setParticleNameValid(!_.isEmpty(value));
     };
 
     const updateParticleSymbol = evt => {
-        setParticleSymbol(_.toUpper(evt.target.value));
-        validateInput(evt);
+        const value = _.trim(evt.target.value);
+        setParticleSymbol(_.toUpper(value));
+        setParticleSymbolValid(!_.isEmpty(value));
     };
 
     const updateParticleCreator = evt => {
-        setParticleCreator(evt.target.value);
-        validateInput(evt);
+        const value = _.trim(evt.target.value);
+        setParticleCreator(value);
+        setParticleCreatorValid(!_.isEmpty(value));
     };
 
     const updateParticleIcon = evt => {
         evt.preventDefault();
         evt.stopPropagation();
 
-        setParticleIcon(evt.target.value);
-        validateInput(evt);
-
+        const value = evt.target.value;
         const file = evt.target.files[0];
         if (_.isUndefined(file)) { return; }
+
+        setParticleIcon(value);
+        setParticleIconValid(!_.isUndefined(file));
 
         const reader = new FileReader();
         reader.readAsArrayBuffer(file);
@@ -156,13 +203,13 @@ const FormCreateParticle = ({ onSubmitForm }) => {
     };
 
     const updateParticleDesc = evt => {
-        setParticleDesc(evt.target.value);
-        validateInput(evt);
+        const value = _.trim(evt.target.value);
+        setParticleDesc(value);
+        setParticleDescValid(!_.isEmpty(value));
     };
 
     const updateParticleSupply = evt => {
         setParticleSupply(evt.target.value);
-        validateInput(evt);
     };
 
     const updateParticleAssetPair = evt => {
@@ -171,7 +218,14 @@ const FormCreateParticle = ({ onSubmitForm }) => {
 
     const updateParticleCreatorFee = evt => {
         setParticleCreatorFee(evt.target.value);
-        validateInput(evt);
+    };
+
+    const updateParticlePaymentType = evt => {
+        setParticlePaymentType(evt.target.value);
+    };
+
+    const slideParticleCreatorFee = (evt, newValue) => {
+        setParticleCreatorFee(newValue);
     };
 
     const toggleNonFungible = (evt, expanded) => {
@@ -191,6 +245,10 @@ const FormCreateParticle = ({ onSubmitForm }) => {
 
     const handleSubmit = async evt => {
         evt.preventDefault();
+        if (!formValidated) {
+            return validateAll();
+        }
+
         try {
             const formData = {
                 particleName,
@@ -215,212 +273,268 @@ const FormCreateParticle = ({ onSubmitForm }) => {
     };
 
     return (
-        <Box p={4}>
-            <Form validated={formValidated}>
-                <Flex mx={-3} flexWrap={"wrap"}>
-                    <Box width={[1, 1, 1/2]} pr={[0, 0, 3]}>
-                        <Field label="Name" width={1}>
-                            <Input
-                                id="particleTypeName"
-                                type="text"
+            <form>
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="particleTypeName"
+                            label="Name"
+                            variant="outlined"
+                            onChange={updateParticleName}
+                            value={particleName}
+                            fullWidth
+                            required
+                            error={!isParticleNameValid}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <TextField
+                            id="particleTypeSymbol"
+                            label="Symbol"
+                            variant="outlined"
+                            onChange={updateParticleSymbol}
+                            value={particleSymbol}
+                            fullWidth
+                            required
+                            error={!isParticleSymbolValid}
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12}>
+                        <TextField
+                            id="particleTypeDesc"
+                            label="Description"
+                            variant="outlined"
+                            onChange={updateParticleDesc}
+                            value={particleDesc}
+                            multiline
+                            rows="4"
+                            fullWidth
+                            required
+                            error={!isParticleDescValid}
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            id="particleTypeCreator"
+                            label="Creator"
+                            variant="outlined"
+                            onChange={updateParticleCreator}
+                            value={particleCreator}
+                            fullWidth
+                            required
+                            error={!isParticleCreatorValid}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    className={classes.switchControl}
+                                    checked={isPrivate}
+                                    onChange={togglePrivate}
+                                    value="private"
+                                    required
+                                />
+                            }
+                            label="Private Minting"
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            id="particleTypeSupply"
+                            label="Max-Supply"
+                            variant="outlined"
+                            type="number"
+                            min={0}
+                            max={1e27}
+                            onChange={updateParticleSupply}
+                            value={particleSupply}
+                            fullWidth
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center"
+                        >
+                            <FormControl
                                 required
-                                onChange={updateParticleName}
-                                value={particleName}
-                                width={1}
-                            />
-                        </Field>
-                    </Box>
-
-                    <Box width={[1, 1, 1/2]} pl={[0, 0, 3]}>
-                        <Field label="Symbol" width={1}>
-                            <Input
-                                id="particleTypeSymbol"
-                                type="text"
-                                maxLength={12}
-                                required
-                                onChange={updateParticleSymbol}
-                                value={particleSymbol}
-                                width={1}
-                            />
-                        </Field>
-                    </Box>
-                </Flex>
-
-                <Flex mx={-3} flexWrap={"wrap"}>
-                    <Box width={[1, 1, 1/2]} pr={[0, 0, 3]}>
-                        <Field label="Creator" width={1}>
-                            <Input
-                                id="particleTypeCreator"
-                                type="text"
-                                required
-                                placeholder="connect your wallet"
-                                onChange={updateParticleCreator}
-                                value={particleCreator}
-                                width={1}
-                            />
-                        </Field>
-                    </Box>
-
-                    <Box width={[1, 1, 1/2]} pl={[0, 0, 3]}>
-                        <Field label="Private Minting?">
-                            <Switch
-                                className={classes.switchControl}
-                                checked={isPrivate}
-                                onChange={togglePrivate}
-                                value="private"
-                                required
-                            />
-                        </Field>
-                    </Box>
-                </Flex>
-
-                <Flex mx={-3} flexWrap={"wrap"}>
-                    <Box width={1}>
-                        <Field label="Description" width={1}>
-                            <Textarea
-                                id="particleTypeDesc"
-                                rows={4}
-                                width={1}
-                                required
-                                onChange={updateParticleDesc}
-                            />
-                        </Field>
-                    </Box>
-                </Flex>
-
-                <Flex mx={-3} flexWrap={"wrap"}>
-                    <Box width={[1, 1, 1/2]} pr={[0, 0, 3]}>
-                        <Field label="Max-Supply" width={1}>
-                            <Input
-                                id="particleTypeSupply"
-                                type="number"
-                                min={0}
-                                max={1e27}
-                                onChange={updateParticleSupply}
-                                value={particleSupply}
-                                width={1}
-                            />
-                        </Field>
-                    </Box>
-
-                    <Box width={[1, 1, 1/2]} pl={[0, 0, 3]}>
-                        <Flex mx={-3} flexWrap={"wrap"}>
-                            <Box width={[1/5]} pr={3}>
-                                <Field label="&nbsp;">
-                                    <Avatar
-                                        required
-                                        mt={1} ml={3}
-                                        size="medium"
-                                        bg="#eee"
-                                        src={ChargedParticlesLogo}
+                                error={!isParticleIconValid}
+                                component="fieldset"
+                            >
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={
+                                            <>
+                                                <input
+                                                    id="particleTypeIcon"
+                                                    type="file"
+                                                    accept="image/*"
+                                                    className={classes.fileInput}
+                                                    onChange={updateParticleIcon}
+                                                    required
+                                                />
+                                                <IconButton
+                                                    color="secondary"
+                                                    aria-label="upload icon"
+                                                    component="span"
+                                                >
+                                                    <PhotoCamera />
+                                                </IconButton>
+                                            </>
+                                        }
+                                        label={_cleanParticleIconDisplay(particleIcon)}
                                     />
-                                </Field>
-                            </Box>
+                                </FormGroup>
+                                <FormHelperText error={true}>{!isParticleIconValid ? 'Particle Icon required' : ''}</FormHelperText>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+                </Grid>
 
-                            <Box width={[4/5]} pr={3}>
-                                <Field label="Icon">
-                                    <FileInput
-                                        id="particleTypeIcon"
-                                        type="file"
-                                        required
-                                        onChange={updateParticleIcon}
-                                        value={particleIcon}
-                                        accept="image/png, image/jpeg, image/jpg, image/gif"
-                                    />
-                                </Field>
-                            </Box>
-                        </Flex>
-                    </Box>
-                </Flex>
-
-                <Flex mx={-3} mb={30} flexWrap={"wrap"}>
-                    <Box width={1}>
-                        <ExpansionPanel defaultExpanded onChange={toggleNonFungible} mx={-5}>
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12}>
+                        <ExpansionPanel defaultExpanded onChange={toggleNonFungible} className={classes.outlined}>
                             <ExpansionPanelSummary>
-                                <Heading as={"h4"}>
-                                    <ShadowCheckbox
-                                        checked={isNonFungible}
-                                        readOnly
-                                        required
-                                        label="Non-Fungible"
-                                    />
-                                </Heading>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            className={classes.switchControl}
+                                            checked={isNonFungible}
+                                            readOnly
+                                            required
+                                        />
+                                    }
+                                    label={isNonFungible ? 'Non-Fungible' : 'Fungible'}
+                                    className={classes.switchLabel}
+                                />
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <Flex flexWrap={"wrap"} width={1}>
-                                    <Box width={[1, 1, 1/2]} pr={[0, 0, 3]}>
-                                        <Field label="Asset-Interest Pair" width={1}>
-                                            <FormControl variant="outlined" className={classes.formControl}>
-                                                <Select
-                                                    width={1}
-                                                    value={particleAssetPair}
-                                                    onChange={updateParticleAssetPair}
-                                                >
-                                                    <MenuItem value={'chai'}>DAI - CHAI</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </Field>
-                                    </Box>
+                                <Grid container spacing={3} className={classes.gridRow}>
+                                    <Grid item xs={12} sm={6}>
+                                        <FormControl variant="outlined" className={classes.formControl}>
+                                            <InputLabel ref={inputLabelRef} id="particleAssetPairLabel">
+                                                Asset-Pair
+                                            </InputLabel>
+                                            <Select
+                                                id="particleAssetPair"
+                                                labelId="particleAssetPairLabel"
+                                                labelWidth={labelWidth}
+                                                value={particleAssetPair}
+                                                onChange={updateParticleAssetPair}
+                                            >
+                                                <MenuItem value={'chai'}>DAI - CHAI</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
 
-                                    <Box width={[1, 1, 1/2]} pl={[0, 0, 3]}>
-                                        <Flex flexWrap={"wrap"}>
-                                            <Field label="Deposit Fee (as %)" width={[2/3, 1/2]} pr={3}>
-                                                <Input
+                                    <Grid item xs={12} sm={6}>
+                                        <Grid container spacing={0}>
+                                            <Grid item xs={9} md={6}>
+                                                <TextField
                                                     id="particleTypeCreatorFee"
+                                                    label="Deposit Fee (as %)"
+                                                    variant="outlined"
                                                     type="number"
-                                                    required
                                                     min={customFeeSettings[creatorFeeMode].min}
                                                     max={customFeeSettings[creatorFeeMode].max}
                                                     step={customFeeSettings[creatorFeeMode].step}
                                                     value={particleCreatorFee}
                                                     onChange={updateParticleCreatorFee}
-                                                    width={1}
+                                                    fullWidth
                                                 />
-                                            </Field>
-                                            <Field label="&nbsp;" width={[1/3, 1/2]} pl={3}>
-                                                <Button.Text
-                                                    required
-                                                    onClick={toggleHigherFees}
-                                                >
+                                            </Grid>
+                                            <Grid item xs={3} md={6}>
+                                                <Button onClick={toggleHigherFees} color="secondary">
                                                     {creatorFeeMode === 'higher' ? 'lower' : 'higher'}
-                                                </Button.Text>
-                                            </Field>
-                                        </Flex>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
 
                                         <Slider
                                             min={customFeeSettings[creatorFeeMode].min}
                                             max={customFeeSettings[creatorFeeMode].max}
                                             step={customFeeSettings[creatorFeeMode].step}
-                                            required
-                                            width={1}
                                             value={particleCreatorFee}
-                                            onChange={updateParticleCreatorFee}
+                                            onChange={slideParticleCreatorFee}
                                         />
-                                    </Box>
-                                </Flex>
+                                    </Grid>
+                                </Grid>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
-                    </Box>
-                </Flex>
+                    </Grid>
+                </Grid>
 
-                <Box width={1}>
-                    <Flex mx={-3} mb={30} flexWrap={"wrap"}>
+                <Grid
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="center"
+                    spacing={3}
+                    className={classes.gridRow}
+                >
+                    <Grid item sm={4} md={3}>
+                        <FormControl variant="outlined" className={classes.formControl}>
+                            <InputLabel ref={paymentInputLabelRef} id="particlePaymentLabel">
+                                Payment
+                            </InputLabel>
+                            <Select
+                                id="particlePayment"
+                                labelId="particlePaymentLabel"
+                                labelWidth={paymentTypeLabelWidth}
+                                value={particlePaymentType}
+                                onChange={updateParticlePaymentType}
+                            >
+                                <MenuItem value={'eth'}>ETH - {Helpers.getFriendlyPrice('eth', isNonFungible)}</MenuItem>
+                                <MenuItem value={'ion'} disabled>ION - coming soon</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </Grid>
+
+                <Grid
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="center"
+                    spacing={3}
+                    className={classes.gridRow}
+                >
+                    <Grid item sm={4} md={3}>
                         <Button
                             type="button"
-                            disabled={!formValidated}
-                            mr={3}
+                            // disabled={!formValidated}
+                            variant="contained"
+                            color={formValidated ? 'primary' : 'default'}
+                            size="large"
                             onClick={handleSubmit}
+                            className={formValidated ? '' : classes.visiblyDisabledButton}
                         >
                             Create Particle
                         </Button>
+                    </Grid>
+                    <Grid item sm={4} md={3}>
                         <NetworkIndicator
                             currentNetwork={networkId}
                             requiredNetwork={_.parseInt(GLOBALS.CHAIN_ID, 10)}
                         />
-                    </Flex>
-                </Box>
-            </Form>
-        </Box>
+                    </Grid>
+                </Grid>
+            </form>
     )
 };
 

@@ -1,6 +1,6 @@
 // Frameworks
 import React from 'react';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, createStyles } from '@material-ui/core/styles';
 
 // Material UI
 // see https://v3.material-ui.com/style/color/
@@ -23,4 +23,13 @@ export default createMuiTheme({
             main: '#8E24AA',
         },
     },
+
+    // overrides: {
+    //     MuiExpansionPanel: createStyles({
+    //         root: {
+    //             background: 'transparent',
+    //             border: '1px solid #444',
+    //         }
+    //     })
+    // }
 });
