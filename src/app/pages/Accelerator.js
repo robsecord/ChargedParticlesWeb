@@ -28,10 +28,10 @@ import Market from './Market';
 import acceleratorTabsList from '../components/AcceleratorTabsList';
 
 const _tabsList = _.merge({}, acceleratorTabsList, {
+    market: {component: () => (<Market/>)},
     create: {component: () => (<Create/>)},
     mint:   {component: () => (<Mint/>)},
     manage: {component: () => (<Manage/>)},
-    market: {component: () => (<Market/>)},
 });
 
 function a11yProps(id) {
