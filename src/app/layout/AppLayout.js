@@ -50,7 +50,7 @@ function AppLayout({ children }) {
     const [, txDispatch] = useContext(TransactionContext);
     const [walletState, walletDispatch] = useContext(WalletContext);
     const [mobileOpen, setMobileOpen] = useState(false);
-    const { allReady: isWalletReady, connectedType, networkId } = walletState;
+    const { allReady: isWalletReady, networkId } = walletState;
     const siteTitle = siteOptions.metadata.title;
 
     const correctNetwork = _.parseInt(GLOBALS.CHAIN_ID, 10);
@@ -75,7 +75,7 @@ function AppLayout({ children }) {
             ChargedParticlesEscrow.prepare({web3, address: chargedParticlesEscrowAddress});
             ChargedParticlesEscrow.reconnect();
         }
-    }, [isWalletReady, connectedType, networkId, wallet]);
+    }, [isWalletReady, networkId, wallet]);
 
     // Reconnect to Network Monitor on network change
     useEffect(() => {
@@ -85,20 +85,20 @@ function AppLayout({ children }) {
             transactions.connectToNetwork({networkId});
             transactions.resumeIncompleteStreams();
         }
-    }, [isWalletReady, connectedType, networkId, wallet]);
+    }, [isWalletReady, networkId, wallet]);
 
     useEffect(() => {
         const isModernWeb3 = !!window.ethereum;
         const isLegacyWeb3 = (typeof window.web3 !== 'undefined');
 
         if (!isLegacyWeb3 && !isModernWeb3) {
-            rootDispatch({type: 'CONNECTION_WARNING', payload: 'Not a Web3 capable browser'});
+            rootDispatch({type: 'CONNECTION_STATE', payload: {type: 'NON_WEB3', message: 'Not a Web3 capable browser'}});
         } else if (_.isUndefined(networkId) || networkId === 0) {
-            rootDispatch({type: 'CONNECTION_WARNING', payload: 'Please connect your Web3 Wallet'});
+            rootDispatch({type: 'CONNECTION_STATE', payload: {type: 'WEB3_DISCONNECTED', message: 'Please connect your Web3 Wallet'}});
         } else if (networkId !== correctNetwork) {
-            rootDispatch({type: 'CONNECTION_WARNING', payload: `Wrong Ethereum network, please connect to ${correctNetworkName}.`});
+            rootDispatch({type: 'CONNECTION_STATE', payload: {type: 'WEB3_WRONG_NETWORK', message: `Wrong Ethereum network, please connect to ${correctNetworkName}.`}});
         } else {
-            rootDispatch({type: 'CONNECTION_WARNING', payload: ''});
+            rootDispatch({type: 'CONNECTION_STATE', payload: {}}); // Web3, Connected, Correct Network
         }
     }, [networkId, rootDispatch]);
 

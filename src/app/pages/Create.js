@@ -199,8 +199,6 @@ const Create = () => {
 
     return (
         <>
-            <Heading as={"h2"} mt={30}>Create a new Particle Type</Heading>
-
             <FormCreateParticle
                 onSubmitForm={handleSubmit}
             />

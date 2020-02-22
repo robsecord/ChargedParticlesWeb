@@ -37,25 +37,9 @@ GLOBALS.WALLET_TYPE_COINBASE        = 'walletLink';
 GLOBALS.WALLET_TYPE_WALLETCONNECT   = 'walletconnect';
 GLOBALS.WALLET_TYPE_FORTMATIC       = 'fortmatic';
 GLOBALS.WALLET_TYPE_TORUS           = 'torus';
+GLOBALS.WALLET_TYPE_PORTIS          = 'portis';
 GLOBALS.WALLET_TYPE_AUTHEREUM       = 'authereum';
-GLOBALS.WALLET_TYPE_BITSKI          = 'bitski';
 GLOBALS.WALLET_TYPE_SQUARELINK      = 'squarelink';
 GLOBALS.WALLET_TYPE_ARKANE          = 'arkane';
 GLOBALS.WALLET_TYPE_METAMASK        = 'metamask';
 GLOBALS.WALLET_TYPE_NATIVE          = 'native';
-
-GLOBALS.WALLET_TYPE_SETTINGS = {
-    [GLOBALS.WALLET_TYPE_COINBASE]      : {name: 'Coinbase WalletLink', options: {}},
-    [GLOBALS.WALLET_TYPE_WALLETCONNECT] : {name: 'Wallet Connect',      options: {}},
-    [GLOBALS.WALLET_TYPE_FORTMATIC]     : {name: 'Fortmatic',           options: {uniqueId: process.env.GATSBY_FORTMATIC_APIKEY}},
-    [GLOBALS.WALLET_TYPE_TORUS]         : {name: 'Torus',               options: {}},
-    // [GLOBALS.WALLET_TYPE_PORTIS]        : {name: 'Portis',              options: {uniqueId: process.env.GATSBY_PORTIS_DAPP_ID}},
-    // [GLOBALS.WALLET_TYPE_UPORT]         : {name: 'Uport',               options: {uniqueId: process.env.GATSBY_UPORT_DAPP_NAME}},
-    [GLOBALS.WALLET_TYPE_AUTHEREUM]     : {name: 'Authereum',           options: {}},
-    [GLOBALS.WALLET_TYPE_BITSKI]        : {name: 'Bitski',              options: {uniqueId: process.env.GATSBY_BITSKI_CLIENT_ID, appCallbackUrl: 'https://myapp.com/callback.html'}},
-    [GLOBALS.WALLET_TYPE_SQUARELINK]    : {name: 'SquareLink',          options: {uniqueId: process.env.GATSBY_SQUARELINK_DAPP_ID}},
-    [GLOBALS.WALLET_TYPE_ARKANE]        : {name: 'Arkane',              options: {uniqueId: process.env.GATSBY_ARKANE_CLIENT_ID}},
-    [GLOBALS.WALLET_TYPE_METAMASK]      : {name: 'MetaMask',            options: {}},
-    [GLOBALS.WALLET_TYPE_NATIVE]        : {name: 'Native',              options: {}},
-};
-

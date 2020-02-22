@@ -90,7 +90,7 @@ const customFeeSettings = {
 const FormCreateParticle = ({ onSubmitForm }) => {
     const classes = useCustomStyles();
     const [ rootState ] = useContext(RootContext);
-    const { connectionWarning } = rootState;
+    const { connectionState } = rootState;
     const [ walletState ] = useContext(WalletContext);
     const { allReady, networkId, connectedAddress } = walletState;
 
@@ -134,7 +134,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
         validateForm();
     }, [
         setFormValidated,
-        connectionWarning,
+        connectionState,
         particleName,
         particleSymbol,
         particleDesc,
@@ -152,7 +152,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
 
     const validateForm = () => {
         const conditions = [
-            _.isEmpty(connectionWarning),
+            _.isEmpty(connectionState),
             !_.isEmpty(particleName),
             !_.isEmpty(particleSymbol),
             !_.isEmpty(particleDesc),

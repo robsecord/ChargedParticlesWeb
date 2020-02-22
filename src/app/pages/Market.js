@@ -72,7 +72,6 @@ const Market = () => {
 
     return (
         <>
-            <Heading as={"h2"} mt={30}>Available Particles!</Heading>
             {_getPeerCount()}
             {_getAccountData()}
             {_getContractOwner()}

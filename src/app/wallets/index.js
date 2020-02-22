@@ -5,18 +5,7 @@ import * as _ from 'lodash';
 import { GLOBALS } from '../../utils/globals';
 
 // Wallets
-import CoinbaseWallet from './coinbase';
-import FortmaticWallet from './fortmatic';
-import TorusWallet from './torus';
-// import PortisWallet from './portis';
-// import UportWallet from './uport';
-import AuthereumWallet from './authereum';
-import BitskiWallet from './bitski';
-import SquareLinkWallet from './squarelink';
-import ArkaneWallet from './arkane';
-import WalletConnectWallet from './walletconnect';
-import MetamaskWallet from './metamask';
-import NativeWallet from './native';
+import { WalletProviders } from '../wallets/providers.js';
 
 
 class Wallet {
@@ -36,11 +25,11 @@ class Wallet {
     }
 
     static isEnabled(type) {
-        return (Wallet.typeMap()[type].wallet).isEnabled();
+        return (WalletProviders[type].wallet).isEnabled();
     }
 
-    async prepare(type = GLOBALS.WALLET_TYPE_COINBASE) {
-        const walletData = Wallet.typeMap()[type];
+    async prepare(type = GLOBALS.WALLET_TYPE_METAMASK) {
+        const walletData = WalletProviders[type];
         const walletClass = walletData.wallet;
         this.wallet = new walletClass(this.dispatchState);
         await this.wallet.prepare({options: walletData.options, ...Wallet._getEnv()});
@@ -57,7 +46,7 @@ class Wallet {
     }
 
     static getName(type) {
-        return (Wallet.typeMap()[type]).name || 'Unknown';
+        return (WalletProviders[type]).name || 'Unknown';
     }
 
     getWeb3() {
@@ -70,6 +59,52 @@ class Wallet {
         return this.wallet.provider;
     }
 
+    checkInjectedProviders() {
+        const result = {
+            injectedAvailable: !!window.ethereum || !!window.web3
+        };
+        if (result.injectedAvailable) {
+            let fallbackProvider = true;
+            _.forEach(WalletProviders, (providerInfo) => {
+                result[providerInfo.check] = this.verifyInjectedProvider(providerInfo.check);
+                if (result[providerInfo.check] === true) {
+                    fallbackProvider = false;
+                }
+            });
+            // Nitfy Wallet fix
+            if (result['isMetamask']) {
+                if (this.verifyInjectedProvider('isNiftyWallet')) {
+                    result['isMetamask'] = false;
+                    result['isNiftyWallet'] = true;
+                }
+            }
+            // Coinbase Wallet fix
+            if (result['isCipher']) {
+                if (this.verifyInjectedProvider('isToshi')) {
+                    result['isCipher'] = false;
+                    result['isToshi'] = true;
+                }
+            }
+            if (fallbackProvider) {
+                result['isWeb3'] = true;
+            }
+        }
+
+        return result;
+    }
+
+    verifyInjectedProvider(check) {
+        return window.ethereum
+            ? window.ethereum[check] || (window.web3 && window.web3.currentProvider)
+                ? window.web3
+                    ? window.web3.currentProvider[check]
+                    : true
+                : false
+            : window.web3 && window.web3.currentProvider
+                ? window.web3.currentProvider[check]
+                : false;
+    }
+
     static _getEnv() {
         const rpcUrl = GLOBALS.RPC_URL;
         const chainId = GLOBALS.CHAIN_ID;
@@ -80,23 +115,6 @@ class Wallet {
             console.error('Invalid Chain-ID.  Make sure you have set the correct ENV VARs to connect to Web3; ("ETH_CHAIN_ID").');
         }
         return {rpcUrl, chainId};
-    }
-
-    static typeMap() {
-        return _.merge({}, GLOBALS.WALLET_TYPE_SETTINGS, {
-            [GLOBALS.WALLET_TYPE_COINBASE]      : {wallet: CoinbaseWallet},
-            [GLOBALS.WALLET_TYPE_WALLETCONNECT] : {wallet: WalletConnectWallet},
-            [GLOBALS.WALLET_TYPE_FORTMATIC]     : {wallet: FortmaticWallet},
-            [GLOBALS.WALLET_TYPE_TORUS]         : {wallet: TorusWallet},
-            // [GLOBALS.WALLET_TYPE_PORTIS]        : {wallet: PortisWallet},
-            // [GLOBALS.WALLET_TYPE_UPORT]         : {wallet: UportWallet},
-            [GLOBALS.WALLET_TYPE_AUTHEREUM]     : {wallet: AuthereumWallet},
-            [GLOBALS.WALLET_TYPE_BITSKI]        : {wallet: BitskiWallet},
-            [GLOBALS.WALLET_TYPE_SQUARELINK]    : {wallet: SquareLinkWallet},
-            [GLOBALS.WALLET_TYPE_ARKANE]        : {wallet: ArkaneWallet},
-            [GLOBALS.WALLET_TYPE_METAMASK]      : {wallet: MetamaskWallet},
-            [GLOBALS.WALLET_TYPE_NATIVE]        : {wallet: NativeWallet},
-        });
     }
 }
 Wallet.__instance = null;

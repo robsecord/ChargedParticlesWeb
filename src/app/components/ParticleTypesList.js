@@ -269,7 +269,6 @@ const ParticleTypesList = ({ owner, transactions }) => {
                                 </Box>
                             </Box>
                         </Grid>
-
                     </div>
                     <div className={classNames(customClasses.columnThirds, customClasses.helper)}>
                         <Typography variant="caption">
