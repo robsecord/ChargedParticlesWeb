@@ -54,7 +54,6 @@ const WalletProviders = {
         className: 'walletConnect',
         wallet: WalletConnectWallet,
         logo: (<WalletConnectLogo />),
-        isDisabled: true,
         options: {}
     },
     [GLOBALS.WALLET_TYPE_FORTMATIC]     : {
@@ -64,7 +63,6 @@ const WalletProviders = {
         className: 'fortmatic',
         wallet: FortmaticWallet,
         logo: (<FortmaticLogo />),
-        isDisabled: true,
         options: {
             uniqueId: process.env.GATSBY_FORTMATIC_APIKEY
         }
@@ -86,7 +84,6 @@ const WalletProviders = {
         className: 'portis',
         wallet: PortisWallet,
         logo: (<PortisLogo />),
-        isDisabled: true,
         options: {
             uniqueId: process.env.GATSBY_PORTIS_DAPP_ID
         }
@@ -98,7 +95,6 @@ const WalletProviders = {
         className: 'authereum',
         wallet: AuthereumWallet,
         logo: (<AuthereumLogo />),
-        isDisabled: true,
         options: {}
     },
     [GLOBALS.WALLET_TYPE_SQUARELINK]    : {
