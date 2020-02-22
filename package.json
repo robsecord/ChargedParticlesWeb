@@ -1,7 +1,7 @@
 {
   "name": "charged-particles-web",
   "description": "DeFi NFTs",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "author": "Rob Secord <robsecord.eth>",
   "keywords": [],
   "scripts": {
@@ -15,8 +15,6 @@
   },
   "dependencies": {
     "@arkane-network/arkane-connect": "^1.12.0",
-    "@arkane-network/web3-arkane-provider": "^0.2.5",
-    "@burner-wallet/burner-connect-provider": "^0.1.1",
     "@dfuse/client": "^0.3.7",
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.9.1",
