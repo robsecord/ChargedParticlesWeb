@@ -18,8 +18,15 @@ class WalletConnectWallet extends IWalletBase {
         //     bridge: 'https://bridge.walletconnect.org'
         // });
 
+        let bridge = 'https://bridge.walletconnect.org';
+        let infuraId = GLOBALS.INFURA_ID;
+        let qrcode = true;
+
         this.provider = new WalletConnectProvider({
-            infuraId: GLOBALS.INFURA_ID
+            bridge,
+            infuraId,
+            qrcode,
+            chainId
         });
 
         this.web3 = new Web3(this.provider);
@@ -48,9 +55,7 @@ class WalletConnectWallet extends IWalletBase {
 
     async disconnect() {
         // Disconnect WalletConnect
-        // if (this.walletConnector) {
-        //     await this.walletConnector.killSession();
-        // }
+        await this.provider.close();
 
         // Disconnect Base
         await super.disconnect();
@@ -83,9 +88,12 @@ class WalletConnectWallet extends IWalletBase {
         //     await super.disconnect();
         // });
 
-        this.provider.on('close', async (code, reason) => {
-            await this.disconnect();
-        });
+        // this.provider.on('close', async (code, reason) => {
+        //     console.log('wallet-connect closed');
+        //     console.log('code', code);
+        //     console.log('reason', reason);
+        //     // await this.disconnect();
+        // });
     }
 }
 

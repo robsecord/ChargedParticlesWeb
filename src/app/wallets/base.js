@@ -47,7 +47,10 @@ class IWalletBase {
         if (_.isEmpty(accounts)) {
             accounts = await this.web3.eth.getAccounts();
         }
-        if (_.isEmpty(accounts)) { return; }
+        if (_.isEmpty(accounts)) {
+            console.error('Failed to connect to accounts for wallet!');
+            return;
+        }
 
         const address = _.first(accounts) || '';
 
