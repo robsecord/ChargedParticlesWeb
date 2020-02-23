@@ -65,6 +65,7 @@ module.exports = {
                 },
             },
         },
+        `gatsby-plugin-styled-components`,
         {
             resolve: 'gatsby-plugin-react-svg',
             options: {
@@ -73,7 +74,6 @@ module.exports = {
                 }
             }
         },
-        `gatsby-plugin-styled-components`,
 
         `gatsby-plugin-netlify`,
         // 'gatsby-plugin-ipfs',

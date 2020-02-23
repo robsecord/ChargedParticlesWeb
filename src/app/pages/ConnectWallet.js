@@ -89,6 +89,12 @@ const useCustomStyles = makeStyles(theme => ({
             transform: 'scale(0.9)',
         }
     },
+
+    walletConnect: {
+        '& img': {
+            width: 100,
+        }
+    }
 }));
 
 function TabPanel(props) {
