@@ -5,8 +5,10 @@ import * as _ from 'lodash';
 import { Helpers } from '../../utils/helpers';
 
 class IWalletBase {
-    constructor(type, dispatch) {
+    constructor(type, siteTitle, siteLogoUrl, dispatch) {
         this.type = type;
+        this.siteTitle = siteTitle;
+        this.siteLogoUrl = siteLogoUrl;
         this.dispatchState = dispatch;
 
         this.web3 = null;
@@ -31,7 +33,7 @@ class IWalletBase {
         this.dispatchState({type: 'LOGOUT'});
     }
 
-    async changeUserAccount() {
+    async changeUserAccount(accounts) {
         const payload = {
             networkId   : 0,
             type        : '',
@@ -42,17 +44,21 @@ class IWalletBase {
         this.dispatchState({type: 'ALL_READY', payload: false});
         this.dispatchState({type: 'CONNECTED_ACCOUNT', payload});
 
-        const accounts = await this.web3.eth.getAccounts();
+        if (_.isEmpty(accounts)) {
+            accounts = await this.web3.eth.getAccounts();
+        }
         if (_.isEmpty(accounts)) { return; }
 
         const address = _.first(accounts) || '';
 
-        // console.log('>>>>>  this.web3.eth', this.web3.eth);
+        // console.log('>>>>>  this.web3.eth', await this.web3.eth);
+        // console.log('>>>>>  this.provider', this.provider);
+        // console.log('>>>>>  getChainId', await this.web3.eth.getChainId());
         // console.log('>>>>>  accounts', accounts);
         // console.log('>>>>>  address', address);
         // console.log('>>>>>  coinbase', await this.web3.eth.getCoinbase());
 
-        payload.networkId = _.parseInt(this.provider.networkVersion, 10);
+        payload.networkId = await this.web3.eth.getChainId(); // this.provider.networkVersion;
         payload.type = this.type;
         payload.address = address;
         payload.name = _.join([..._.slice(address, 0, 6), '...', ..._.slice(address, -4)], '');
@@ -76,8 +82,10 @@ class IWalletBase {
         const _changeAccount = async () => {
             await this.changeUserAccount();
         };
-        this.provider.on('accountsChanged', _changeAccount);
-        this.provider.on('networkChanged', _changeAccount);
+        if (_.isFunction(this.provider.on)) {
+            this.provider.on('accountsChanged', _changeAccount);
+            this.provider.on('networkChanged', _changeAccount);
+        }
     }
 }
 

@@ -23,7 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // Manage Route
 const Manage = () => {
     const [ rootState ] = useContext(RootContext);
-    const { networkId, connectionState } = rootState;
+    const { networkId, isNetworkConnected } = rootState;
 
     const [ walletState ] = useContext(WalletContext);
     const { allReady, connectedAddress } = walletState;
@@ -37,7 +37,7 @@ const Manage = () => {
 
     useEffect(() => {
         // dFuse - search transactions
-        if (allReady && _.isEmpty(connectionState) && searchState !== 'searching') {
+        if (allReady && isNetworkConnected && searchState !== 'searching') {
             (async () => {
                 const transactions = Transactions.instance();
                 await transactions.searchTransactionsByEvent({
@@ -46,7 +46,7 @@ const Manage = () => {
                 });
             })();
         }
-    }, [allReady, networkId, connectedAddress]);
+    }, [allReady, networkId, isNetworkConnected, connectedAddress]);
 
 
     if (searchState !== 'complete') {

@@ -6,11 +6,11 @@ import IWalletBase from './base';
 import { GLOBALS } from '../../utils/globals';
 
 class PortisWallet extends IWalletBase {
-    constructor(site, store) {
-        super(GLOBALS.WALLET_TYPE_PORTIS, site, store);
+    constructor(siteTitle, siteLogo, dispatch) {
+        super(GLOBALS.WALLET_TYPE_PORTIS, siteTitle, siteLogo, dispatch);
     }
 
-    async init({rpcUrl, chainId, options}) {
+    async prepare({rpcUrl, chainId, options}) {
         const chainName = this.getChainName(chainId);
 
         // Initialize Portis
@@ -25,7 +25,7 @@ class PortisWallet extends IWalletBase {
         this.hookCustomEvents();
 
         // Initialize Base
-        await super.init();
+        await super.prepare();
     }
 
     async disconnect() {
@@ -43,8 +43,8 @@ class PortisWallet extends IWalletBase {
             await super.disconnect();
         });
 
-        this.portis.onActiveWalletChanged(account => {
-            this.changeUserAccount([account]);
+        this.portis.onActiveWalletChanged(async account => {
+            await this.changeUserAccount([account]);
         });
 
         this.portis.onError(err => {

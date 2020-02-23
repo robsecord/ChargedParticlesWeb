@@ -203,6 +203,7 @@ class Transactions {
             variables: {
                 query,
                 limit: '11',
+                lowBlockNum: '6000000'
             }
         });
 

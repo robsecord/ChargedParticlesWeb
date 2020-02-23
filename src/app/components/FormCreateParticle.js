@@ -198,7 +198,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
         const reader = new FileReader();
         reader.readAsArrayBuffer(file);
         reader.onloadend = () => {
-            setParticleIconBuffer(Buffer(reader.result));
+            setParticleIconBuffer(Buffer.from(reader.result));
         };
     };
 

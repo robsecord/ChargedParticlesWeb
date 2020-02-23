@@ -5,8 +5,8 @@ import IWalletBase from './base';
 import { GLOBALS } from '../../utils/globals';
 
 class MetamaskWallet extends IWalletBase {
-    constructor(dispatch) {
-        super(GLOBALS.WALLET_TYPE_METAMASK, dispatch);
+    constructor(siteTitle, siteLogo, dispatch) {
+        super(GLOBALS.WALLET_TYPE_METAMASK, siteTitle, siteLogo, dispatch);
     }
 
     static isEnabled() {

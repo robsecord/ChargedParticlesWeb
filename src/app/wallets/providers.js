@@ -15,7 +15,6 @@ import SquareLinkWallet from './squarelink';
 import ArkaneWallet from './arkane';
 import WalletConnectWallet from './walletconnect';
 import MetamaskWallet from './metamask';
-import NativeWallet from './native';
 
 // Vendor Logos
 import WalletConnectLogo from "../../images/vendor/walletconnect-circle.svg";

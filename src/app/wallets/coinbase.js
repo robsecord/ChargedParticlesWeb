@@ -7,15 +7,15 @@ import IWalletBase from './base';
 import { GLOBALS } from '../../utils/globals';
 
 class CoinbaseWallet extends IWalletBase {
-    constructor(site, store) {
-        super(GLOBALS.WALLET_TYPE_COINBASE, site, store);
+    constructor(siteTitle, siteLogo, dispatch) {
+        super(GLOBALS.WALLET_TYPE_COINBASE, siteTitle, siteLogo, dispatch);
     }
 
-    async init({rpcUrl, chainId}) {
+    async prepare({rpcUrl, chainId}) {
         // Initialize WalletLink
         this.walletLink = new WalletLink({
-            appName: this.site.title,
-            appLogoUrl: this.site.logoUrl
+            appName: this.siteTitle,
+            appLogoUrl: this.siteLogoUrl
         });
 
         // Initialize a Web3 Provider object
@@ -25,7 +25,7 @@ class CoinbaseWallet extends IWalletBase {
         this.web3 = new Web3(this.provider);
 
         // Initialize Base
-        await super.init();
+        await super.prepare();
     }
 
     async disconnect() {

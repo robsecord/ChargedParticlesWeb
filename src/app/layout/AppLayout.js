@@ -1,5 +1,6 @@
 // Frameworks
 import React, { useContext, useEffect, useState } from 'react';
+import { useStaticQuery, graphql } from 'gatsby';
 import { ToastContainer } from 'react-toastify';
 import * as _ from 'lodash';
 
@@ -53,12 +54,27 @@ function AppLayout({ children }) {
     const { allReady: isWalletReady, networkId } = walletState;
     const siteTitle = siteOptions.metadata.title;
 
+    const data = useStaticQuery(graphql`
+        query SiteDataQuery {
+            site {
+                siteMetadata {
+                    title
+                    logoUrl
+                }
+            }
+        }
+    `);
+
     const correctNetwork = _.parseInt(GLOBALS.CHAIN_ID, 10);
     const correctNetworkName = _.upperFirst(Helpers.getNetworkName(correctNetwork));
 
     // Prepare Wallet Interface
     useEffect(() => {
-        wallet.init({walletDispatch});
+        wallet.init({
+            walletDispatch,
+            siteTitle: data.site.siteMetadata.title,
+            siteLogoUrl: data.site.siteMetadata.logoUrl
+        });
     }, [wallet, walletDispatch]);
 
     // Reconnect to Contracts on network change
@@ -70,16 +86,11 @@ function AppLayout({ children }) {
             const chargedParticlesEscrowAddress = _.get(ChargedParticlesEscrowData.networks[networkId], 'address', '');
 
             ChargedParticles.prepare({web3, address: chargedParticlesAddress});
-            ChargedParticles.reconnect();
+            ChargedParticles.instance();
 
             ChargedParticlesEscrow.prepare({web3, address: chargedParticlesEscrowAddress});
-            ChargedParticlesEscrow.reconnect();
-        }
-    }, [isWalletReady, networkId, wallet]);
+            ChargedParticlesEscrow.instance();
 
-    // Reconnect to Network Monitor on network change
-    useEffect(() => {
-        if (isWalletReady) {
             const transactions = Transactions.instance();
             transactions.init({rootDispatch, txDispatch});
             transactions.connectToNetwork({networkId});

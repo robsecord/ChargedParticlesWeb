@@ -10,6 +10,8 @@ import { WalletProviders } from '../wallets/providers.js';
 
 class Wallet {
     constructor() {
+        this.siteTitle = '';
+        this.siteLogoUrl = '';
         this.dispatchState = null;
     }
 
@@ -20,7 +22,9 @@ class Wallet {
         return Wallet.__instance;
     }
 
-    init({walletDispatch}) {
+    init({walletDispatch, siteTitle, siteLogoUrl}) {
+        this.siteTitle = siteTitle;
+        this.siteLogoUrl = siteLogoUrl;
         this.dispatchState = walletDispatch;
     }
 
@@ -31,7 +35,7 @@ class Wallet {
     async prepare(type = GLOBALS.WALLET_TYPE_METAMASK) {
         const walletData = WalletProviders[type];
         const walletClass = walletData.wallet;
-        this.wallet = new walletClass(this.dispatchState);
+        this.wallet = new walletClass(this.siteTitle, this.siteLogoUrl, this.dispatchState);
         await this.wallet.prepare({options: walletData.options, ...Wallet._getEnv()});
     }
 

@@ -1,7 +1,9 @@
 // Frameworks
 import React, { useContext, useState, useEffect } from 'react';
+import * as _ from 'lodash';
 
 // Data Context for State
+import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
 
 // Contract Data
@@ -10,14 +12,12 @@ import {
     ChargedParticlesEscrow
 } from '../blockchain/contracts';
 
-// Rimble UI
-import {
-    Heading,
-} from 'rimble-ui';
-
 
 // Swap Route
 const Market = () => {
+    const [ rootState ] = useContext(RootContext);
+    const { isNetworkConnected } = rootState;
+
     const [walletState] = useContext(WalletContext);
     const { allReady, connectedAddress } = walletState;
 
@@ -25,7 +25,7 @@ const Market = () => {
     const [contractVersion, setContractVersion] = useState('not loaded');
 
     useEffect(() => {
-        if (allReady) {
+        if (allReady && isNetworkConnected) {
             (async () => {
                 const cp = ChargedParticles.instance();
                 if (!cp.isReady()) { return; }
@@ -37,7 +37,7 @@ const Market = () => {
                 setContractVersion(cp.web3.utils.hexToAscii(version));
             })();
         }
-    }, [allReady, setPeerCount, setContractVersion]);
+    }, [allReady, isNetworkConnected, setPeerCount, setContractVersion]);
 
     const _getAccountData = () => {
         if (!allReady) { return 'Not Connected'; }

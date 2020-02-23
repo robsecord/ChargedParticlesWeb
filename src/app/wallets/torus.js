@@ -6,11 +6,11 @@ import IWalletBase from './base';
 import { GLOBALS } from '../../utils/globals';
 
 class TorusWallet extends IWalletBase {
-    constructor(site, store) {
-        super(GLOBALS.WALLET_TYPE_TORUS, site, store);
+    constructor(siteTitle, siteLogo, dispatch) {
+        super(GLOBALS.WALLET_TYPE_TORUS, siteTitle, siteLogo, dispatch);
     }
 
-    async init({rpcUrl, chainId}) {
+    async prepare({rpcUrl, chainId}) {
         const chainName = this.getChainName(chainId);
 
         // Initialize Torus
@@ -27,7 +27,7 @@ class TorusWallet extends IWalletBase {
         });
 
         // Initialize Base
-        await super.init();
+        await super.prepare();
     }
 
     async connect() {
