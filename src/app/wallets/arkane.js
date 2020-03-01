@@ -5,19 +5,23 @@ import IWalletBase from './base';
 import { GLOBALS } from '../../utils/globals';
 
 class ArkaneWallet extends IWalletBase {
-    constructor(site, store) {
-        super(GLOBALS.WALLET_TYPE_ARKANE, site, store);
+    constructor(siteTitle, siteLogo, dispatch) {
+        super(GLOBALS.WALLET_TYPE_ARKANE, siteTitle, siteLogo, dispatch);
     }
 
-    async init({rpcUrl, chainId, options}) {
+    async prepare({rpcUrl, chainId, options}) {
         // Initialize Arkane Network
-        this.arkaneConnect = new ArkaneConnect(options.uniqueId);
+        let params = void(0);
+        if (options.uniqueId === 'Arketype') {
+            params = {environment: 'staging'};
+        }
+        this.arkaneConnect = new ArkaneConnect(options.uniqueId, params);
     }
 
     async connect() {
         const account = await this.arkaneConnect.flows.getAccount('ETHEREUM');
         if (account.isAuthenticated) {
-            this.changeUserAccount(account.wallets);
+            await this.changeUserAccount(account.wallets);
         }
     }
 }

@@ -6,13 +6,15 @@ import IWalletBase from './base';
 import { GLOBALS } from '../../utils/globals';
 
 class AuthereumWallet extends IWalletBase {
-    constructor(site, store) {
-        super(GLOBALS.WALLET_TYPE_AUTHEREUM, site, store);
+    constructor(siteTitle, siteLogo, dispatch) {
+        super(GLOBALS.WALLET_TYPE_AUTHEREUM, siteTitle, siteLogo, dispatch);
     }
 
-    async init({rpcUrl, chainId}) {
+    async prepare({rpcUrl, chainId}) {
+        const chainName = this.getChainName(chainId);
+
         // Initialize Authereum
-        this.authereum = new Authereum('kovan');
+        this.authereum = new Authereum(chainName);
 
         // Initialize a Web3 Provider object
         this.provider = this.authereum.getProvider();
@@ -23,12 +25,7 @@ class AuthereumWallet extends IWalletBase {
 
     async connect() {
         const accounts = await this.provider.enable();
-        console.log('authereum accounts 1', accounts);
-
-        const accounts2 = this.authereum.getAccountAddress();
-        console.log('authereum accounts 2', accounts2);
-
-        this.changeUserAccount(accounts);
+        await this.changeUserAccount(accounts);
     }
 }
 

@@ -6,13 +6,15 @@ import IWalletBase from './base';
 import { GLOBALS } from '../../utils/globals';
 
 class FortmaticWallet extends IWalletBase {
-    constructor(site, store) {
-        super(GLOBALS.WALLET_TYPE_FORTMATIC, site, store);
+    constructor(siteTitle, siteLogo, dispatch) {
+        super(GLOBALS.WALLET_TYPE_FORTMATIC, siteTitle, siteLogo, dispatch);
     }
 
-    async init({rpcUrl, chainId, options}) {
+    async prepare({rpcUrl, chainId, options}) {
+        const chainName = this.getChainName(chainId);
+
         // Initialize Fortmatic
-        this.fortmatic = new Fortmatic(options.uniqueId);
+        this.fortmatic = new Fortmatic(options.uniqueId, chainName);
 
         // Initialize a Web3 Provider object
         this.provider = this.fortmatic.getProvider();
@@ -21,7 +23,7 @@ class FortmaticWallet extends IWalletBase {
         this.web3 = new Web3(this.provider);
 
         // Initialize Base
-        await super.init();
+        await super.prepare();
     }
 
     async disconnect() {

@@ -9,7 +9,7 @@ const initialState = {
     isNetworkConnected: false,
     networkErrors: [],
 
-    connectionWarning: '',
+    connectionState: {},
 
     errors: null
 };

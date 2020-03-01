@@ -8,12 +8,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 // Rimble UI
 import { Blockie } from 'rimble-ui';
 
 // App Components
-import { ConnectionDot } from './ConnectionDot';
 import { Helpers } from '../../utils/helpers';
 
 // Data Context for State
@@ -53,7 +53,7 @@ function WalletButton() {
     const customClasses = useCustomStyles();
     const [walletState] = useContext(WalletContext);
 
-    const _connectWallet = () => {
+    const _connectWallet = async () => {
         navigate(`${GLOBALS.ACCELERATOR_ROOT}/connect`);
     };
 
@@ -67,9 +67,8 @@ function WalletButton() {
                 aria-label="Connect Wallet"
                 onClick={_connectWallet}
             >
-                <ConnectionDot connected={false} />
-                Connect
-                <Hidden xsDown implementation="css">&nbsp;Wallet</Hidden>
+                Login&nbsp;
+                <AccountBoxIcon />
             </Button>
         );
     }

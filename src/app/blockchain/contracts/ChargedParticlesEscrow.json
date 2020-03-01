@@ -4,7 +4,14 @@
   "abi": [
     {
       "anonymous": false,
-      "inputs": [],
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        }
+      ],
       "name": "ContractFeesWithdrawn",
       "type": "event"
     },
@@ -14,7 +21,32 @@
         {
           "indexed": true,
           "internalType": "address",
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_creatorAddress",
+          "type": "address"
+        }
+      ],
+      "name": "CreatorFeesWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
           "name": "_contractAddress",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_receiver",
           "type": "address"
         }
       ],
@@ -168,19 +200,6 @@
         }
       ],
       "name": "ReleasedParticle",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "_reserveAddress",
-          "type": "address"
-        }
-      ],
-      "name": "ReserveFeesWithdrawn",
       "type": "event"
     },
     {
@@ -369,16 +388,6 @@
           "internalType": "uint256",
           "name": "_assetAmount",
           "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "_reserveAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_reserveFee",
-          "type": "uint256"
         }
       ],
       "name": "energizeParticle",
@@ -438,6 +447,11 @@
           "type": "address"
         },
         {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
           "internalType": "bytes16",
           "name": "_assetPairId",
           "type": "bytes16"
@@ -462,6 +476,11 @@
           "internalType": "address",
           "name": "_contractAddress",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
         },
         {
           "internalType": "bytes16",
@@ -548,6 +567,11 @@
         },
         {
           "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
           "name": "_interestTokenAmount",
           "type": "uint256"
         },
@@ -555,14 +579,45 @@
           "internalType": "bytes16",
           "name": "_assetPairId",
           "type": "bytes16"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_reserveFee",
-          "type": "uint256"
         }
       ],
       "name": "getFeeForDeposit",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_contractAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_interestTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes16",
+          "name": "_assetPairId",
+          "type": "bytes16"
+        }
+      ],
+      "name": "getFeesForDeposit",
       "outputs": [
         {
           "internalType": "uint256",
@@ -678,8 +733,60 @@
     },
     {
       "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_contract",
+          "type": "address"
+        }
+      ],
+      "name": "isContractOwnerOperator",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
       "inputs": [],
       "name": "isOwner",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        }
+      ],
+      "name": "isTypeCreator",
       "outputs": [
         {
           "internalType": "bool",
@@ -736,6 +843,21 @@
       "inputs": [
         {
           "internalType": "address",
+          "name": "_chargedParticles",
+          "type": "address"
+        }
+      ],
+      "name": "registerChargedParticles",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "_contractAddress",
           "type": "address"
         },
@@ -745,7 +867,7 @@
           "type": "bytes16"
         }
       ],
-      "name": "registerParticleSettingAssetPair",
+      "name": "registerContractSetting_AssetPair",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -770,7 +892,7 @@
           "type": "uint256"
         }
       ],
-      "name": "registerParticleSettingDepositFee",
+      "name": "registerContractSetting_DepositFee",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -795,7 +917,7 @@
           "type": "uint256"
         }
       ],
-      "name": "registerParticleSettingMaxDeposit",
+      "name": "registerContractSetting_MaxDeposit",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -820,7 +942,7 @@
           "type": "uint256"
         }
       ],
-      "name": "registerParticleSettingMinDeposit",
+      "name": "registerContractSetting_MinDeposit",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -840,7 +962,7 @@
           "type": "bool"
         }
       ],
-      "name": "registerParticleSettingReleaseBurn",
+      "name": "registerContractSetting_ReleaseBurn",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -855,7 +977,122 @@
           "type": "address"
         }
       ],
-      "name": "registerParticleType",
+      "name": "registerContractType",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes16",
+          "name": "_assetPairId",
+          "type": "bytes16"
+        }
+      ],
+      "name": "registerCreatorSetting_AssetPair",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes16",
+          "name": "_assetPairId",
+          "type": "bytes16"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_depositFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "registerCreatorSetting_DepositFee",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_feeCollector",
+          "type": "address"
+        }
+      ],
+      "name": "registerCreatorSetting_FeeCollector",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes16",
+          "name": "_assetPairId",
+          "type": "bytes16"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_maxDeposit",
+          "type": "uint256"
+        }
+      ],
+      "name": "registerCreatorSetting_MaxDeposit",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes16",
+          "name": "_assetPairId",
+          "type": "bytes16"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minDeposit",
+          "type": "uint256"
+        }
+      ],
+      "name": "registerCreatorSetting_MinDeposit",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -985,7 +1222,27 @@
           "type": "address"
         }
       ],
-      "name": "withdrawCustomFees",
+      "name": "withdrawContractFees",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawCreatorFees",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -1005,21 +1262,6 @@
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_reserveAddress",
-          "type": "address"
-        }
-      ],
-      "name": "withdrawReserveFees",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
     }
   ],
   "compiler": {
@@ -1035,14 +1277,8 @@
     "3": {
       "links": {},
       "events": {},
-      "address": "0x840C6171efd9Dcc4Ba4F9d8CBD48679dD15567CA",
-      "updated_at": 1581997788071
-    },
-    "42": {
-      "links": {},
-      "events": {},
-      "address": "0x6716AF75845726Da39E804359E6901e973f0a7CD",
-      "updated_at": 1581479686070
+      "address": "0x2235B33e1bdAfE5f929a42475fe1F785DA657280",
+      "updated_at": 1583028562481
     }
   }
 }

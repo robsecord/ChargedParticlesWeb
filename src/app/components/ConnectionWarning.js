@@ -13,9 +13,9 @@ import { RootContext } from '../stores/root.store';
 
 function ConnectionWarning() {
     const [ rootState ] = useContext(RootContext);
-    const { connectionWarning } = rootState;
+    const { connectionState } = rootState;
 
-    if (_.isEmpty(connectionWarning)) {
+    if (_.isEmpty(connectionState) || connectionState.type !== 'WEB3_WRONG_NETWORK') {
         return '';
     }
 
@@ -26,7 +26,7 @@ function ConnectionWarning() {
                 severity="error"
                 icon={<UseAnimations animationKey="alertCircle" size={24} />}
             >
-                {connectionWarning}
+                {connectionState.message}
             </Alert>
         </Box>
     );

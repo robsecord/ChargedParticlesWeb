@@ -129,7 +129,6 @@ const TxStreamView = () => {
             }
 
             setTimeout(() => {
-                console.log('useEffect - CLEAR_STREAM');
                 txDispatch({type: 'CLEAR_STREAM'});
             }, TX_COMPLETE_DELAY);
         }

@@ -9,7 +9,7 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
             module: {
                 rules: [
                     {
-                        test: /portis\.js|authereum\.js|torus-embed|qrcode-modal/,
+                        test: /portis\.js|authereum\.js|torus-embed|qrcode-modal|walletconnect/,
                         use: loaders.null(),
                     },
                 ],

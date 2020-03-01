@@ -17,52 +17,53 @@ import { searchTransactionEvent } from './queries/SearchTransactionEvent';
 
 // Transaction Events
 const transactionEventMap = {
-    // 'CREATE_PARTICLE_TYPE': {
-    //     eventName: 'ParticleTypeCreated',
-    //     method: 'ParticleTypeCreated(uint256,string,bool,bool,string,uint256,uint16)',
-    //     hash: '0xf21712078d07c8f6113360cff723aa378a66ea4fbf84b7f963aaaf5aabe999c0',
-    // },
-
     'UPDATE_PARTICLE_TYPE': {   // find latest in logs for full record
         contract    : ChargedParticles,
         eventName   : 'ParticleTypeUpdated',
-        method      : 'ParticleTypeUpdated(uint256,string,bool,bool,string,uint256,uint16)',
-        hash        : '0xc428215361d42d56e92ee4eab4f93562276ccfce64238f55f138d86f97ea22d2',
+        method      : 'ParticleTypeUpdated(uint256,bool,string,uint256,uint256,string)',
+        hash        : '0x0e765999116ed5a7da01db4a1521b59990ede384e1ffecc3706071c1449bb6c8',
+    },
+
+    'UPDATE_PLASMA_TYPE': {   // find latest in logs for full record
+        contract    : ChargedParticles,
+        eventName   : 'PlasmaTypeUpdated',
+        method      : 'PlasmaTypeUpdated(uint256,bool,uint256,uint256,uint256,address,string)',
+        hash        : '0x2d76c9a224d03480129a7d0a39091104393c1405db65700feeaef8312b54fb4f',
     },
 
     'MINT_PARTICLE': {
         contract    : ChargedParticles,
         eventName   : 'ParticleMinted',
-        method      : 'ParticleMinted(uint256,uint256,string)',
-        hash        : '0x72b3b853f3f2ac9829ae716e6e9a4be69b8eb03f54e331e72004bf4f16e0f622',
+        method      : '',
+        hash        : '0x',
     },
 
     'BURN_PARTICLE': {
         contract    : ChargedParticles,
         eventName   : 'ParticleBurned',
-        method      : 'ParticleBurned(uint256,uint256)',
-        hash        : '0x06cbc21e86440195808ffdb1a12a5fb80b27daa8686e0270b784b1a84b4dec51',
+        method      : '',
+        hash        : '0x',
     },
 
     'ENERGIZE_PARTICLE': {
         contract    : ChargedParticlesEscrow,
         eventName   : 'EnergizedParticle',
-        method      : 'EnergizedParticle(address,uint256,bytes16,uint256,uint256)',
-        hash        : '0x86bc5fbc42fef15a4ea86854606b3656142f755038ff4758177d34ff0dab948e',
+        method      : '',
+        hash        : '0x',
     },
 
     'DISCHARGE_PARTICLE': {
         contract    : ChargedParticlesEscrow,
         eventName   : 'DischargedParticle',
-        method      : 'DischargedParticle(address,uint256,address,bytes16,uint256,uint256)',
-        hash        : '0x2e9c971780e3865718eb2e4c20e3f5fda964d6e023641a0008212b53999cca1d',
+        method      : '',
+        hash        : '0x',
     },
 
     'RELEASE_PARTICLE': {
         contract    : ChargedParticlesEscrow,
         eventName   : 'ReleasedParticle',
-        method      : 'ReleasedParticle(address,uint256,address,bytes16,uint256)',
-        hash        : '0x562bf32d1b1932a57a7e89b5ef87929b9b93b912bda6144ed92270744d6f1774',
+        method      : '',
+        hash        : '0x',
     },
 };
 
@@ -189,20 +190,26 @@ class Transactions {
         await this.stream.join();
     }
 
-    async searchTransactionsByEvent({eventId, owner}) {
+    async getPublicParticles() {
         this.txDispatch({type: 'BEGIN_SEARCH', payload: {}});
 
-        const contract = transactionEventMap[eventId].contract.instance();
+        const particleEventId = 'UPDATE_PARTICLE_TYPE';
+        const plasmaEventId = 'UPDATE_PLASMA_TYPE';
+        const contract = transactionEventMap[particleEventId].contract.instance();
         const contractAddress = _.toLower(contract.getAddress());
-        const eventName = transactionEventMap[eventId].eventName;
-        const methodHash = transactionEventMap[eventId].hash;
-        const query = `address: ${contractAddress} signer:${_.toLower(owner)} topic.0:${methodHash}`;
-        console.log('query', query);
 
+        const particleEventName = transactionEventMap[particleEventId].eventName;
+        const particleMethodHash = transactionEventMap[particleEventId].hash;
+        const plasmaEventName = transactionEventMap[plasmaEventId].eventName;
+        const plasmaMethodHash = transactionEventMap[plasmaEventId].hash;
+
+        const query = `address: ${contractAddress} (topic.0:${particleMethodHash} OR topic.0:${plasmaMethodHash}) topic.2:${GLOBALS.BOOLEAN_FALSE_HEX}`;
         const response = await this.client.graphql(searchTransactionEvent, {
             variables: {
                 query,
                 limit: '11',
+                lowBlockNum: GLOBALS.STARTING_BLOCK,
+                cursor: '',
             }
         });
 
@@ -223,25 +230,95 @@ class Transactions {
         _.forEach(edges, ({node}) => {
             const receiver = node.from;
 
+            // Parse matching topics
+            _.forEach(node.matchingLogs, (logEntry) => {
+                let decoded;
+                if (logEntry.topics[0] === particleMethodHash) {
+                    decoded = Helpers.decodeLog({eventName: particleEventName, logEntry});
+                    searchTransactions.push({
+                        ...decoded,
+                        _owner: receiver
+                    });
+                }
+                if (logEntry.topics[0] === plasmaMethodHash) {
+                    decoded = Helpers.decodeLog({eventName: plasmaEventName, logEntry});
+                    searchTransactions.push({
+                        ...decoded,
+                        _owner: receiver
+                    });
+                }
+            });
+        });
+
+        this.txDispatch({type: 'SEARCH_COMPLETE', payload: {searchTransactions}});
+    }
+
+
+    async getCreatedParticlesByOwner({owner}) {
+        this.txDispatch({type: 'BEGIN_SEARCH', payload: {}});
+
+        const particleEventId = 'UPDATE_PARTICLE_TYPE';
+        const plasmaEventId = 'UPDATE_PLASMA_TYPE';
+        const contract = transactionEventMap[particleEventId].contract.instance();
+        const contractAddress = _.toLower(contract.getAddress());
+
+        const particleEventName = transactionEventMap[particleEventId].eventName;
+        const particleMethodHash = transactionEventMap[particleEventId].hash;
+        const plasmaEventName = transactionEventMap[plasmaEventId].eventName;
+        const plasmaMethodHash = transactionEventMap[plasmaEventId].hash;
+
+        const query = `address: ${contractAddress} signer:${_.toLower(owner)} (topic.0:${particleMethodHash} OR topic.0:${plasmaMethodHash})`;
+        const response = await this.client.graphql(searchTransactionEvent, {
+            variables: {
+                query,
+                limit: '11',
+                lowBlockNum: GLOBALS.STARTING_BLOCK,
+                cursor: '',
+            }
+        });
+
+        if (response.errors) {
+            this.txDispatch({type: 'SEARCH_ERROR', payload: {
+                    searchError: JSON.stringify(response.errors)
+                }});
+            return;
+        }
+
+        const edges = response.data.searchTransactions.edges || [];
+        if (edges.length <= 0) {
+            this.txDispatch({type: 'SEARCH_COMPLETE', payload: {searchTransactions: []}});
+            return;
+        }
+
+        const searchTransactions = [];
+        _.forEach(edges, ({node}) => {
+            const receiver = node.from;
+
             // Validate Owner
             if (_.toLower(receiver) !== _.toLower(owner)) {
                 console.log(`Skipping log event due to owner mismatch. Expected ${owner}, got ${receiver}`);
                 return;
             }
 
+            // Parse matching topics
             _.forEach(node.matchingLogs, (logEntry) => {
-                // Validate Topic (Method Hash)
-                if (logEntry.topics[0] !== methodHash) {
-                    console.log(`Skipping wrong topic ${logEntry.topics[0]}`);
-                    return;
+                let decoded;
+                if (logEntry.topics[0] === particleMethodHash) {
+                    decoded = Helpers.decodeLog({eventName: particleEventName, logEntry});
+                    searchTransactions.push({
+                        ...decoded,
+                        _owner: owner
+                    });
                 }
-
-                // Get Decoded Transaction Data
-                const decoded = Helpers.decodeLog({eventName, logEntry});
-                searchTransactions.push(decoded);
+                if (logEntry.topics[0] === plasmaMethodHash) {
+                    decoded = Helpers.decodeLog({eventName: plasmaEventName, logEntry});
+                    searchTransactions.push({
+                        ...decoded,
+                        _owner: owner
+                    });
+                }
             });
         });
-
         this.txDispatch({type: 'SEARCH_COMPLETE', payload: {searchTransactions}});
     }
 

@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import useLocalStorage from 'react-use-localstorage';
 import fetch from 'cross-fetch';
 import classNames from 'classnames';
+import window from 'global';
 import * as _ from 'lodash';
 
 // App Components
+import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 
 // Material UI
@@ -25,6 +27,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PublicIcon from '@material-ui/icons/Public';
 import LockIcon from '@material-ui/icons/Lock';
 import YouTubeIcon from '@material-ui/icons/YouTube';
+import LaunchIcon from '@material-ui/icons/Launch';
 import PermMediaIcon from '@material-ui/icons/PermMedia';
 
 // Custom Styles
@@ -81,57 +84,51 @@ const useCustomStyles = makeStyles(theme => ({
             textDecoration: 'underline',
         },
     },
+    externalLinkIcon: {
+        fontSize: 12,
+        margin: '-5px 0 0 2px',
+    }
 }));
 
-const fetchedParticles = {};
+let fetchedParticles = {};
 
 // List of Particle Types
-const ParticleTypesList = ({ owner, transactions }) => {
+const ParticleTypesList = ({ owner, transactions, allowCache }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
 
     const [ expandedRow, setExpandedRow ] = React.useState(false);
 
-    const [ particleData, setParticleData ] = useLocalStorage(`CP_PTC_${owner}`, '{}');
-    const [ particleCache, setParticleCache ] = useState({});
-    // particleCache = {
-    //     '__particleTypeId__': {
-    //          particleTypeId
-    //          uri
-    //          isNF
-    //          isPrivate
-    //          assetPairId
-    //          maxSupply
-    //          description
-    //          external_url
-    //          animation_url
-    //          youtube_url
-    //          image
-    //          name
-    //          decimals
-    //          background_color
-    //          properties
-    //          attributes
-    //     }
-    // }
-    const updateParticleCache = (cacheData) => {
-        setParticleData(JSON.stringify(cacheData));
-    };
+    const [ particleCache, setParticleCache ] = useLocalStorage(`CP_PTC_${owner}`, '{}');
+    const [ particleData, setParticleData ] = useState({});
+
+    let isMounted = true;
     let _delayNextEffect = false;
     useEffect(() => {
-        const newParticleData = JSON.parse(particleData);
-        if (!_.isEqual(particleCache, newParticleData)) {
-            setParticleCache(newParticleData);
-            _delayNextEffect = true;
+        if (allowCache) {
+            const allData = {...particleData};
+            const cacheData = JSON.parse(particleCache);
+
+            _.forEach(cacheData, particle => {
+                const id = particle.typeId;
+                if (_.isEmpty(allData[id]) && !fetchedParticles[id]) {
+                    allData[id] = particle;
+                }
+            });
+
+            if (!_.isEqual(particleData, allData)) {
+                setParticleData(allData);
+                _delayNextEffect = true;
+            }
         }
-    }, [particleData, particleCache, setParticleCache]);
+    }, [allowCache, particleCache, particleData, setParticleData]);
 
     useEffect(() => {
         const particleTxs = [];
         if (!_delayNextEffect) {
             _.forEach(_cleanTransactions(transactions), tx => {
-                const id = tx.particleTypeId;
-                const particle = particleCache[id];
+                const id = tx.typeId;
+                const particle = particleData[id];
                 if (_.isEmpty(particle) && !fetchedParticles[id]) {
                     particleTxs.push(tx);
                 }
@@ -141,23 +138,41 @@ const ParticleTypesList = ({ owner, transactions }) => {
                 _fetchParticleData(particleTxs);
             }
         }
-    }, [transactions, particleCache, updateParticleCache]);
+
+        return () => {
+            fetchedParticles = {};
+            isMounted = false;
+        };
+    }, [transactions, particleData, setParticleData]);
+
+    const updateParticleCache = (allData) => {
+        if (allowCache) {
+            setParticleCache(JSON.stringify(allData));
+        }
+    };
 
     const _toggleExpandedRow = panel => (event, isExpanded) => {
         setExpandedRow(isExpanded ? panel : false);
     };
 
     const _cleanTransactions = (transactions) => {
-        return _.map(transactions, tx => {
-            return {
-                particleTypeId  : tx._typeId,
-                uri             : tx._uri,
-                isNF            : tx._isNF,
-                isPrivate       : tx._isPrivate,
-                assetPairId     : tx._assetPairId,
-                maxSupply       : tx._maxSupply,
-            };
-        });
+        return _.map(transactions, tx => ({
+            creator         : tx._owner,
+            typeId          : tx._particleTypeId || tx._plasmaTypeId,
+            uri             : tx._uri,
+            isPrivate       : tx._isPrivate,
+            maxSupply       : tx._maxSupply,
+            isNF            : _.isUndefined(tx._plasmaTypeId),
+
+            // Specific to Particles (ERC-721)
+            assetPairId     : tx._assetPairId || '',
+            creatorFee      : tx._creatorFee || 0,
+
+            // Specific to Plasma (ERC-20)
+            ethPerToken     : tx._ethPerToken || 0,
+            initialMint     : tx._initialMint || 0,
+            mintReceiver    : tx._mintReceiver || '',
+        }));
     };
 
     const _getJson = (particleTx) => {
@@ -176,24 +191,46 @@ const ParticleTypesList = ({ owner, transactions }) => {
         const requests = _.map(particleTxs, particleTx => _getJson(particleTx));
         Promise.all(requests)
             .then((particles) => {
-                // Update Particle Cache
-                const cacheData = {...particleCache};
+                if (!isMounted) { return; }
+
+                // Update Particle Data
+                const allData = {...particleData};
                 _.forEach(particles, particle => {
-                    const id = particle.particleTypeId;
-                    cacheData[id] = particle;
+                    const id = particle.typeId;
+                    allData[id] = particle;
                     fetchedParticles[id] = true;
                 });
-                updateParticleCache(cacheData);
+                setParticleData(allData);
+                updateParticleCache(allData);
             })
             .catch(console.error);
     };
 
+    const _openMetadata = (particle) => () => {
+        window.open(particle.uri);
+    };
+
+    const _openTokenList = () => {
+
+    };
+
+    const _openMint = () => {
+
+    };
+
 
     const _getExpansionRow = (particle) => {
-        const id = particle.particleTypeId;
+        const id = particle.typeId;
+
+        let inCirculation = _.parseInt(particle.initialMint || 0, 10) / GLOBALS.ETH_UNIT;
 
         let maxSupply = _.parseInt(particle.maxSupply, 10) / GLOBALS.ETH_UNIT;
         if (maxSupply <= 0) { maxSupply = 'Unlimited'; }
+
+        let ethPerToken = 0;
+        if (!particle.isNF) {
+            ethPerToken = Helpers.toEther(particle.ethPerToken);
+        }
 
         const hasYoutubeUrl = !_.isEmpty(particle.youtube_url);
         const hasAnimationUrl = !_.isEmpty(particle.animation_url);
@@ -225,7 +262,7 @@ const ParticleTypesList = ({ owner, transactions }) => {
                             >
                                 <Avatar alt={particle.name} src={particle.image} className={customClasses.particleIcon} />
                                 <Typography className={customClasses.heading}>
-                                    {particle.name}
+                                    {particle.symbol} - {particle.name}
                                 </Typography>
                             </Grid>
                         </div>
@@ -252,7 +289,7 @@ const ParticleTypesList = ({ owner, transactions }) => {
                         >
                             <Box>
                                 <Typography className={customClasses.titleHeading}>In Circulation:</Typography>
-                                <Typography className={customClasses.content}>123 of {maxSupply}</Typography>
+                                <Typography className={customClasses.content}>{inCirculation} of {maxSupply}</Typography>
                             </Box>
                             <Box>
                                 <Box mr={3} component="span">
@@ -269,32 +306,57 @@ const ParticleTypesList = ({ owner, transactions }) => {
                                 </Box>
                             </Box>
                         </Grid>
-
                     </div>
                     <div className={classNames(customClasses.columnThirds, customClasses.helper)}>
-                        <Typography variant="caption">
-                            Select your destination of choice
-                            <br />
-                            <a href="#secondary-heading-and-columns" className={customClasses.link}>
-                                Learn more
-                            </a>
-                        </Typography>
+                        {
+                            particle.isNF
+                                ? (
+                                    <>
+                                        <Typography className={customClasses.titleHeading}>Asset Type:</Typography>
+                                        <Typography className={customClasses.content}>{particle.assetPairId}</Typography>
+                                    </>
+                                )
+                                : (
+                                    <>
+                                        <Typography className={customClasses.titleHeading}>Price per Token:</Typography>
+                                        <Typography className={customClasses.content}>{ethPerToken} ETH</Typography>
+                                    </>
+                                )
+                        }
+                        <Typography className={customClasses.titleHeading}>My balance:</Typography>
+                        <Typography className={customClasses.content}>### {particle.symbol}</Typography>
                     </div>
                 </ExpansionPanelDetails>
                 <Divider />
                 <ExpansionPanelActions>
-                    <Button size="small">Token List</Button>
-                    <Button size="small" color="primary">Mint</Button>
+                    <Button size="small" onClick={_openMetadata(particle)}>
+                        Metadata
+                        <LaunchIcon className={customClasses.externalLinkIcon} />
+                    </Button>
+                    <Button size="small" onClick={_openTokenList(particle)}>Token List</Button>
+                    <Button size="small" onClick={_openMint(particle)} color="primary">Mint</Button>
                 </ExpansionPanelActions>
             </ExpansionPanel>
         );
     };
 
+    const _getRows = () => {
+        let first = null;
+        const rest = _.map(particleData, particle => {
+            if (particle.typeId === GLOBALS.ION_TOKEN_ID) {
+                first = _getExpansionRow(particle);
+                return;
+            }
+            return _getExpansionRow(particle);
+        });
+        return _.compact([first, ...rest]);
+    };
 
-    // Display Particle Types
+
+    // Display Types
     return (
         <>
-            {_.map(particleCache, particle => _getExpansionRow(particle))}
+            {_getRows()}
         </>
     );
 };

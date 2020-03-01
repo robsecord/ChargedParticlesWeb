@@ -18,6 +18,7 @@ const WalletReducer = (state, action) => {
         case 'LOGOUT':
             return {
                 ...state,
+                allReady         : false,
                 networkId        : 0,
                 connectedType    : '',
                 connectedAddress : '',

@@ -1,83 +1,91 @@
 // Frameworks
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import UseAnimations from 'react-useanimations';
+import * as _ from 'lodash';
+
+// App Components
+import Transactions from '../blockchain/transactions';
+import Loading from '../components/Loading.js';
+import ParticleTypesList from '../components/ParticleTypesList';
 
 // Data Context for State
+import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
+import { TransactionContext } from '../stores/transaction.store';
 
-// Contract Data
-import {
-    ChargedParticles,
-    ChargedParticlesEscrow
-} from '../blockchain/contracts';
+// Material UI
+import Alert from '@material-ui/lab/Alert';
 
-// Rimble UI
-import {
-    Heading,
-} from 'rimble-ui';
+// Toast Styles
+import 'react-toastify/dist/ReactToastify.css';
 
 
-// Swap Route
+// Market Route
 const Market = () => {
-    const [walletState] = useContext(WalletContext);
+    const [ rootState ] = useContext(RootContext);
+    const { networkId, isNetworkConnected } = rootState;
+
+    const [ walletState ] = useContext(WalletContext);
     const { allReady, connectedAddress } = walletState;
 
-    const [peerCount, setPeerCount] = useState(0);
-    const [contractVersion, setContractVersion] = useState('not loaded');
+    const [ txState ] = useContext(TransactionContext);
+    const {
+        searchState,
+        searchError,
+        searchTransactions,
+    } = txState;
 
     useEffect(() => {
-        if (allReady) {
+        // dFuse - search transactions
+        if (allReady && isNetworkConnected && searchState !== 'searching') {
             (async () => {
-                const cp = ChargedParticles.instance();
-                if (!cp.isReady()) { return; }
-
-                const peers = await cp.getNetworkPeerCount();
-                setPeerCount(peers);
-
-                const version = await cp.callContractFn('version');
-                setContractVersion(cp.web3.utils.hexToAscii(version));
+                const transactions = Transactions.instance();
+                await transactions.getPublicParticles();
             })();
         }
-    }, [allReady, setPeerCount, setContractVersion]);
+    }, [allReady, networkId, isNetworkConnected, connectedAddress]);
 
-    const _getAccountData = () => {
-        if (!allReady) { return 'Not Connected'; }
+
+    if (searchState !== 'complete') {
         return (
-            <div>
-                <span>Account Address: </span>
-                {connectedAddress}
-            </div>
+            <Loading/>
         );
-    };
+    }
 
-    const _getContractOwner = () => {
-        if (!allReady) { return ''; }
-
+    if (!_.isEmpty(searchError)) {
         return (
-            <div>
-                <span>ChargedParticles: </span>
-                {contractVersion}
-            </div>
+            <Alert
+                variant="outlined"
+                severity="error"
+                icon={<UseAnimations animationKey="alertOctagon" size={24} />}
+            >
+                {searchError}
+            </Alert>
         );
-    };
+    }
 
-    const _getPeerCount = () => {
-        if (!allReady) { return ''; }
+    if (_.isEmpty(searchTransactions)) {
         return (
-            <div>
-                <span>Peer Count: </span>
-                {peerCount}
-            </div>
+            <Alert
+                variant="outlined"
+                severity="warning"
+                icon={<UseAnimations animationKey="alertTriangle" size={24} />}
+            >
+                There are no Particles available for Public Minting.
+            </Alert>
         );
-    };
+    }
 
+    // Display Particle Types
     return (
         <>
-            <Heading as={"h2"} mt={30}>Available Particles!</Heading>
-            {_getPeerCount()}
-            {_getAccountData()}
-            {_getContractOwner()}
+            <ParticleTypesList
+                owner={connectedAddress}
+                transactions={searchTransactions}
+                allowCache={false}
+            />
         </>
-    )
+    );
 };
 
 export default Market;
