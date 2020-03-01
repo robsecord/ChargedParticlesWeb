@@ -18,7 +18,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import BeenhereIcon from '@material-ui/icons/Beenhere';
 import StarIcon from '@material-ui/icons/Star';
 import CloseIcon from '@material-ui/icons/Close';
@@ -26,6 +25,7 @@ import CloseIcon from '@material-ui/icons/Close';
 // App Components
 import Wallet from '../wallets';
 import { WalletProviders } from '../wallets/providers.js';
+import TabPanel from '../components/TabPanel.js';
 
 // Data Context for State
 import { RootContext } from '../stores/root.store';
@@ -96,28 +96,6 @@ const useCustomStyles = makeStyles(theme => ({
         }
     }
 }));
-
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`wallets-tabpanel-${index}`}
-            aria-labelledby={`wallets-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-}
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
 
 
 function LogoWrapper({ walletKey }) {
@@ -280,10 +258,10 @@ function ConnectWallet() {
                         index={currentTab}
                         onChangeIndex={_handleTabChangeIndex}
                     >
-                        <TabPanel value={currentTab} index={0}>
+                        <TabPanel group="wallets" value={currentTab} index={0} boxSpacing={3}>
                             {_recommendedWallets()}
                         </TabPanel>
-                        <TabPanel value={currentTab} index={1}>
+                        <TabPanel group="wallets" value={currentTab} index={1} boxSpacing={3}>
                             {_alternativeWallets()}
                         </TabPanel>
                     </SwipeableViews>

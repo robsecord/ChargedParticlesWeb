@@ -35,7 +35,9 @@ const TransactionReducer = (state, action) => {
         case 'BEGIN_SEARCH':
             return {
                 ...state,
-                searchState: 'searching'
+                searchState: 'searching',
+                searchTransactions: [],
+                searchError: '',
             };
         case 'SEARCH_ERROR':
             return {

@@ -33,6 +33,56 @@
         {
           "indexed": true,
           "internalType": "address",
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "ContractFeesWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "CreatorFeesWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
           "name": "previousOwner",
           "type": "address"
         },
@@ -51,14 +101,14 @@
       "inputs": [
         {
           "indexed": true,
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint256",
-          "name": "_amount",
+          "name": "_tokenId",
           "type": "uint256"
         }
       ],
@@ -70,14 +120,20 @@
       "inputs": [
         {
           "indexed": true,
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
+          "internalType": "address",
+          "name": "_sender",
+          "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": true,
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        },
+        {
+          "indexed": true,
           "internalType": "uint256",
-          "name": "_amount",
+          "name": "_tokenId",
           "type": "uint256"
         },
         {
@@ -96,23 +152,11 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "_typeId",
+          "name": "_particleTypeId",
           "type": "uint256"
         },
         {
-          "indexed": false,
-          "internalType": "string",
-          "name": "_uri",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "_isNF",
-          "type": "bool"
-        },
-        {
-          "indexed": false,
+          "indexed": true,
           "internalType": "bool",
           "name": "_isPrivate",
           "type": "bool"
@@ -131,12 +175,123 @@
         },
         {
           "indexed": false,
-          "internalType": "uint16",
+          "internalType": "uint256",
           "name": "_creatorFee",
-          "type": "uint16"
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "_uri",
+          "type": "string"
         }
       ],
       "name": "ParticleTypeUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "PlasmaBurned",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "PlasmaMinted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_plasmaTypeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "bool",
+          "name": "_isPrivate",
+          "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_maxSupply",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_ethPerToken",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_initialMint",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_mintReceiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "_uri",
+          "type": "string"
+        }
+      ],
+      "name": "PlasmaTypeUpdated",
       "type": "event"
     },
     {
@@ -312,6 +467,21 @@
           "internalType": "uint256",
           "name": "_tokenId",
           "type": "uint256"
+        }
+      ],
+      "name": "burnParticle",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
         },
         {
           "internalType": "uint256",
@@ -319,7 +489,7 @@
           "type": "uint256"
         }
       ],
-      "name": "burnParticle",
+      "name": "burnPlasma",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -361,11 +531,6 @@
         },
         {
           "internalType": "bool",
-          "name": "_isNF",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
           "name": "_isPrivate",
           "type": "bool"
         },
@@ -380,12 +545,17 @@
           "type": "uint256"
         },
         {
-          "internalType": "uint16",
+          "internalType": "uint256",
           "name": "_creatorFee",
-          "type": "uint16"
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_payWithIons",
+          "type": "bool"
         }
       ],
-      "name": "createParticleWithEther",
+      "name": "createParticle",
       "outputs": [
         {
           "internalType": "uint256",
@@ -401,14 +571,14 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "address",
+          "name": "_creator",
+          "type": "address"
+        },
+        {
           "internalType": "string",
           "name": "_uri",
           "type": "string"
-        },
-        {
-          "internalType": "bool",
-          "name": "_isNF",
-          "type": "bool"
         },
         {
           "internalType": "bool",
@@ -416,31 +586,41 @@
           "type": "bool"
         },
         {
-          "internalType": "string",
-          "name": "_assetPairId",
-          "type": "string"
-        },
-        {
           "internalType": "uint256",
           "name": "_maxSupply",
           "type": "uint256"
         },
         {
-          "internalType": "uint16",
-          "name": "_creatorFee",
-          "type": "uint16"
+          "internalType": "uint256",
+          "name": "_ethPerToken",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_initialMint",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_mintReceiver",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "_payWithIons",
+          "type": "bool"
         }
       ],
-      "name": "createParticleWithIons",
+      "name": "createPlasma",
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "_particleTypeId",
+          "name": "_plasmaTypeId",
           "type": "uint256"
         }
       ],
-      "payable": false,
-      "stateMutability": "nonpayable",
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -694,7 +874,17 @@
         },
         {
           "internalType": "uint256",
+          "name": "_maxSupply",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
           "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_ethPerToken",
           "type": "uint256"
         }
       ],
@@ -725,11 +915,6 @@
         },
         {
           "internalType": "uint256",
-          "name": "_amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
           "name": "_assetAmount",
           "type": "uint256"
         },
@@ -754,6 +939,36 @@
       ],
       "payable": false,
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_type",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_data",
+          "type": "bytes"
+        }
+      ],
+      "name": "mintPlasma",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -925,6 +1140,21 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "bool",
+          "name": "_paused",
+          "type": "bool"
+        }
+      ],
+      "name": "setPausedState",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "_createFeeEth",
           "type": "uint256"
@@ -1015,7 +1245,18 @@
     },
     {
       "constant": false,
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        }
+      ],
       "name": "withdrawCreatorFees",
       "outputs": [],
       "payable": false,
@@ -1024,7 +1265,13 @@
     },
     {
       "constant": false,
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_receiver",
+          "type": "address"
+        }
+      ],
       "name": "withdrawFees",
       "outputs": [],
       "payable": false,
@@ -1045,14 +1292,8 @@
     "3": {
       "links": {},
       "events": {},
-      "address": "0x1051F55fa661fA8F2b8cfa266a4EC04DB364112e",
-      "updated_at": 1581997822045
-    },
-    "42": {
-      "links": {},
-      "events": {},
-      "address": "0x894a2A04f5DAb4322AB74c21116Da238F3A9b0Fc",
-      "updated_at": 1581479709509
+      "address": "0x9E243ACE864FD8061F07faA484F35c8732378294",
+      "updated_at": 1583028602947
     }
   }
 }

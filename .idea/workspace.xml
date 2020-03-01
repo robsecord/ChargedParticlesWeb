@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8d80ab86-5c89-4003-b2b5-36e4c924ec65" name="Default Changelist" comment="">
+    <list default="true" id="8d80ab86-5c89-4003-b2b5-36e4c924ec65" name="Default Changelist" comment="Fix for build issues around WalletConnect logo">
+      <change afterPath="$PROJECT_DIR$/src/app/components/FormSectionCommonCreate.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/components/FormSectionFungible.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/components/FormSectionNonFungible.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/components/TabPanel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/blockchain/contract-helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/contract-helpers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticles.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticles.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticlesEscrow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticlesEscrow.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/blockchain/transactions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/transactions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout/AppLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout/AppLayout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/ParticleTypesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/ParticleTypesList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/TxStreamView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/TxStreamView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout/styles/root.styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout/styles/root.styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/ConnectWallet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/ConnectWallet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/Create.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/Create.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/Manage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/Manage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/Market.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/Market.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/arkane.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/arkane.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/authereum.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/authereum.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/bitski.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/coinbase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/coinbase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/fortmatic.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/fortmatic.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/metamask.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/metamask.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/native.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/portis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/portis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/providers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/providers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/squarelink.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/squarelink.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/torus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/torus.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/uport.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/wallets/walletconnect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/wallets/walletconnect.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/stores/transaction.reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/stores/transaction.reducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/globals.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/globals.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/helpers.js" afterDir="false" />
     </list>
     <list id="554eb34c-0f66-4d22-bfe3-317ce1f1367d" name="Landing Page Updates" comment="Landing Page Updates" />
     <list id="d0a2ebda-3977-47fa-a1e2-26a41d64556b" name="Mobile Updates" comment="Mobile Updates" />
@@ -41,14 +39,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.30160427">
+    <splitter split-orientation="vertical" split-proportion="0.1">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/.env.development">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="105">
-                  <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+                <state relative-caret-position="150">
+                  <caret line="10" column="57" selection-start-line="10" selection-start-column="57" selection-end-line="10" selection-end-column="57" />
                 </state>
               </provider>
             </entry>
@@ -56,8 +54,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/package.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-306">
-                  <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
+                <state relative-caret-position="735">
+                  <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
                 </state>
               </provider>
             </entry>
@@ -65,26 +63,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/utils/globals.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="142">
-                  <caret line="31" column="36" lean-forward="true" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+                <state relative-caret-position="173">
+                  <caret line="35" column="36" lean-forward="true" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/blockchain/contracts.js">
+            <entry file="file://$PROJECT_DIR$/src/utils/helpers.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="8" column="22" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="22" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/blockchain/contract-factory.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="99">
-                  <caret line="36" column="20" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="20" />
+                <state relative-caret-position="172">
+                  <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" selection-end-column="15" />
                 </state>
               </provider>
             </entry>
@@ -92,17 +81,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/app/blockchain/contract-helpers.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="540">
-                  <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="105">
-                  <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+                <state relative-caret-position="886">
+                  <caret line="135" column="24" selection-start-line="135" selection-start-column="24" selection-end-line="135" selection-end-column="24" />
                 </state>
               </provider>
             </entry>
@@ -110,17 +90,26 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/app/blockchain/transactions.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="175">
-                  <caret line="111" selection-start-line="111" selection-end-line="111" />
+                <state relative-caret-position="305">
+                  <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="150">
+                  <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/app/wallets/providers.js">
+            <entry file="file://$PROJECT_DIR$/notes.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="204">
-                  <caret line="117" column="25" lean-forward="true" selection-start-line="116" selection-start-column="31" selection-end-line="117" selection-end-column="25" />
+                <state relative-caret-position="63">
+                  <caret line="74" lean-forward="true" selection-start-line="74" selection-end-line="74" />
                 </state>
               </provider>
             </entry>
@@ -128,23 +117,14 @@
         </leaf>
       </split-first>
       <split-second>
-        <splitter split-orientation="vertical" split-proportion="0.15467075">
+        <splitter split-orientation="vertical" split-proportion="0.9">
           <split-first>
             <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
               <file pinned="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/src/app/App.js">
+                <entry file="file://$PROJECT_DIR$/src/app/layout/styles/root.styles.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="57">
-                      <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-              <file pinned="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/src/app/layout/AppLayout.js">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="189">
-                      <caret line="89" selection-start-line="89" selection-end-line="89" />
+                    <state relative-caret-position="495">
+                      <caret line="33" column="6" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
                     </state>
                   </provider>
                 </entry>
@@ -152,35 +132,17 @@
               <file pinned="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/layout/styles/root.theme.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="136">
-                      <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
+                    <state relative-caret-position="330">
+                      <caret line="22" column="26" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="26" />
                     </state>
                   </provider>
                 </entry>
               </file>
               <file pinned="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/src/app/pages/Accelerator.js">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="238">
-                      <caret line="92" column="39" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="39" />
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-              <file pinned="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/src/app/pages/ConnectWallet.js">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="494">
-                      <caret line="127" column="35" selection-start-line="127" selection-start-column="35" selection-end-line="127" selection-end-column="35" />
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-              <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/app/pages/Manage.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="21">
-                      <caret line="46" column="17" selection-start-line="46" selection-start-column="17" selection-end-line="46" selection-end-column="17" />
+                    <state relative-caret-position="423">
+                      <caret line="84" column="33" lean-forward="true" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="33" />
                     </state>
                   </provider>
                 </entry>
@@ -188,8 +150,17 @@
               <file pinned="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/app/pages/Market.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="212">
-                      <caret line="27" column="23" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="23" />
+                    <state relative-caret-position="214">
+                      <caret line="81" column="21" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="21" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/src/app/components/ParticleTypesList.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="221">
+                      <caret line="184" column="46" lean-forward="true" selection-start-line="184" selection-start-column="46" selection-end-line="184" selection-end-column="46" />
                     </state>
                   </provider>
                 </entry>
@@ -197,133 +168,62 @@
             </leaf>
           </split-first>
           <split-second>
-            <splitter split-orientation="vertical" split-proportion="0.9">
-              <split-first>
-                <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/wallets/index.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="258">
-                          <caret line="48" selection-start-line="48" selection-end-line="48" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/wallets/base.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="166">
-                          <caret line="29" column="5" lean-forward="true" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/wallets/walletconnect.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="208">
-                          <caret line="82" column="40" lean-forward="true" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="40" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/wallets/metamask.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="308">
-                          <caret line="35" column="37" lean-forward="true" selection-start-line="34" selection-start-column="81" selection-end-line="35" selection-end-column="37" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/wallets/arkane.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="225">
-                          <caret line="15" column="46" lean-forward="true" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/wallets/squarelink.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="174">
-                          <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="true">
-                    <entry file="file://$PROJECT_DIR$/src/app/wallets/torus.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="11">
-                          <caret line="12" column="38" lean-forward="true" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                </leaf>
-              </split-first>
-              <split-second>
-                <leaf>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/stores/root.store.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="105">
-                          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/stores/root.reducer.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="151">
-                          <caret line="11" column="31" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="31" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/stores/wallet.store.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="180">
-                          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/stores/wallet.reducer.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="65">
-                          <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="false">
-                    <entry file="file://$PROJECT_DIR$/src/app/stores/transaction.store.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="45">
-                          <caret line="9" selection-start-line="9" selection-end-line="9" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                  <file pinned="false" current-in-tab="true">
-                    <entry file="file://$PROJECT_DIR$/src/app/stores/transaction.reducer.js">
-                      <provider selected="true" editor-type-id="text-editor">
-                        <state relative-caret-position="15">
-                          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
-                        </state>
-                      </provider>
-                    </entry>
-                  </file>
-                </leaf>
-              </split-second>
-            </splitter>
+            <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/app/stores/root.store.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="105">
+                      <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/app/stores/root.reducer.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="2">
+                      <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/app/stores/wallet.store.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="180">
+                      <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/app/stores/wallet.reducer.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="300">
+                      <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/app/stores/transaction.store.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="135">
+                      <caret line="9" selection-start-line="9" selection-end-line="9" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/src/app/stores/transaction.reducer.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="1">
+                      <caret line="38" column="39" lean-forward="true" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
           </split-second>
         </splitter>
       </split-second>
@@ -331,36 +231,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>md={</find>
-      <find>paymentLabelWidth</find>
-      <find>evt.target.</find>
-      <find>&lt;Paper</find>
-      <find>setConnectionWarning</find>
-      <find>CONNECTION_WARNING</find>
-      <find>connectionWarning</find>
-      <find>Connect Wallet</find>
-      <find>.svg</find>
-      <find>GLOBALS.CHAIN_ID</find>
-      <find>import Wallet from</find>
-      <find>GATSBY_ETH_JSONRPC_URL</find>
-      <find>connectedType</find>
-      <find>web3_connect</find>
-      <find>./logos</find>
-      <find>classNames</find>
-      <find>&quot;</find>
-      <find>typeMap</find>
-      <find>WALLET_TYPE_SETTINGS</find>
-      <find>WEB3_WRONG_NETWORK</find>
-      <find>isEnabled</find>
-      <find>/native</find>
-      <find>getChainName</find>
-      <find>kovan</find>
-      <find>Buffer(</find>
-      <find>RootContext</find>
-      <find>changeUserAccount</find>
-      <find>isNetworkConnected</find>
-      <find>if (allReady &amp;&amp;</find>
-      <find>Ethereum Dapp Starter</find>
+      <find>isNonFungible</find>
+      <find>paymentInputLabelRef</find>
+      <find>useRef</find>
+      <find>particlePaymentType</find>
+      <find>is</find>
+      <find>setParticleIconValid</find>
+      <find>validateForm</find>
+      <find>formValidated</find>
+      <find>fileName</find>
+      <find>E404</find>
+      <find>.typeId</find>
+      <find>plasmaTypeId</find>
+      <find>fileNameLabel</find>
+      <find>Helpers</find>
+      <find>window</find>
+      <find>external</find>
+      <find>web</find>
+      <find>LaunchIcon</find>
+      <find>OpenInNewIcon</find>
+      <find>_creator</find>
+      <find>console.log(</find>
+      <find>particleData</find>
+      <find>setParticleData</find>
+      <find>setParticleData1</find>
+      <find>fetchedParticles</find>
+      <find>console</find>
+      <find>ContractHelpers.createParticle</find>
+      <find>particleAssetPair</find>
+      <find>toBytes16</find>
+      <find>Helpers.toAscii</find>
     </findStrings>
     <replaceStrings>
       <replace>- $1</replace>
@@ -370,6 +270,7 @@
       <replace>CONNECTION_STATE</replace>
       <replace>connectionState</replace>
       <replace>'</replace>
+      <replace>setParticleData</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -378,57 +279,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/app/layout/styles/overrides.css" />
-        <option value="$PROJECT_DIR$/src/app/layout/styles/root.styles.js" />
-        <option value="$PROJECT_DIR$/src/app/blockchain/contract-factory.js" />
-        <option value="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticles.json" />
-        <option value="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticlesEscrow.json" />
-        <option value="$PROJECT_DIR$/src/layout/styles/root.theme.js" />
-        <option value="$PROJECT_DIR$/src/app/components/TxStreamView.js" />
-        <option value="$PROJECT_DIR$/src/app/blockchain/contract-helpers.js" />
-        <option value="$PROJECT_DIR$/config.js" />
-        <option value="$PROJECT_DIR$/src/app/stores/transaction.store.js" />
-        <option value="$PROJECT_DIR$/gatsby-config.js" />
-        <option value="$PROJECT_DIR$/src/app/components/Sidemenu.js" />
         <option value="$PROJECT_DIR$/src/app/components/AppTitleLink.js" />
         <option value="$PROJECT_DIR$/src/app/components/AcceleratorTabsList.js" />
-        <option value="$PROJECT_DIR$/src/app/components/ParticleTypesList.js" />
         <option value="$PROJECT_DIR$/src/app/stores/root.store.js" />
         <option value="$PROJECT_DIR$/src/app/stores/root.reducer.js" />
         <option value="$PROJECT_DIR$/src/app/components/ConnectionWarning.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/web3_connect.js" />
-        <option value="$PROJECT_DIR$/src/utils/helpers.js" />
         <option value="$PROJECT_DIR$/src/app/components/WalletButton.js" />
         <option value="$PROJECT_DIR$/src/images/vendor/torus.svg" />
         <option value="$PROJECT_DIR$/src/app/stores/wallet.reducer.js" />
-        <option value="$PROJECT_DIR$/src/app/pages/ConnectWallet.js" />
         <option value="$PROJECT_DIR$/src/app/pages/Accelerator.js" />
         <option value="$PROJECT_DIR$/src/app/pages/Mint.js" />
-        <option value="$PROJECT_DIR$/src/app/pages/Create.js" />
-        <option value="$PROJECT_DIR$/notes.txt" />
         <option value="$PROJECT_DIR$/src/app/wallets/uport.js" />
         <option value="$PROJECT_DIR$/src/layout/layout.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/portis.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/coinbase.js" />
-        <option value="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" />
-        <option value="$PROJECT_DIR$/src/app/wallets/fortmatic.js" />
-        <option value="$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/src/app/wallets/base.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/index.js" />
-        <option value="$PROJECT_DIR$/src/app/wallets/authereum.js" />
         <option value="$PROJECT_DIR$/src/app/layout/AppLayout.js" />
-        <option value="$PROJECT_DIR$/src/app/blockchain/transactions.js" />
-        <option value="$PROJECT_DIR$/src/app/pages/Market.js" />
-        <option value="$PROJECT_DIR$/src/app/pages/Manage.js" />
-        <option value="$PROJECT_DIR$/src/utils/globals.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/metamask.js" />
-        <option value="$PROJECT_DIR$/src/app/wallets/walletconnect.js" />
-        <option value="$PROJECT_DIR$/.env.development" />
         <option value="$PROJECT_DIR$/src/app/wallets/arkane.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/squarelink.js" />
+        <option value="$PROJECT_DIR$/src/app/wallets/authereum.js" />
+        <option value="$PROJECT_DIR$/src/app/wallets/fortmatic.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/torus.js" />
+        <option value="$PROJECT_DIR$/gatsby-node.js" />
+        <option value="$PROJECT_DIR$/src/images/vendor/walletconnect.svg" />
+        <option value="$PROJECT_DIR$/src/images/vendor/walletconnect-circle.svg" />
+        <option value="$PROJECT_DIR$/gatsby-config.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/providers.js" />
+        <option value="$PROJECT_DIR$/src/app/wallets/base.js" />
+        <option value="$PROJECT_DIR$/src/app/wallets/walletconnect.js" />
+        <option value="$PROJECT_DIR$/.env.development" />
+        <option value="$PROJECT_DIR$/src/app/layout/styles/root.styles.js" />
+        <option value="$PROJECT_DIR$/src/app/components/TabPanel.js" />
+        <option value="$PROJECT_DIR$/src/app/components/FormSectionNonFungible.js" />
+        <option value="$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js" />
+        <option value="$PROJECT_DIR$/src/app/components/TxStreamView.js" />
+        <option value="$PROJECT_DIR$/src/app/pages/Market.js" />
+        <option value="$PROJECT_DIR$/src/app/pages/Manage.js" />
+        <option value="$PROJECT_DIR$/src/app/stores/transaction.reducer.js" />
+        <option value="$PROJECT_DIR$/src/utils/globals.js" />
+        <option value="$PROJECT_DIR$/src/app/blockchain/contract-helpers.js" />
+        <option value="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" />
+        <option value="$PROJECT_DIR$/src/utils/helpers.js" />
+        <option value="$PROJECT_DIR$/src/app/blockchain/transactions.js" />
+        <option value="$PROJECT_DIR$/src/app/components/ParticleTypesList.js" />
+        <option value="$PROJECT_DIR$/notes.txt" />
+        <option value="$PROJECT_DIR$/src/app/pages/ConnectWallet.js" />
+        <option value="$PROJECT_DIR$/src/app/pages/Create.js" />
+        <option value="$PROJECT_DIR$/src/app/components/FormSectionCommonCreate.js" />
+        <option value="$PROJECT_DIR$/src/app/components/FormSectionFungible.js" />
       </list>
     </option>
   </component>
@@ -441,11 +342,10 @@
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="210" />
-    <option name="y" value="151" />
-    <option name="width" value="1260" />
-    <option name="height" value="771" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1679" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -455,7 +355,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -479,6 +378,13 @@
               <item name="ChargedParticlesWeb" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="blockchain" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ChargedParticlesWeb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ChargedParticlesWeb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -486,38 +392,19 @@
               <item name="ChargedParticlesWeb" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="layout" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChargedParticlesWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChargedParticlesWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ChargedParticlesWeb" type="b2602c69:ProjectViewProjectNode" />
               <item name="ChargedParticlesWeb" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="wallets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChargedParticlesWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChargedParticlesWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="layout" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChargedParticlesWeb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChargedParticlesWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -525,7 +412,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/app/blockchain/contracts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/app/components" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -541,19 +428,19 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/app/components" />
+      <recent name="$PROJECT_DIR$/src/app/blockchain/contracts" />
+      <recent name="$PROJECT_DIR$/src/layout" />
+      <recent name="$PROJECT_DIR$/src/app/common" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/app/components" />
       <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/layout/styles" />
       <recent name="$PROJECT_DIR$/src/layout" />
       <recent name="$PROJECT_DIR$/src/app/blockchain" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/app/blockchain/contracts" />
-      <recent name="$PROJECT_DIR$/src/layout" />
-      <recent name="$PROJECT_DIR$/src/app/common" />
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/app/contracts" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -610,27 +497,10 @@
       <workItem from="1582063720679" duration="7227000" />
       <workItem from="1582154449262" duration="2680000" />
       <workItem from="1582306466140" duration="7228000" />
-    </task>
-    <task id="LOCAL-00007" summary="Add Squarelink, Arkane, Authereum, Bitski support&#10;refactors">
-      <created>1574319767961</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1574319767961</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Fix package.json">
-      <created>1574463214705</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1574463214705</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Add RimbleUI&#10;minor fixes">
-      <created>1574466152643</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1574466152643</updated>
+      <workItem from="1582577831225" duration="13487000" />
+      <workItem from="1582667285611" duration="20244000" />
+      <workItem from="1582757365682" duration="4572000" />
+      <workItem from="1582933616544" duration="31606000" />
     </task>
     <task id="LOCAL-00010" summary="Updates to UI/Readme">
       <created>1574476683705</created>
@@ -954,11 +824,32 @@
       <option name="project" value="LOCAL" />
       <updated>1582408817995</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Updates to login + various wallets">
+      <created>1582479787613</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1582479787615</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Fix for build issues around WalletConnect logo">
+      <created>1582486781122</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1582486781122</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Fixes for Wallet Connect">
+      <created>1582489145399</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1582489145399</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="325090000" />
+    <option name="totallyTimeSpent" value="403270000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -970,8 +861,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1679" height="1027" extended-state="0" />
     <layout>
       <window_info content_ui="combo" x="462" y="329" width="756" height="415" id="Project" internal_type="SLIDING" order="0" type="SLIDING" weight="0.24954791" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -985,10 +875,11 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32941177" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" internal_type="SLIDING" order="8" type="SLIDING" weight="0.6042781" />
+      <window_info active="true" anchor="bottom" id="Version Control" internal_type="SLIDING" order="8" type="SLIDING" visible="true" weight="0.6042781" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32985386" />
       <window_info anchor="bottom" id="Terminal" internal_type="SLIDING" order="10" type="SLIDING" weight="0.32941177" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
+      <window_info anchor="bottom" id="Messages" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1001,9 +892,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <confirmRemoveEmptyChangelist value="1" />
-    <MESSAGE value="Updates to Create Particle page" />
-    <MESSAGE value="Updates to Create Particle page&#10;- Add support for Uploading Images/JSON to IPFS&#10;- Update Network Connection State component&#10;- Call contract to Create Particle" />
-    <MESSAGE value="Bug fix" />
     <MESSAGE value="Updates to Create Particle&#10;- Transaction submitted&#10;- dFuse life-cycle integration to monitor transactions" />
     <MESSAGE value="Upload demo video" />
     <MESSAGE value="Update readme" />
@@ -1026,84 +914,181 @@
     <MESSAGE value="Updates to Logo, Favicon &amp; Manifest" />
     <MESSAGE value="Updates to Login&#10;Updates to Connection notices" />
     <MESSAGE value="Updates to enabled wallet types" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates to enabled wallet types" />
+    <MESSAGE value="Updates to login + various wallets" />
+    <MESSAGE value="Fix for build issues around WalletConnect logo" />
+    <MESSAGE value="Fixes for Wallet Connect" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixes for Wallet Connect" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/components/AcceleratorTabsList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="45" selection-start-line="2" selection-start-column="45" selection-end-line="2" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/web3_connect.js">
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/authereum.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
-          <caret line="154" column="47" lean-forward="true" selection-start-line="154" selection-start-column="47" selection-end-line="154" selection-end-column="47" />
+          <caret line="21" column="35" lean-forward="true" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/images/vendor/metamask.svg">
+    <entry file="file://$PROJECT_DIR$/src/app/blockchain/contracts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/images/vendor/portis.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/images/vendor/coinbase.svg">
+    <entry file="file://$PROJECT_DIR$/src/images/vendor/safe.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/images/vendor/cipher.svg">
+    <entry file="file://$PROJECT_DIR$/src/images/vendor/walletconnect-circle.svg" />
+    <entry file="file://$PROJECT_DIR$/src/images/vendor/trust.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/images/vendor/torus.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/components/ParticleTypesList.js">
+    <entry file="file://$PROJECT_DIR$/src/images/vendor/walletconnect.svg" />
+    <entry file="file://$PROJECT_DIR$/config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1300">
-          <caret line="3" column="32" lean-forward="true" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="32" />
+        <state relative-caret-position="202">
+          <caret line="14" column="55" selection-start-line="14" selection-start-column="55" selection-end-line="14" selection-end-column="55" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/components/FormCreateParticle.js">
+    <entry file="file://$PROJECT_DIR$/src/app/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2034">
-          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        <state relative-caret-position="165">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/components/WalletButton.js">
+    <entry file="file://$PROJECT_DIR$/src/app/layout/AppLayout.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-689">
-          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+        <state relative-caret-position="1335">
+          <caret line="89" selection-start-line="89" selection-end-line="89" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/Create.js">
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="201" selection-start-line="201" selection-end-line="201" />
-          <folding>
-            <element signature="e#1277#1290#0" />
-          </folding>
+        <state relative-caret-position="720">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/Mint.js">
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/base.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="750">
+          <caret line="50" column="68" selection-start-line="50" selection-start-column="68" selection-end-line="50" selection-end-column="68" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/components/ConnectionWarning.js">
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/walletconnect.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="385">
+          <caret line="90" column="30" lean-forward="true" selection-start-line="90" selection-start-column="30" selection-end-line="90" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/notes.txt">
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/metamask.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        <state relative-caret-position="308">
+          <caret line="35" column="37" selection-start-line="34" selection-start-column="81" selection-end-line="35" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/arkane.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/squarelink.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/torus.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gatsby-config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="72" column="37" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gatsby-node.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="94" selection-start-line="11" selection-start-column="94" selection-end-line="11" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/blockchain/queries/StreamTransactionQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/Accelerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="588">
+          <caret line="92" column="39" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/ConnectWallet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="263" column="35" lean-forward="true" selection-start-line="263" selection-start-column="35" selection-end-line="263" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="1451" column="38" selection-start-line="1451" selection-start-column="38" selection-end-line="1451" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/components/TabPanel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="97" selection-start-line="21" selection-start-column="97" selection-end-line="21" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env.development">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="57" selection-start-line="10" selection-start-column="57" selection-end-line="10" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/layout/styles/root.styles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="6" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/layout/styles/root.theme.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="26" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -1111,13 +1096,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/stores/root.reducer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="11" column="31" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -1130,238 +1108,151 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/stores/wallet.reducer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
+        <state relative-caret-position="300">
           <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/wallets/providers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="60" column="29" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/blockchain/contract-factory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="20" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/stores/root.reducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2">
+          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/components/FormSectionFungible.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="602">
+          <caret line="135" column="6" lean-forward="true" selection-start-line="126" selection-start-column="6" selection-end-line="135" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/Manage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="84" column="33" lean-forward="true" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/stores/transaction.store.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
+        <state relative-caret-position="135">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/stores/transaction.reducer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/native.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/uport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="33" lean-forward="true" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/bitski.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/layout/styles/root.theme.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gatsby-config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1009">
-          <caret line="68" column="47" selection-start-line="68" selection-start-column="47" selection-end-line="68" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/coinbase.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/portis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="16" column="60" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/ipfs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/layout/layout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="45" column="67" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/Accelerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="92" column="39" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/helpers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/fortmatic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="30" column="29" lean-forward="true" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/ConnectWallet.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="127" column="35" selection-start-line="127" selection-start-column="35" selection-end-line="127" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/blockchain/contract-factory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="36" column="20" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/blockchain/transactions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="111" selection-start-line="111" selection-end-line="111" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/layout/AppLayout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
+        <state relative-caret-position="1">
+          <caret line="38" column="39" lean-forward="true" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/Market.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="27" column="23" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/Manage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="46" column="17" selection-start-line="46" selection-start-column="17" selection-end-line="46" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/authereum.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="21" column="35" lean-forward="true" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-306">
-          <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/metamask.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="35" column="37" lean-forward="true" selection-start-line="34" selection-start-column="81" selection-end-line="35" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/walletconnect.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="82" column="40" lean-forward="true" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="40" />
+        <state relative-caret-position="214">
+          <caret line="81" column="21" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/globals.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="31" column="36" lean-forward="true" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+        <state relative-caret-position="173">
+          <caret line="35" column="36" lean-forward="true" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/arkane.js">
+    <entry file="file://$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="46" lean-forward="true" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+        <state relative-caret-position="150">
+          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/base.js">
+    <entry file="file://$PROJECT_DIR$/src/app/components/FormSectionNonFungible.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="29" column="5" lean-forward="true" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+        <state relative-caret-position="191">
+          <caret line="40" column="29" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/squarelink.js">
+    <entry file="file://$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticles.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
+        <state relative-caret-position="337">
+          <caret line="166" column="31" selection-start-line="166" selection-start-column="19" selection-end-line="166" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env.development">
+    <entry file="file://$PROJECT_DIR$/src/app/blockchain/contract-helpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+        <state relative-caret-position="886">
+          <caret line="135" column="24" selection-start-line="135" selection-start-column="24" selection-end-line="135" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/torus.js">
+    <entry file="file://$PROJECT_DIR$/src/app/components/FormSectionCommonCreate.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="12" column="38" lean-forward="true" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+        <state relative-caret-position="258">
+          <caret line="193" column="57" selection-start-line="193" selection-start-column="57" selection-end-line="193" selection-end-column="57" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/providers.js">
+    <entry file="file://$PROJECT_DIR$/src/app/components/FormCreateParticle.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="117" column="25" lean-forward="true" selection-start-line="116" selection-start-column="31" selection-end-line="117" selection-end-column="25" />
+        <state relative-caret-position="413">
+          <caret line="172" column="35" lean-forward="true" selection-start-line="172" selection-start-column="35" selection-end-line="172" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/helpers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/blockchain/transactions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/Create.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="209" column="20" lean-forward="true" selection-start-line="209" selection-start-column="20" selection-end-line="209" selection-end-column="20" />
+          <folding>
+            <element signature="e#1264#1277#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="74" lean-forward="true" selection-start-line="74" selection-end-line="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/components/ParticleTypesList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="184" column="46" lean-forward="true" selection-start-line="184" selection-start-column="46" selection-end-line="184" selection-end-column="46" />
         </state>
       </provider>
     </entry>

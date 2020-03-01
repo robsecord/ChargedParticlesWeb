@@ -1,14 +1,16 @@
 
 const searchTransactionEvent = `
-  query ($query: String! $limit: Int64!, $lowBlockNum: Int64) {
+  query ($query: String! $limit: Int64!, $lowBlockNum: Int64, $cursor: String!) {
       searchTransactions(
         indexName: LOGS, 
         query: $query, 
         limit: $limit, 
         lowBlockNum: $lowBlockNum,
+        cursor: $cursor,
         sort: DESC
       ) {
         edges {
+          cursor
           node {
             hash
             from

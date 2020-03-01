@@ -40,10 +40,7 @@ const Manage = () => {
         if (allReady && isNetworkConnected && searchState !== 'searching') {
             (async () => {
                 const transactions = Transactions.instance();
-                await transactions.searchTransactionsByEvent({
-                    eventId: 'UPDATE_PARTICLE_TYPE',
-                    owner: connectedAddress
-                });
+                await transactions.getCreatedParticlesByOwner({owner: connectedAddress});
             })();
         }
     }, [allReady, networkId, isNetworkConnected, connectedAddress]);
@@ -85,6 +82,7 @@ const Manage = () => {
             <ParticleTypesList
                 owner={connectedAddress}
                 transactions={searchTransactions}
+                allowCache={true}
             />
         </>
     );

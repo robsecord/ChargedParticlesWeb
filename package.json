@@ -1,7 +1,7 @@
 {
   "name": "charged-particles-web",
   "description": "DeFi NFTs",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "author": "Rob Secord <robsecord.eth>",
   "keywords": [],
   "scripts": {

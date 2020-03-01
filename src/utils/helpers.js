@@ -8,6 +8,10 @@ import { GLOBALS } from './globals';
 
 export const Helpers = {};
 
+Helpers.now = () => {
+    return (new Date()).getTime();
+};
+
 Helpers.getFriendlyPrice = (tokenType, isNft) => {
     tokenType = _.toUpper(tokenType);
     const pricing = GLOBALS.CREATE_PARTICLE_PRICE[tokenType];
@@ -39,6 +43,16 @@ Helpers.getNetworkName = (networkId) => {
         default:
             return 'development';
     }
+};
+
+Helpers.toEther = (str) => {
+    const wallet = Wallet.instance();
+    return wallet.getWeb3().utils.fromWei(str, 'ether');
+};
+
+Helpers.toAscii = (str) => {
+    const wallet = Wallet.instance();
+    return wallet.getWeb3().utils.hexToAscii(str);
 };
 
 Helpers.toBytes16 = (str) => {

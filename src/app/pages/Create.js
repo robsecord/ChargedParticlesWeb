@@ -19,7 +19,6 @@ import {
     Box,
     Flex,
     Loader,
-    Heading,
 } from 'rimble-ui';
 
 // Custom Styles
@@ -177,23 +176,40 @@ const Create = () => {
         try {
             setSubmitting(true);
 
-            const {tx, args, transactionHash} = await ContractHelpers.createParticleWithEth({
+            const options = {
                 from: connectedAddress,
                 particleData: formData,
-                onProgress: setLoadingProgress
-            });
+                onProgress: setLoadingProgress,
+                payWithIons: false
+            };
+
+            let response;
+            if (formData.isNonFungible) {
+                response = await ContractHelpers.createParticle(options);
+            } else {
+                response = await ContractHelpers.createPlasma(options);
+            }
+
+            const {tx, args, transactionHash} = response;
             txReceipt = transactionHash;
             setTxData({transactionHash, params: {tx, args}, type: 'CreateParticle'});
+            return true;
         }
         catch (err) {
-            if (_.isUndefined(txReceipt)) {
-                setLoadingProgress('Transaction cancelled by user..');
+            if (/gateway timeout/i.test(err)) {
+                setLoadingProgress('Failed to save Image and/or Metadata to IPFS!');
+                setTimeout(() => {
+                    setSubmitting(false);
+                }, 3000);
+            } else if (_.isUndefined(txReceipt)) {
+                setLoadingProgress('Transaction cancelled by user.');
                 setTimeout(() => {
                     setSubmitting(false);
                 }, 3000);
             } else {
                 console.error(err);
             }
+            return false;
         }
     };
 
@@ -209,7 +225,7 @@ const Create = () => {
                 open={isSubmitting}
             >
                 <div className={classes.simpleModal}>
-                    <Flex flexWrap={"wrap"}>
+                    <Flex flexWrap="wrap">
                         <Box width={1/4}>
                             <Loader size="80px" />
                         </Box>

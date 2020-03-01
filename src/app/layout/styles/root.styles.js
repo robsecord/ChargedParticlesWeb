@@ -29,6 +29,14 @@ export default makeStyles(theme => ({
         },
     },
 
+    gridRow: {
+        marginTop: '0.5rem',
+    },
+
+    formControl: {
+        width: '100%'
+    },
+
     appBar: {
         zIndex: 2000,
         background: 'linear-gradient(69deg, rgba(140,15,95,1) 0%, rgba(196,40,93,1) 48%, rgba(236,64,122,1) 100%)',

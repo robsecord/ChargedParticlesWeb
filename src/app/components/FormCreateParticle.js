@@ -1,73 +1,38 @@
 // Frameworks
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { Buffer } from 'buffer';
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import SwipeableViews from 'react-swipeable-views';
 import * as _ from 'lodash';
 
-// App Components
-import { GLOBALS } from '../../utils/globals';
-import { Helpers } from '../../utils/helpers';
-
 // Data Context for State
-import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
 
 // Material UI
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import InputLabel from '@material-ui/core/InputLabel';
-import TextField from '@material-ui/core/TextField';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Select from '@material-ui/core/Select';
-import Slider from '@material-ui/core/Slider';
-import Switch from '@material-ui/core/Switch';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 // Rimble UI
 import NetworkIndicator from '@rimble/network-indicator';
 
+// App Components
+import FormSectionCommonCreate from './FormSectionCommonCreate';
+import FormSectionFungible from './FormSectionFungible';
+import FormSectionNonFungible from './FormSectionNonFungible';
+import TabPanel from '../components/TabPanel.js';
+import { GLOBALS } from '../../utils/globals';
+import { Helpers } from '../../utils/helpers';
 
+import useRootStyles from '../layout/styles/root.styles';
 const useCustomStyles = makeStyles(theme => ({
-    gridRow: {
-        marginTop: '0.5rem',
-    },
-    formControl: {
-        width: '100%'
-    },
-    switchLabel: {
-        pointerEvents: 'none',
-        marginTop: -9,
-    },
-    switchControl: {
-        marginTop: 8,
-        marginLeft: 7,
-        marginRight: 2,
-    },
-    fileInput: {
-        display: 'none',
-    },
-    fileName: {
-        display: 'inline-block',
-        width: '100%',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-    },
-    fileNameLabel: {
-        width: '80%',
-    },
-    outlined: {
-        background: 'transparent',
-        border: '1px solid #444',
-    },
     visiblyDisabledButton: {
         background: theme.palette.action.disabledBackground,
         border: '1px solid #444',
@@ -80,192 +45,133 @@ const useCustomStyles = makeStyles(theme => ({
     }
 }));
 
-const customFeeSettings = {
-    'higher': {min: 1, max: 10, step: 0.1},
-    'lower': {min: 0, max: 1, step: 0.01},
-};
+
+function a11yProps(index) {
+    return {
+        id: `particle-type-tab-${index}`,
+        'aria-controls': `particle-type-tabpanel-${index}`,
+    };
+}
+
+const NON_FUNGIBLE_TAB = 0;
+const FUNGIBLE_TAB = 2;
 
 
 // Create Route
 const FormCreateParticle = ({ onSubmitForm }) => {
-    const classes = useCustomStyles();
-    const [ rootState ] = useContext(RootContext);
-    const { connectionState } = rootState;
+    const classes = useRootStyles();
+    const customClasses = useCustomStyles();
+    const theme = useTheme();
     const [ walletState ] = useContext(WalletContext);
-    const { allReady, networkId, connectedAddress } = walletState;
+    const { networkId } = walletState;
 
-    const [particleName,        setParticleName]        = useState('');
-    const [particleSymbol,      setParticleSymbol]      = useState('');
-    const [particleIcon,        setParticleIcon]        = useState('Upload Particle Icon *');
-    const [particleIconBuffer,  setParticleIconBuffer]  = useState('');
-    const [particleCreator,     setParticleCreator]     = useState('');
-    const [particleDesc,        setParticleDesc]        = useState('');
-    const [particleSupply,      setParticleSupply]      = useState(0);
-    const [particleAssetPair,   setParticleAssetPair]   = useState('chai');
-    const [particleCreatorFee,  setParticleCreatorFee]  = useState(0.25);
-    const [particlePaymentType, setParticlePaymentType] = useState('eth');
-    const [creatorFeeMode,      setCreatorFeeMode]      = useState('lower');
-    const [isNonFungible,       setNonFungible]         = useState(true);
+    const [commonFields,        setCommonFields]        = useState({formValidated: false});
+    const [fungibleFields,      setFungibleFields]      = useState({formValidated: false});
+    const [nonFungibleFields,   setNonFungibleFields]   = useState({formValidated: true});
+
+    const [paymentType,         setPaymentType]         = useState('eth');
     const [isPrivate,           setPrivate]             = useState(false);
+    const [maxSupply,           setMaxSupply]           = useState(0);
+    const [fungibilityTab,      setFungibilityTab]      = useState(0);
+    const [formValidated,       setFormValidated]       = useState(false);
+    const [triggerClear,        setTriggerClear]        = useState(null);
+    const [triggerValidation,   setTriggerValidation]   = useState(null);
 
-    const [formValidated,          setFormValidated]        = useState(false);
-    const [isParticleNameValid,    setParticleNameValid]    = useState(true);
-    const [isParticleSymbolValid,  setParticleSymbolValid]  = useState(true);
-    const [isParticleDescValid,    setParticleDescValid]    = useState(true);
-    const [isParticleCreatorValid, setParticleCreatorValid] = useState(true);
-    const [isParticleIconValid,    setParticleIconValid]    = useState(true);
+    const isNonFungible = fungibilityTab === NON_FUNGIBLE_TAB;
 
-    const inputLabelRef = useRef(null);
     const paymentInputLabelRef = useRef(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
-    const [paymentTypeLabelWidth, setPaymentTypeLabelWidth] = React.useState(0);
+    const [paymentInputLabelWidth, setPaymentInputLabelWidth] = React.useState(0);
     useEffect(() => {
-        setLabelWidth(inputLabelRef.current.offsetWidth);
-        setPaymentTypeLabelWidth(paymentInputLabelRef.current.offsetWidth);
+        setPaymentInputLabelWidth(paymentInputLabelRef.current.offsetWidth);
     }, []);
 
     useEffect(() => {
-        if (allReady && _.isEmpty(particleCreator)) {
-            setParticleCreator(connectedAddress);
-        }
-    }, [allReady, connectedAddress, setParticleCreator]);
-
-    useEffect(() => {
-        validateForm();
+        setFormValidated(_isAllValidated());
     }, [
+        commonFields,
+        fungibleFields,
+        nonFungibleFields,
+        fungibilityTab,
         setFormValidated,
-        connectionState,
-        particleName,
-        particleSymbol,
-        particleDesc,
-        particleCreator,
-        particleIconBuffer,
     ]);
 
-    const validateAll = () => {
-        setParticleNameValid(!_.isEmpty(particleName));
-        setParticleSymbolValid(!_.isEmpty(particleSymbol));
-        setParticleCreatorValid(!_.isEmpty(particleCreator));
-        setParticleIconValid(!_.isEmpty(particleIconBuffer));
-        setParticleDescValid(!_.isEmpty(particleDesc));
+    const _isAllValidated = () => {
+        if (!commonFields.formValidated) { return false; }
+        if (fungibilityTab === FUNGIBLE_TAB && !fungibleFields.formValidated) { return false; }
+        if (fungibilityTab === NON_FUNGIBLE_TAB && !nonFungibleFields.formValidated) { return false; }
+        return true;
+    };
+    const _triggerValidation = () => {
+        setTriggerValidation(Helpers.now());
+    };
+    const _triggerClearAll = () => {
+        setTriggerClear(Helpers.now());
     };
 
-    const validateForm = () => {
-        const conditions = [
-            _.isEmpty(connectionState),
-            !_.isEmpty(particleName),
-            !_.isEmpty(particleSymbol),
-            !_.isEmpty(particleDesc),
-            !_.isEmpty(particleCreator),
-            !_.isEmpty(particleIconBuffer),
-        ];
-        setFormValidated(_.every(conditions, Boolean));
+    const _updatePaymentType = evt => {
+        setPaymentType(evt.target.value);
     };
 
-    const _cleanParticleIconDisplay = (filename) => {
-        return _.last(filename.split('\\'));
+    const _handleFungibilityTab = (event, newValue) => {
+        setFungibilityTab(newValue);
+    };
+    const _handleFungibilityTabIndex = index => {
+        setFungibilityTab(index);
     };
 
-    const updateParticleName = evt => {
-        const value = _.trim(evt.target.value);
-        setParticleName(value);
-        setParticleNameValid(!_.isEmpty(value));
+    const _onCommonFieldsUpdate = (fields) => {
+        setCommonFields(fields);
+        setPrivate(fields.isPrivate);
+        setMaxSupply(_.parseInt(fields.particleSupply, 10));
     };
 
-    const updateParticleSymbol = evt => {
-        const value = _.trim(evt.target.value);
-        setParticleSymbol(_.toUpper(value));
-        setParticleSymbolValid(!_.isEmpty(value));
+    const _onFungibleUpdate = (fields) => {
+        setFungibleFields(fields);
     };
 
-    const updateParticleCreator = evt => {
-        const value = _.trim(evt.target.value);
-        setParticleCreator(value);
-        setParticleCreatorValid(!_.isEmpty(value));
+    const _onNonFungibleUpdate = (fields) => {
+        setNonFungibleFields(fields);
     };
 
-    const updateParticleIcon = evt => {
+    const _handleSubmit = async evt => {
         evt.preventDefault();
-        evt.stopPropagation();
-
-        const value = evt.target.value;
-        const file = evt.target.files[0];
-        if (_.isUndefined(file)) { return; }
-
-        setParticleIcon(value);
-        setParticleIconValid(!_.isUndefined(file));
-
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onloadend = () => {
-            setParticleIconBuffer(Buffer.from(reader.result));
-        };
-    };
-
-    const updateParticleDesc = evt => {
-        const value = _.trim(evt.target.value);
-        setParticleDesc(value);
-        setParticleDescValid(!_.isEmpty(value));
-    };
-
-    const updateParticleSupply = evt => {
-        setParticleSupply(evt.target.value);
-    };
-
-    const updateParticleAssetPair = evt => {
-        setParticleAssetPair(evt.target.value);
-    };
-
-    const updateParticleCreatorFee = evt => {
-        setParticleCreatorFee(evt.target.value);
-    };
-
-    const updateParticlePaymentType = evt => {
-        setParticlePaymentType(evt.target.value);
-    };
-
-    const slideParticleCreatorFee = (evt, newValue) => {
-        setParticleCreatorFee(newValue);
-    };
-
-    const toggleNonFungible = (evt, expanded) => {
-        setNonFungible(expanded);
-    };
-
-    const togglePrivate = (evt, _private) => {
-        setPrivate(_private);
-    };
-
-    const toggleHigherFees = (evt) => {
-        evt.preventDefault();
-        evt.stopPropagation();
-        setParticleCreatorFee(customFeeSettings.lower.max);
-        setCreatorFeeMode(creatorFeeMode === 'lower' ? 'higher' : 'lower');
-    };
-
-    const handleSubmit = async evt => {
-        evt.preventDefault();
-        if (!formValidated) {
-            return validateAll();
+        if (!_isAllValidated()) {
+            return _triggerValidation();
         }
 
         try {
-            const formData = {
-                particleName,
-                particleSymbol,
-                particleDesc,
-                particleCreator,
-                particleIconBuffer,
-                isNonFungible,
-                isPrivate
-            };
+            let result;
+            let formData;
+            if (fungibilityTab === FUNGIBLE_TAB) {
+                formData = {
+                    ...commonFields,
+                    ...fungibleFields,
+                    isNonFungible: false
+                };
 
-            formData.particleAssetPair  = particleAssetPair; // Helpers.toBytes16(particleAssetPair);
-            formData.particleSupply     = `${particleSupply}000000000000000000`;  //particleSupply * GLOBALS.ETH_UNIT;
-            formData.particleCreatorFee = particleCreatorFee * GLOBALS.DEPOSIT_FEE_MODIFIER / 100;
+                result = parseFloat(formData.ethPerToken) * GLOBALS.ETH_UNIT;
+                formData.ethPerToken = result.toLocaleString('fullwide', {useGrouping: false});
+
+                result = _.parseInt(formData.amountToMint, 10) * GLOBALS.ETH_UNIT;
+                formData.amountToMint = result.toLocaleString('fullwide', {useGrouping: false});
+            } else {
+                formData = {
+                    ...commonFields,
+                    ...nonFungibleFields,
+                    isNonFungible: true
+                };
+
+                result = parseFloat(formData.particleCreatorFee);
+                formData.particleCreatorFee = `${_.round(result * GLOBALS.DEPOSIT_FEE_MODIFIER / 100)}`;
+            }
+
+            result = _.parseInt(formData.particleSupply, 10) * GLOBALS.ETH_UNIT;
+            formData.particleSupply = result.toLocaleString('fullwide', {useGrouping: false});
 
             // Pass Form Data to Parent
-            onSubmitForm({formData});
+            if (await onSubmitForm({formData})) {
+                _triggerClearAll();
+            }
         }
         catch (err) {
             console.error(err);
@@ -273,267 +179,121 @@ const FormCreateParticle = ({ onSubmitForm }) => {
     };
 
     return (
-            <form>
-                <Grid container spacing={3} className={classes.gridRow}>
-                    <Grid item xs={6}>
-                        <TextField
-                            id="particleTypeName"
-                            label="Name"
-                            variant="outlined"
-                            onChange={updateParticleName}
-                            value={particleName}
-                            fullWidth
-                            required
-                            error={!isParticleNameValid}
-                        />
-                    </Grid>
+            <form autoComplete="off">
+                <FormSectionCommonCreate
+                    onUpdate={_onCommonFieldsUpdate}
+                    triggerClear={triggerClear}
+                    triggerValidation={triggerValidation}
+                />
 
-                    <Grid item xs={6}>
-                        <TextField
-                            id="particleTypeSymbol"
-                            label="Symbol"
-                            variant="outlined"
-                            onChange={updateParticleSymbol}
-                            value={particleSymbol}
-                            fullWidth
-                            required
-                            error={!isParticleSymbolValid}
-                        />
-                    </Grid>
-                </Grid>
-
-                <Grid container spacing={3} className={classes.gridRow}>
-                    <Grid item xs={12}>
-                        <TextField
-                            id="particleTypeDesc"
-                            label="Description"
-                            variant="outlined"
-                            onChange={updateParticleDesc}
-                            value={particleDesc}
-                            multiline
-                            rows="4"
-                            fullWidth
-                            required
-                            error={!isParticleDescValid}
-                        />
-                    </Grid>
-                </Grid>
-
-                <Grid container spacing={3} className={classes.gridRow}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="particleTypeCreator"
-                            label="Creator"
-                            variant="outlined"
-                            onChange={updateParticleCreator}
-                            value={particleCreator}
-                            fullWidth
-                            required
-                            error={!isParticleCreatorValid}
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    className={classes.switchControl}
-                                    checked={isPrivate}
-                                    onChange={togglePrivate}
-                                    value="private"
-                                    required
-                                />
-                            }
-                            label="Private Minting"
-                        />
-                    </Grid>
-                </Grid>
-
-                <Grid container spacing={3} className={classes.gridRow}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="particleTypeSupply"
-                            label="Max-Supply"
-                            variant="outlined"
-                            type="number"
-                            min={0}
-                            max={1e27}
-                            onChange={updateParticleSupply}
-                            value={particleSupply}
-                            fullWidth
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <Grid
-                            container
-                            direction="row"
-                            justify="flex-start"
-                            alignItems="center"
-                        >
-                            <FormControl
-                                required
-                                error={!isParticleIconValid}
-                                component="fieldset"
+                <Box py={5}>
+                    <Grid container spacing={3} className={classes.gridRow}>
+                        <Grid item xs={12}>
+                            <AppBar position="static" color="default">
+                                <Tabs
+                                    value={fungibilityTab}
+                                    onChange={_handleFungibilityTab}
+                                    indicatorColor="primary"
+                                    textColor="primary"
+                                    aria-label="Token Type"
+                                    centered
+                                >
+                                    <Tab label="Non-fungible" {...a11yProps(0)} />
+                                    <Tab label="or" disabled />
+                                    <Tab label="Fungible" {...a11yProps(2)} />
+                                </Tabs>
+                            </AppBar>
+                            <SwipeableViews
+                                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                                index={fungibilityTab}
+                                onChangeIndex={_handleFungibilityTabIndex}
                             >
-                                <FormGroup>
-                                    <FormControlLabel
-                                        control={
-                                            <>
-                                                <input
-                                                    id="particleTypeIcon"
-                                                    type="file"
-                                                    accept="image/*"
-                                                    className={classes.fileInput}
-                                                    onChange={updateParticleIcon}
-                                                    required
-                                                />
-                                                <IconButton
-                                                    color="secondary"
-                                                    aria-label="upload icon"
-                                                    component="span"
-                                                >
-                                                    <PhotoCamera />
-                                                </IconButton>
-                                            </>
-                                        }
-                                        label={_cleanParticleIconDisplay(particleIcon)}
+                                <TabPanel group="wallets" value={fungibilityTab} index={0} boxSpacingY={3}>
+                                    <FormSectionNonFungible
+                                        onUpdate={_onNonFungibleUpdate}
+                                        isPrivate={isPrivate}
+                                        maxSupply={maxSupply}
+                                        triggerClear={triggerClear}
                                     />
-                                </FormGroup>
-                                <FormHelperText error={true}>{!isParticleIconValid ? 'Particle Icon required' : ''}</FormHelperText>
-                            </FormControl>
+                                </TabPanel>
+                                <TabPanel group="wallets" value={fungibilityTab} index={1} />
+                                <TabPanel group="wallets" value={fungibilityTab} index={2} boxSpacingY={3}>
+                                    <FormSectionFungible
+                                        onUpdate={_onFungibleUpdate}
+                                        isPrivate={isPrivate}
+                                        maxSupply={maxSupply}
+                                        triggerClear={triggerClear}
+                                        triggerValidation={triggerValidation}
+                                    />
+                                </TabPanel>
+                            </SwipeableViews>
                         </Grid>
                     </Grid>
-                </Grid>
+                </Box>
 
-                <Grid container spacing={3} className={classes.gridRow}>
-                    <Grid item xs={12}>
-                        <ExpansionPanel defaultExpanded onChange={toggleNonFungible} className={classes.outlined}>
-                            <ExpansionPanelSummary>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            className={classes.switchControl}
-                                            checked={isNonFungible}
-                                            readOnly
-                                            required
-                                        />
-                                    }
-                                    label={isNonFungible ? 'Non-Fungible' : 'Fungible'}
-                                    className={classes.switchLabel}
-                                />
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <Grid container spacing={3} className={classes.gridRow}>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormControl variant="outlined" className={classes.formControl}>
-                                            <InputLabel ref={inputLabelRef} id="particleAssetPairLabel">
-                                                Asset-Pair
-                                            </InputLabel>
-                                            <Select
-                                                id="particleAssetPair"
-                                                labelId="particleAssetPairLabel"
-                                                labelWidth={labelWidth}
-                                                value={particleAssetPair}
-                                                onChange={updateParticleAssetPair}
-                                            >
-                                                <MenuItem value={'chai'}>DAI - CHAI</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
+                <Divider />
 
-                                    <Grid item xs={12} sm={6}>
-                                        <Grid container spacing={0}>
-                                            <Grid item xs={9} md={6}>
-                                                <TextField
-                                                    id="particleTypeCreatorFee"
-                                                    label="Deposit Fee (as %)"
-                                                    variant="outlined"
-                                                    type="number"
-                                                    min={customFeeSettings[creatorFeeMode].min}
-                                                    max={customFeeSettings[creatorFeeMode].max}
-                                                    step={customFeeSettings[creatorFeeMode].step}
-                                                    value={particleCreatorFee}
-                                                    onChange={updateParticleCreatorFee}
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={3} md={6}>
-                                                <Button onClick={toggleHigherFees} color="secondary">
-                                                    {creatorFeeMode === 'higher' ? 'lower' : 'higher'}
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-
-                                        <Slider
-                                            min={customFeeSettings[creatorFeeMode].min}
-                                            max={customFeeSettings[creatorFeeMode].max}
-                                            step={customFeeSettings[creatorFeeMode].step}
-                                            value={particleCreatorFee}
-                                            onChange={slideParticleCreatorFee}
-                                        />
-                                    </Grid>
-                                </Grid>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                    </Grid>
-                </Grid>
-
-                <Grid
-                    container
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="center"
-                    spacing={3}
-                    className={classes.gridRow}
-                >
-                    <Grid item sm={4} md={3}>
-                        <FormControl variant="outlined" className={classes.formControl}>
-                            <InputLabel ref={paymentInputLabelRef} id="particlePaymentLabel">
-                                Payment
-                            </InputLabel>
-                            <Select
-                                id="particlePayment"
-                                labelId="particlePaymentLabel"
-                                labelWidth={paymentTypeLabelWidth}
-                                value={particlePaymentType}
-                                onChange={updateParticlePaymentType}
+                <Box py={3}>
+                    <Grid container spacing={3} className={classes.gridRow}>
+                        <Grid item xs={12} sm={6}>
+                            <Grid
+                                container
+                                direction="row"
+                                justify="flex-start"
+                                alignItems="center"
+                                className={classes.gridRow}
                             >
-                                <MenuItem value={'eth'}>ETH - {Helpers.getFriendlyPrice('eth', isNonFungible)}</MenuItem>
-                                <MenuItem value={'ion'} disabled>ION - coming soon</MenuItem>
-                            </Select>
-                        </FormControl>
+                                <Grid item xs={6}>
+                                    <FormControl variant="outlined" className={classes.formControl}>
+                                        <InputLabel ref={paymentInputLabelRef} id="particlePaymentLabel">
+                                            Payment
+                                        </InputLabel>
+                                        <Select
+                                            id="particlePayment"
+                                            labelId="particlePaymentLabel"
+                                            labelWidth={paymentInputLabelWidth}
+                                            value={paymentType}
+                                            onChange={_updatePaymentType}
+                                        >
+                                            <MenuItem value={'eth'}>ETH - {Helpers.getFriendlyPrice('eth', isNonFungible)}</MenuItem>
+                                            <MenuItem value={'ion'} disabled>ION - coming soon</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Grid
+                                container
+                                direction="row"
+                                justify="flex-end"
+                                alignItems="center"
+                                className={classes.gridRow}
+                                style={{textAlign:'right'}}
+                            >
+                                <Grid item xs={6}>
+                                    <NetworkIndicator
+                                        currentNetwork={networkId}
+                                        requiredNetwork={_.parseInt(GLOBALS.CHAIN_ID, 10)}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Button
+                                        type="button"
+                                        // disabled={!formValidated}
+                                        variant="contained"
+                                        color={formValidated ? 'primary' : 'default'}
+                                        size="large"
+                                        onClick={_handleSubmit}
+                                        className={formValidated ? '' : customClasses.visiblyDisabledButton}
+                                    >
+                                        Create Particle
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                </Grid>
-
-                <Grid
-                    container
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="center"
-                    spacing={3}
-                    className={classes.gridRow}
-                >
-                    <Grid item sm={4} md={3}>
-                        <Button
-                            type="button"
-                            // disabled={!formValidated}
-                            variant="contained"
-                            color={formValidated ? 'primary' : 'default'}
-                            size="large"
-                            onClick={handleSubmit}
-                            className={formValidated ? '' : classes.visiblyDisabledButton}
-                        >
-                            Create Particle
-                        </Button>
-                    </Grid>
-                    <Grid item sm={4} md={3}>
-                        <NetworkIndicator
-                            currentNetwork={networkId}
-                            requiredNetwork={_.parseInt(GLOBALS.CHAIN_ID, 10)}
-                        />
-                    </Grid>
-                </Grid>
+                </Box>
             </form>
     )
 };
