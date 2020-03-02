@@ -109,7 +109,6 @@ const ParticleTypesList = ({ owner, transactions, allowCache }) => {
         if (allowCache) {
             const allData = {...particleData};
             const cacheData = {...particleCache()};
-            console.log('cacheData', cacheData);
 
             _.forEach(cacheData, particle => {
                 const id = particle.typeId;
