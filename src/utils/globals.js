@@ -5,12 +5,12 @@ export const GLOBALS = {};
 
 GLOBALS.CODENAME = 'ChargedParticles';
 GLOBALS.CODENAME_ABBR = 'CP';
-GLOBALS.CODE_VERSION = '0.0.1';
+GLOBALS.CODE_VERSION = 'v0.0.21';
 GLOBALS.BASE_URL = 'https://charged-particles.netlify.com';
 GLOBALS.ACCELERATOR_URL = 'https://charged-particles.netlify.com';
 GLOBALS.ACCELERATOR_ROOT = '/app';
-GLOBALS.CODE_VERSION_MAJOR = _.join(_.split(GLOBALS.CODE_VERSION, '.', 1), '.');
-GLOBALS.CODE_VERSION_MINOR = _.join(_.split(GLOBALS.CODE_VERSION, '.', 2), '.');
+GLOBALS.CODE_VERSION_MAJOR = _.join(_.split(GLOBALS.CODE_VERSION.replace('v',''), '.', 1), '.');
+GLOBALS.CODE_VERSION_MINOR = _.join(_.split(GLOBALS.CODE_VERSION.replace('v',''), '.', 2), '.');
 
 GLOBALS.STARTING_BLOCK = '6000000';
 

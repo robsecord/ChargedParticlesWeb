@@ -30,7 +30,7 @@ const FormSectionNonFungible = ({ onUpdate, triggerClear, isPrivate, maxSupply }
     const [creatorFeeMode,      setCreatorFeeMode]      = useState('lower');
 
     const inputLabelRef = useRef(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
+    const [labelWidth, setLabelWidth] = useState(0);
     useEffect(() => {
         setLabelWidth(inputLabelRef.current.offsetWidth);
     }, []);

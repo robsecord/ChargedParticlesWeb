@@ -80,7 +80,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
     const isNonFungible = fungibilityTab === NON_FUNGIBLE_TAB;
 
     const paymentInputLabelRef = useRef(null);
-    const [paymentInputLabelWidth, setPaymentInputLabelWidth] = React.useState(0);
+    const [paymentInputLabelWidth, setPaymentInputLabelWidth] = useState(0);
     useEffect(() => {
         setPaymentInputLabelWidth(paymentInputLabelRef.current.offsetWidth);
     }, []);

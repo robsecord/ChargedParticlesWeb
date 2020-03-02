@@ -1,12 +1,12 @@
 // Frameworks
-import React, { useState, useEffect } from 'react';
-import useLocalStorage from 'react-use-localstorage';
+import React, { useState, useEffect, useCallback } from 'react';
 import fetch from 'cross-fetch';
 import classNames from 'classnames';
 import window from 'global';
 import * as _ from 'lodash';
 
 // App Components
+import { LocalCache } from '../../utils/local-cache';
 import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 
@@ -97,17 +97,19 @@ const ParticleTypesList = ({ owner, transactions, allowCache }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
 
-    const [ expandedRow, setExpandedRow ] = React.useState(false);
-
-    const [ particleCache, setParticleCache ] = useLocalStorage(`CP_PTC_${owner}`, '{}');
+    const [ expandedRow, setExpandedRow ] = useState(false);
     const [ particleData, setParticleData ] = useState({});
+
+    const particleCache = useCallback(() => LocalCache.get(`PTC_${owner}`, {}), [owner]);
+    const setParticleCache = (value) => LocalCache.set(`PTC_${owner}`, value);
 
     let isMounted = true;
     let _delayNextEffect = false;
     useEffect(() => {
         if (allowCache) {
             const allData = {...particleData};
-            const cacheData = JSON.parse(particleCache);
+            const cacheData = {...particleCache()};
+            console.log('cacheData', cacheData);
 
             _.forEach(cacheData, particle => {
                 const id = particle.typeId;
@@ -147,7 +149,7 @@ const ParticleTypesList = ({ owner, transactions, allowCache }) => {
 
     const updateParticleCache = (allData) => {
         if (allowCache) {
-            setParticleCache(JSON.stringify(allData));
+            setParticleCache(allData);
         }
     };
 

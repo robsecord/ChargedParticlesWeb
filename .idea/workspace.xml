@@ -1,30 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8d80ab86-5c89-4003-b2b5-36e4c924ec65" name="Default Changelist" comment="Fix for build issues around WalletConnect logo">
-      <change afterPath="$PROJECT_DIR$/src/app/components/FormSectionCommonCreate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/components/FormSectionFungible.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/components/FormSectionNonFungible.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/components/TabPanel.js" afterDir="false" />
+    <list default="true" id="8d80ab86-5c89-4003-b2b5-36e4c924ec65" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/utils/local-cache.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/blockchain/contract-helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/contract-helpers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticles.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticles.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticlesEscrow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/contracts/ChargedParticlesEscrow.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/blockchain/transactions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/blockchain/transactions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/FormSectionNonFungible.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/FormSectionNonFungible.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/components/ParticleTypesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/ParticleTypesList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/TxStreamView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/TxStreamView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout/styles/root.styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout/styles/root.styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/ConnectWallet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/ConnectWallet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/Create.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/Create.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/Manage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/Manage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/Market.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/pages/Market.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/stores/transaction.reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/stores/transaction.reducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/globals.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/globals.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/helpers.js" afterDir="false" />
     </list>
     <list id="554eb34c-0f66-4d22-bfe3-317ce1f1367d" name="Landing Page Updates" comment="Landing Page Updates" />
     <list id="d0a2ebda-3977-47fa-a1e2-26a41d64556b" name="Mobile Updates" comment="Mobile Updates" />
@@ -54,8 +39,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/package.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="735">
-                  <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
+                <state relative-caret-position="45">
+                  <caret line="3" column="20" lean-forward="true" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="20" />
                 </state>
               </provider>
             </entry>
@@ -63,8 +48,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/utils/globals.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="173">
-                  <caret line="35" column="36" lean-forward="true" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+                <state relative-caret-position="90">
+                  <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="21" />
                 </state>
               </provider>
             </entry>
@@ -72,8 +57,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/utils/helpers.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="172">
-                  <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" selection-end-column="15" />
+                <state relative-caret-position="243">
+                  <caret line="68" column="2" lean-forward="true" selection-start-line="68" selection-start-column="2" selection-end-line="68" selection-end-column="2" />
                 </state>
               </provider>
             </entry>
@@ -81,8 +66,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/app/blockchain/contract-helpers.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="886">
-                  <caret line="135" column="24" selection-start-line="135" selection-start-column="24" selection-end-line="135" selection-end-column="24" />
+                <state relative-caret-position="327">
+                  <caret line="137" column="7" selection-start-line="137" selection-start-column="7" selection-end-line="137" selection-end-column="7" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/utils/local-cache.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="15">
+                  <caret line="58" column="22" lean-forward="true" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
                 </state>
               </provider>
             </entry>
@@ -90,8 +84,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/app/blockchain/transactions.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="305">
-                  <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
+                <state relative-caret-position="251">
+                  <caret line="128" column="5" lean-forward="true" selection-start-line="128" selection-start-column="5" selection-end-line="128" selection-end-column="5" />
                 </state>
               </provider>
             </entry>
@@ -105,11 +99,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/notes.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="63">
-                  <caret line="74" lean-forward="true" selection-start-line="74" selection-end-line="74" />
+                <state relative-caret-position="22">
+                  <caret line="25" column="8" lean-forward="true" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
                 </state>
               </provider>
             </entry>
@@ -121,10 +115,37 @@
           <split-first>
             <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
               <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/app/App.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="77">
+                      <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/app/layout/AppLayout.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="22">
+                      <caret line="49" column="53" lean-forward="true" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/app/pages/Accelerator.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="-374">
+                      <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/app/layout/styles/root.styles.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="495">
-                      <caret line="33" column="6" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+                    <state>
+                      <caret line="39" column="6" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
                     </state>
                   </provider>
                 </entry>
@@ -142,7 +163,7 @@
                 <entry file="file://$PROJECT_DIR$/src/app/pages/Manage.js">
                   <provider selected="true" editor-type-id="text-editor">
                     <state relative-caret-position="423">
-                      <caret line="84" column="33" lean-forward="true" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="33" />
+                      <caret line="84" column="33" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="33" />
                     </state>
                   </provider>
                 </entry>
@@ -159,8 +180,8 @@
               <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/app/components/ParticleTypesList.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="221">
-                      <caret line="184" column="46" lean-forward="true" selection-start-line="184" selection-start-column="46" selection-end-line="184" selection-end-column="46" />
+                    <state relative-caret-position="188">
+                      <caret line="111" column="33" lean-forward="true" selection-start-line="111" selection-start-column="33" selection-end-line="111" selection-end-column="33" />
                     </state>
                   </provider>
                 </entry>
@@ -199,8 +220,8 @@
               <file pinned="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/app/stores/wallet.reducer.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="300">
-                      <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
+                    <state>
+                      <caret line="21" column="37" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
                     </state>
                   </provider>
                 </entry>
@@ -217,8 +238,8 @@
               <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/app/stores/transaction.reducer.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="1">
-                      <caret line="38" column="39" lean-forward="true" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
+                    <state>
+                      <caret line="40" column="14" selection-start-line="40" selection-start-column="14" selection-end-line="40" selection-end-column="14" />
                     </state>
                   </provider>
                 </entry>
@@ -231,16 +252,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>isNonFungible</find>
-      <find>paymentInputLabelRef</find>
-      <find>useRef</find>
-      <find>particlePaymentType</find>
-      <find>is</find>
-      <find>setParticleIconValid</find>
-      <find>validateForm</find>
-      <find>formValidated</find>
-      <find>fileName</find>
-      <find>E404</find>
       <find>.typeId</find>
       <find>plasmaTypeId</find>
       <find>fileNameLabel</find>
@@ -261,6 +272,16 @@
       <find>particleAssetPair</find>
       <find>toBytes16</find>
       <find>Helpers.toAscii</find>
+      <find>CODE_VERSION</find>
+      <find>GLOBALS</find>
+      <find>reactLocalStorage</find>
+      <find>localStorage</find>
+      <find>useLocalStorage</find>
+      <find>lodash</find>
+      <find>LocalCache</find>
+      <find>setParticleCache</find>
+      <find>React.</find>
+      <find>particleCache</find>
     </findStrings>
     <replaceStrings>
       <replace>- $1</replace>
@@ -279,9 +300,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/app/components/AppTitleLink.js" />
-        <option value="$PROJECT_DIR$/src/app/components/AcceleratorTabsList.js" />
-        <option value="$PROJECT_DIR$/src/app/stores/root.store.js" />
         <option value="$PROJECT_DIR$/src/app/stores/root.reducer.js" />
         <option value="$PROJECT_DIR$/src/app/components/ConnectionWarning.js" />
         <option value="$PROJECT_DIR$/src/app/wallets/web3_connect.js" />
@@ -313,23 +331,26 @@
         <option value="$PROJECT_DIR$/.env.development" />
         <option value="$PROJECT_DIR$/src/app/layout/styles/root.styles.js" />
         <option value="$PROJECT_DIR$/src/app/components/TabPanel.js" />
-        <option value="$PROJECT_DIR$/src/app/components/FormSectionNonFungible.js" />
         <option value="$PROJECT_DIR$/src/app/blockchain/queries/SearchTransactionEvent.js" />
         <option value="$PROJECT_DIR$/src/app/components/TxStreamView.js" />
         <option value="$PROJECT_DIR$/src/app/pages/Market.js" />
         <option value="$PROJECT_DIR$/src/app/pages/Manage.js" />
         <option value="$PROJECT_DIR$/src/app/stores/transaction.reducer.js" />
-        <option value="$PROJECT_DIR$/src/utils/globals.js" />
         <option value="$PROJECT_DIR$/src/app/blockchain/contract-helpers.js" />
-        <option value="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" />
         <option value="$PROJECT_DIR$/src/utils/helpers.js" />
-        <option value="$PROJECT_DIR$/src/app/blockchain/transactions.js" />
-        <option value="$PROJECT_DIR$/src/app/components/ParticleTypesList.js" />
         <option value="$PROJECT_DIR$/notes.txt" />
-        <option value="$PROJECT_DIR$/src/app/pages/ConnectWallet.js" />
         <option value="$PROJECT_DIR$/src/app/pages/Create.js" />
         <option value="$PROJECT_DIR$/src/app/components/FormSectionCommonCreate.js" />
         <option value="$PROJECT_DIR$/src/app/components/FormSectionFungible.js" />
+        <option value="$PROJECT_DIR$/src/utils/globals.js" />
+        <option value="$PROJECT_DIR$/.versionFilesList.json" />
+        <option value="$PROJECT_DIR$/src/utils/local-storage.js" />
+        <option value="$PROJECT_DIR$/src/app/blockchain/transactions.js" />
+        <option value="$PROJECT_DIR$/src/app/pages/ConnectWallet.js" />
+        <option value="$PROJECT_DIR$/src/app/components/FormCreateParticle.js" />
+        <option value="$PROJECT_DIR$/src/app/components/FormSectionNonFungible.js" />
+        <option value="$PROJECT_DIR$/src/utils/local-cache.js" />
+        <option value="$PROJECT_DIR$/src/app/components/ParticleTypesList.js" />
       </list>
     </option>
   </component>
@@ -342,7 +363,7 @@
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1679" />
     <option name="height" value="1027" />
@@ -849,7 +870,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="403270000" />
+    <option name="totallyTimeSpent" value="408970000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -861,7 +882,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1679" height="1027" extended-state="0" />
+    <frame x="0" y="23" width="1679" height="1027" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" x="462" y="329" width="756" height="415" id="Project" internal_type="SLIDING" order="0" type="SLIDING" weight="0.24954791" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -875,7 +897,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32941177" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Version Control" internal_type="SLIDING" order="8" type="SLIDING" visible="true" weight="0.6042781" />
+      <window_info anchor="bottom" id="Version Control" internal_type="SLIDING" order="8" type="SLIDING" weight="0.6042781" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32985386" />
       <window_info anchor="bottom" id="Terminal" internal_type="SLIDING" order="10" type="SLIDING" weight="0.32941177" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
@@ -920,23 +942,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Fixes for Wallet Connect" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/wallets/authereum.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="21" column="35" lean-forward="true" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/blockchain/contracts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/images/vendor/portis.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/images/vendor/safe.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -949,20 +954,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
           <caret line="14" column="55" selection-start-line="14" selection-start-column="55" selection-end-line="14" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/layout/AppLayout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1335">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
         </state>
       </provider>
     </entry>
@@ -1036,13 +1027,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/Accelerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="92" column="39" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/ConnectWallet.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
@@ -1071,17 +1055,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/layout/styles/root.styles.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="6" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+        <state>
+          <caret line="39" column="6" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -1108,8 +1085,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/stores/wallet.reducer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
+        <state>
+          <caret line="21" column="37" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -1144,7 +1121,7 @@
     <entry file="file://$PROJECT_DIR$/src/app/pages/Manage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="423">
-          <caret line="84" column="33" lean-forward="true" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="33" />
+          <caret line="84" column="33" selection-start-line="84" selection-start-column="33" selection-end-line="84" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -1157,8 +1134,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/stores/transaction.reducer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1">
-          <caret line="38" column="39" lean-forward="true" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
+        <state>
+          <caret line="40" column="14" selection-start-line="40" selection-start-column="14" selection-end-line="40" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -1166,13 +1143,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
           <caret line="81" column="21" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/globals.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="35" column="36" lean-forward="true" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -1199,8 +1169,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/blockchain/contract-helpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="886">
-          <caret line="135" column="24" selection-start-line="135" selection-start-column="24" selection-end-line="135" selection-end-column="24" />
+        <state relative-caret-position="327">
+          <caret line="137" column="7" selection-start-line="137" selection-start-column="7" selection-end-line="137" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1218,20 +1188,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/helpers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/blockchain/transactions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/Create.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
@@ -1244,15 +1200,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/notes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="74" lean-forward="true" selection-start-line="74" selection-end-line="74" />
+        <state relative-caret-position="22">
+          <caret line="25" column="8" lean-forward="true" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/Accelerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-374">
+          <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/helpers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="68" column="2" lean-forward="true" selection-start-line="68" selection-start-column="2" selection-end-line="68" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="20" lean-forward="true" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.versionFilesList.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/globals.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/reactjs-localstorage/react-localstorage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-342" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/layout/AppLayout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="49" column="53" lean-forward="true" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/blockchain/transactions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="128" column="5" lean-forward="true" selection-start-line="128" selection-start-column="5" selection-end-line="128" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/local-cache.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="58" column="22" lean-forward="true" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/components/ParticleTypesList.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="184" column="46" lean-forward="true" selection-start-line="184" selection-start-column="46" selection-end-line="184" selection-end-column="46" />
+        <state relative-caret-position="188">
+          <caret line="111" column="33" lean-forward="true" selection-start-line="111" selection-start-column="33" selection-end-line="111" selection-end-column="33" />
         </state>
       </provider>
     </entry>

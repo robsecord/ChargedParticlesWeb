@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { navigate } from '@reach/router';
 import classNames from 'classnames';
@@ -153,7 +153,7 @@ function ConnectWallet() {
     const theme = useTheme();
     const customClasses = useCustomStyles();
 
-    const [currentTab, setCurrentTab] = React.useState(0);
+    const [currentTab, setCurrentTab] = useState(0);
     const _handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);
     };

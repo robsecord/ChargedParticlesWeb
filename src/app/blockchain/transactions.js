@@ -1,6 +1,5 @@
 // Frameworks
 import { createDfuseClient } from '@dfuse/client';
-import { reactLocalStorage } from 'reactjs-localstorage';
 import * as _ from 'lodash';
 
 // App Components
@@ -8,6 +7,7 @@ import {
     ChargedParticles,
     ChargedParticlesEscrow
 } from '../blockchain/contracts';
+import { LocalCache } from '../../utils/local-cache';
 import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 
@@ -111,7 +111,7 @@ class Transactions {
     }
 
     resumeIncompleteStreams() {
-        const transactionHash = reactLocalStorage.get('CP_streamTxHash');
+        const transactionHash = LocalCache.get('streamTxHash');
         if (_.isEmpty(transactionHash)) { return; }
 
         console.log('resumeIncompleteStreams');
@@ -143,7 +143,7 @@ class Transactions {
         let count = 0;
         let forceEnd = false;
 
-        reactLocalStorage.set('CP_streamTxHash', transactionHash);
+        LocalCache.set('streamTxHash', transactionHash);
 
         this.stream = await this.client.graphql(streamTransactionQuery, (message) => {
 
@@ -177,7 +177,7 @@ class Transactions {
             }
 
             if (message.type === 'complete' || forceEnd) {
-                reactLocalStorage.set('CP_streamTxHash', '');
+                LocalCache.set('streamTxHash', '');
                 this.txDispatch({type: 'STREAM_COMPLETE'});
                 this.stream.close();
             }
