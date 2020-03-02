@@ -73,5 +73,6 @@ yarn-error.log
 # Notes
 notes.txt
 
-
+# Workspace related
+.idea/
 .versionFilesList.json
