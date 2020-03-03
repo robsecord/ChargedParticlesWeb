@@ -22,7 +22,7 @@ const customFeeSettings = {
 let _nonFungibleClearTrigger = null;
 
 // Create Route
-const FormSectionNonFungible = ({ onUpdate, triggerClear, isPrivate, maxSupply }) => {
+const FormCreateNonFungible = ({ onUpdate, triggerClear, isPrivate, maxSupply }) => {
     const classes = useRootStyles();
 
     const [particleAssetPair,   setParticleAssetPair]   = useState('chai');
@@ -136,4 +136,4 @@ const FormSectionNonFungible = ({ onUpdate, triggerClear, isPrivate, maxSupply }
     )
 };
 
-export default FormSectionNonFungible;
+export default FormCreateNonFungible;

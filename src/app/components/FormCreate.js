@@ -24,9 +24,9 @@ import Select from '@material-ui/core/Select';
 import NetworkIndicator from '@rimble/network-indicator';
 
 // App Components
-import FormSectionCommonCreate from './FormSectionCommonCreate';
-import FormSectionFungible from './FormSectionFungible';
-import FormSectionNonFungible from './FormSectionNonFungible';
+import FormCreateCommon from './FormCreateCommon';
+import FormCreateFungible from './FormCreateFungible';
+import FormCreateNonFungible from './FormCreateNonFungible';
 import TabPanel from '../components/TabPanel.js';
 import { GLOBALS } from '../../utils/globals';
 import { Helpers } from '../../utils/helpers';
@@ -58,7 +58,7 @@ const FUNGIBLE_TAB = 2;
 
 
 // Create Route
-const FormCreateParticle = ({ onSubmitForm }) => {
+const FormCreate = ({ onSubmitForm }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
     const theme = useTheme();
@@ -180,7 +180,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
 
     return (
             <form autoComplete="off">
-                <FormSectionCommonCreate
+                <FormCreateCommon
                     onUpdate={_onCommonFieldsUpdate}
                     triggerClear={triggerClear}
                     triggerValidation={triggerValidation}
@@ -209,7 +209,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                                 onChangeIndex={_handleFungibilityTabIndex}
                             >
                                 <TabPanel group="wallets" value={fungibilityTab} index={0} boxSpacingY={3}>
-                                    <FormSectionNonFungible
+                                    <FormCreateNonFungible
                                         onUpdate={_onNonFungibleUpdate}
                                         isPrivate={isPrivate}
                                         maxSupply={maxSupply}
@@ -218,7 +218,7 @@ const FormCreateParticle = ({ onSubmitForm }) => {
                                 </TabPanel>
                                 <TabPanel group="wallets" value={fungibilityTab} index={1} />
                                 <TabPanel group="wallets" value={fungibilityTab} index={2} boxSpacingY={3}>
-                                    <FormSectionFungible
+                                    <FormCreateFungible
                                         onUpdate={_onFungibleUpdate}
                                         isPrivate={isPrivate}
                                         maxSupply={maxSupply}
@@ -298,4 +298,4 @@ const FormCreateParticle = ({ onSubmitForm }) => {
     )
 };
 
-export default FormCreateParticle;
+export default FormCreate;

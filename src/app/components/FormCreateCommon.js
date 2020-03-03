@@ -64,7 +64,7 @@ let _commonClearTrigger = null;
 let _commonValidationTrigger = null;
 
 // Create Route
-const FormSectionCommonCreate = ({ onUpdate, triggerClear, triggerValidation }) => {
+const FormCreateCommon = ({ onUpdate, triggerClear, triggerValidation }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
     const [ rootState ] = useContext(RootContext);
@@ -381,4 +381,4 @@ const FormSectionCommonCreate = ({ onUpdate, triggerClear, triggerValidation }) 
     )
 };
 
-export default FormSectionCommonCreate;
+export default FormCreateCommon;

@@ -52,7 +52,7 @@ let _fungibleClearTrigger = null;
 let _fungibleValdationTrigger = null;
 
 // Create Route
-const FormSectionFungible = ({ onUpdate, triggerClear, triggerValidation, isPrivate, maxSupply }) => {
+const FormCreateFungible = ({ onUpdate, triggerClear, triggerValidation, isPrivate, maxSupply }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
     const [ rootState ] = useContext(RootContext);
@@ -264,4 +264,4 @@ const FormSectionFungible = ({ onUpdate, triggerClear, triggerValidation, isPriv
     )
 };
 
-export default FormSectionFungible;
+export default FormCreateFungible;
