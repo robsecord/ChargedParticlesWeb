@@ -12,6 +12,12 @@ Helpers.now = () => {
     return (new Date()).getTime();
 };
 
+Helpers.sleep = (delay = 0) => {
+    return new Promise(resolve => {
+        setTimeout(resolve, delay);
+    });
+};
+
 Helpers.getFriendlyPrice = (tokenType, isNft) => {
     tokenType = _.toUpper(tokenType);
     const pricing = GLOBALS.CREATE_PARTICLE_PRICE[tokenType];
@@ -46,24 +52,38 @@ Helpers.getNetworkName = (networkId) => {
 };
 
 Helpers.toEther = (str) => {
-    const wallet = Wallet.instance();
-    return wallet.getWeb3().utils.fromWei(str, 'ether');
+    const web3 = Wallet.instance().getWeb3();
+    if (!web3) { return str; }
+    return web3.utils.fromWei(str, 'ether');
 };
 
 Helpers.toAscii = (str) => {
-    const wallet = Wallet.instance();
-    return wallet.getWeb3().utils.hexToAscii(str);
+    const web3 = Wallet.instance().getWeb3();
+    if (!web3) { return str; }
+    return web3.utils.hexToAscii(str);
 };
 
 Helpers.toBytes16 = (str) => {
-    const wallet = Wallet.instance();
-    return wallet.getWeb3().utils.utf8ToHex(str);
+    const web3 = Wallet.instance().getWeb3();
+    if (!web3) { return str; }
+    return web3.utils.utf8ToHex(str);
+};
+
+Helpers.keccak = ({type, value}) => {
+    const web3 = Wallet.instance().getWeb3();
+    if (!web3) { return value; }
+    return web3.utils.soliditySha3({type, value});
+};
+
+Helpers.keccakStr = (str) => {
+    return Helpers.keccak({type: 'string', value: str});
 };
 
 Helpers.decodeLog = ({eventName, logEntry}) => {
-    const wallet = Wallet.instance();
+    const web3 = Wallet.instance().getWeb3();
+    if (!web3) { return null; }
     const eventData = _.find(ChargedParticlesData.abi, {type: 'event', name: eventName});
     const eventAbi = _.get(eventData, 'inputs', []);
     if (_.isEmpty(eventAbi)) { return false; }
-    return wallet.getWeb3().eth.abi.decodeLog(eventAbi, logEntry.data, logEntry.topics.slice(1));
+    return web3.eth.abi.decodeLog(eventAbi, logEntry.data, logEntry.topics.slice(1));
 };
