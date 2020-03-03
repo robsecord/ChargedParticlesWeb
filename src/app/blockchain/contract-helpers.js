@@ -75,6 +75,7 @@ ContractHelpers.createParticle = ({ from, particleData, onProgress, payWithIons 
             const tx = {from, value: ethPrice};
             const args = [
                 jsonFileUrl,                        // string memory _uri,
+                particleData.particleSymbol,        // string memory _symbol,
                 particleData.isPrivate,             // bool _isPrivate,
                 particleData.particleAssetPair,     // string _assetPairId,
                 particleData.particleSupply,        // uint256 _maxSupply,
@@ -113,6 +114,7 @@ ContractHelpers.createPlasma = ({ from, particleData, onProgress, payWithIons = 
             const args = [
                 from,                           // address _creator,
                 jsonFileUrl,                    // string memory _uri,
+                particleData.particleSymbol,    // string memory _symbol,
                 particleData.isPrivate,         // bool _isPrivate,
                 particleData.particleSupply,    // uint256 _maxSupply,
                 particleData.ethPerToken,       // uint256 _ethPerToken,
@@ -138,5 +140,12 @@ ContractHelpers.createPlasma = ({ from, particleData, onProgress, payWithIons = 
     });
 };
 
+ContractHelpers.mintParticle = () => {
+
+};
+
+ContractHelpers.mintPlasma = () => {
+
+};
 
 export { ContractHelpers, tokenMetadata };

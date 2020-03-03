@@ -4,6 +4,7 @@ import RootReducer from './root.reducer'
 
 const initialState = {
     acceleratorTab: 0,
+    mintById: '',
 
     networkId: 0,
     isNetworkConnected: false,

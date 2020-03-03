@@ -6,6 +6,12 @@ const RootReducer = (state, action) => {
                 ...state,
                 acceleratorTab: action.payload
             };
+        case 'MINT_BY_ID':
+            return {
+                ...state,
+                acceleratorTab: action.payload.acceleratorTab,
+                mintById: action.payload.mintById,
+            };
         case 'CONNECTION_STATE':
             return {
                 ...state,
