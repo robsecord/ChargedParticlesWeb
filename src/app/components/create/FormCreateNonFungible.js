@@ -12,7 +12,7 @@ import Select from '@material-ui/core/Select';
 import Slider from '@material-ui/core/Slider';
 
 // Custom Styles
-import useRootStyles from '../layout/styles/root.styles';
+import useRootStyles from '../../layout/styles/root.styles';
 
 const customFeeSettings = {
     'higher': {min: 1, max: 10, step: 0.1},

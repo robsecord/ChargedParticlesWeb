@@ -97,7 +97,7 @@ const IndexPage = () => {
 
     return (
         <Layout noHeader={true}>
-            <SEO title="Welcome" keywords={[`ethereum`, `defi`, `nft`, `charged particles`]}/>
+            <SEO />
 
             <Grid
                 container

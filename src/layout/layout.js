@@ -6,7 +6,7 @@ import { navigate, useStaticQuery, graphql } from 'gatsby';
 
 import './styles/reset.css';
 import './styles/overrides.css';
-import theme from './styles/root.theme.js';
+import theme from './styles/root.theme';
 
 // Rimble UI
 import {

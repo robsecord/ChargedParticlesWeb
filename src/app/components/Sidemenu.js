@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { navigate } from '@reach/router';
+import window from 'global';
 import * as _ from 'lodash';
 
 // Material UI
@@ -29,19 +30,27 @@ import useRootStyles from '../layout/styles/root.styles';
 import acceleratorTabsList from './AcceleratorTabsList';
 
 
-const Sidemenu = ({ title, closeDrawer }) => {
+const Sidemenu = ({ closeDrawer }) => {
     const classes = useRootStyles();
-    const [ rootState, rootDispatch ] = useContext(RootContext);
-    const { acceleratorTab } = rootState;
+
+    const _currentTabIndex = () => {
+        const path = window.location.pathname.replace(`${GLOBALS.ACCELERATOR_ROOT}/`, '');
+        const routeId = _.first(path.split('/'));
+        return _.get(_.find(acceleratorTabsList, {id: routeId}), 'index', 0);
+    };
+    const acceleratorTab = _currentTabIndex();
 
     const _getIndexByTabKey = (tabKey) => {
         return _.indexOf(_.keys(acceleratorTabsList) || [], tabKey)
     };
 
     const _selectTab = (tabKey) => () => {
-        closeDrawer();
-        navigate(GLOBALS.ACCELERATOR_ROOT);
-        rootDispatch({type: 'SET_ACCELERATOR_TAB', payload: _getIndexByTabKey(tabKey)});
+        const defaultRoute = acceleratorTabsList.market.route;
+        const route = _.get(_.find(acceleratorTabsList, {id: tabKey}), 'route', defaultRoute);
+        if (!_.isEmpty(route)) {
+            closeDrawer();
+            navigate(`${GLOBALS.ACCELERATOR_ROOT}${route}`);
+        }
     };
 
     const _isSelected = (tabKey) => {

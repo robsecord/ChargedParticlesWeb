@@ -1,6 +1,5 @@
 // Frameworks
 import React, { useContext } from 'react';
-import { navigate } from '@reach/router';
 import * as _ from 'lodash';
 
 // Material UI
@@ -17,10 +16,8 @@ import { Blockie } from 'rimble-ui';
 import { Helpers } from '../../utils/helpers';
 
 // Data Context for State
+import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
-
-// Common
-import { GLOBALS } from '../../utils/globals';
 
 
 // Custom Styles
@@ -51,10 +48,11 @@ let _lastConnectedAddress = '';
 
 function WalletButton() {
     const customClasses = useCustomStyles();
+    const [, rootDispatch ] = useContext(RootContext);
     const [walletState] = useContext(WalletContext);
 
     const _connectWallet = async () => {
-        navigate(`${GLOBALS.ACCELERATOR_ROOT}/connect`);
+        rootDispatch({type: 'SHOW_WALLET_MODAL', payload: true});
     };
 
     //

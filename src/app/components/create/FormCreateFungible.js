@@ -3,8 +3,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
-import { WalletContext } from '../stores/wallet.store';
+import { RootContext } from '../../stores/root.store';
+import { WalletContext } from '../../stores/wallet.store';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,7 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import Slider from '@material-ui/core/Slider';
 
 // Custom Styles
-import useRootStyles from '../layout/styles/root.styles';
+import useRootStyles from '../../layout/styles/root.styles';
 const useCustomStyles = makeStyles(theme => ({
     subHeading: {
         marginTop: 0,

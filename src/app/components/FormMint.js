@@ -24,10 +24,11 @@ import Select from '@material-ui/core/Select';
 import NetworkIndicator from '@rimble/network-indicator';
 
 // App Components
-import FormCreateCommon from './FormCreateCommon';
-import FormCreateFungible from './FormCreateFungible';
-import FormCreateNonFungible from './FormCreateNonFungible';
-import TabPanel from '../components/TabPanel.js';
+import FormCreateCommon from './create/FormCreateCommon';
+import FormCreateFungible from './create/FormCreateFungible';
+import FormCreateNonFungible from './create/FormCreateNonFungible';
+import TabPanel from '../components/TabPanel';
+import ParticleSearchbox from '../components/ParticleSearchbox';
 import { GLOBALS } from '../../utils/globals';
 import { Helpers } from '../../utils/helpers';
 
@@ -58,7 +59,7 @@ const FUNGIBLE_TAB = 2;
 
 
 // Create Route
-const FormCreate = ({ onSubmitForm }) => {
+const FormMint = ({ onSubmitForm }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
     const theme = useTheme();
@@ -149,11 +150,11 @@ const FormCreate = ({ onSubmitForm }) => {
                     isNonFungible: false
                 };
 
-                result = parseFloat(formData.ethPerToken) * GLOBALS.ETH_UNIT;
-                formData.ethPerToken = result.toLocaleString('fullwide', {useGrouping: false});
-
-                result = _.parseInt(formData.amountToMint, 10) * GLOBALS.ETH_UNIT;
-                formData.amountToMint = result.toLocaleString('fullwide', {useGrouping: false});
+                // result = parseFloat(formData.ethPerToken) * GLOBALS.ETH_UNIT;
+                // formData.ethPerToken = result.toLocaleString('fullwide', {useGrouping: false});
+                //
+                // result = _.parseInt(formData.amountToMint, 10) * GLOBALS.ETH_UNIT;
+                // formData.amountToMint = result.toLocaleString('fullwide', {useGrouping: false});
             } else {
                 formData = {
                     ...commonFields,
@@ -161,17 +162,19 @@ const FormCreate = ({ onSubmitForm }) => {
                     isNonFungible: true
                 };
 
-                result = parseFloat(formData.particleCreatorFee);
-                formData.particleCreatorFee = `${_.round(result * GLOBALS.DEPOSIT_FEE_MODIFIER / 100)}`;
+                // result = parseFloat(formData.particleCreatorFee);
+                // formData.particleCreatorFee = `${_.round(result * GLOBALS.DEPOSIT_FEE_MODIFIER / 100)}`;
             }
 
-            result = _.parseInt(formData.particleSupply, 10) * GLOBALS.ETH_UNIT;
-            formData.particleSupply = result.toLocaleString('fullwide', {useGrouping: false});
+            // result = _.parseInt(formData.particleSupply, 10) * GLOBALS.ETH_UNIT;
+            // formData.particleSupply = result.toLocaleString('fullwide', {useGrouping: false});
+
+            console.log('SUBMIT:', formData);
 
             // Pass Form Data to Parent
-            if (await onSubmitForm({formData})) {
-                _triggerClearAll();
-            }
+            // if (await onSubmitForm({formData})) {
+            //     _triggerClearAll();
+            // }
         }
         catch (err) {
             console.error(err);
@@ -180,53 +183,18 @@ const FormCreate = ({ onSubmitForm }) => {
 
     return (
             <form autoComplete="off">
-                <FormCreateCommon
-                    onUpdate={_onCommonFieldsUpdate}
-                    triggerClear={triggerClear}
-                    triggerValidation={triggerValidation}
-                />
-
-                <Box py={5}>
+                <Box pb={5}>
                     <Grid container spacing={3} className={classes.gridRow}>
                         <Grid item xs={12}>
-                            <AppBar position="static" color="default">
-                                <Tabs
-                                    value={fungibilityTab}
-                                    onChange={_handleFungibilityTab}
-                                    indicatorColor="primary"
-                                    textColor="primary"
-                                    aria-label="Token Type"
-                                    centered
-                                >
-                                    <Tab label="Non-fungible" {...a11yProps(0)} />
-                                    <Tab label="or" disabled />
-                                    <Tab label="Fungible" {...a11yProps(2)} />
-                                </Tabs>
-                            </AppBar>
-                            <SwipeableViews
-                                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                                index={fungibilityTab}
-                                onChangeIndex={_handleFungibilityTabIndex}
-                            >
-                                <TabPanel group="wallets" value={fungibilityTab} index={0} boxSpacingY={3}>
-                                    <FormCreateNonFungible
-                                        onUpdate={_onNonFungibleUpdate}
-                                        isPrivate={isPrivate}
-                                        maxSupply={maxSupply}
-                                        triggerClear={triggerClear}
-                                    />
-                                </TabPanel>
-                                <TabPanel group="wallets" value={fungibilityTab} index={1} />
-                                <TabPanel group="wallets" value={fungibilityTab} index={2} boxSpacingY={3}>
-                                    <FormCreateFungible
-                                        onUpdate={_onFungibleUpdate}
-                                        isPrivate={isPrivate}
-                                        maxSupply={maxSupply}
-                                        triggerClear={triggerClear}
-                                        triggerValidation={triggerValidation}
-                                    />
-                                </TabPanel>
-                            </SwipeableViews>
+
+
+                            <ParticleSearchbox
+                                onSelect={() => {
+                                    console.log('onSelect');
+                                }}
+                            />
+
+
                         </Grid>
                     </Grid>
                 </Box>
@@ -298,4 +266,4 @@ const FormCreate = ({ onSubmitForm }) => {
     )
 };
 
-export default FormCreate;
+export default FormMint;

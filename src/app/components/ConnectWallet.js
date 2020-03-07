@@ -1,19 +1,20 @@
 // Frameworks
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { navigate } from '@reach/router';
 import classNames from 'classnames';
 import SwipeableViews from 'react-swipeable-views';
 import * as _ from 'lodash';
 
 // Material UI
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Backdrop from '@material-ui/core/Backdrop';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Divider from '@material-ui/core/Divider';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -24,11 +25,13 @@ import CloseIcon from '@material-ui/icons/Close';
 
 // App Components
 import Wallet from '../wallets';
-import { WalletProviders } from '../wallets/providers.js';
-import TabPanel from '../components/TabPanel.js';
+import { WalletProviders } from '../wallets/providers';
+import TabPanel from './TabPanel';
+import Loading from '../components/Loading';
 
 // Data Context for State
 import { RootContext } from '../stores/root.store';
+import { WalletContext } from '../stores/wallet.store';
 
 // Common
 import { GLOBALS } from '../../utils/globals';
@@ -37,19 +40,24 @@ import { GLOBALS } from '../../utils/globals';
 // Custom Styles
 const useCustomStyles = makeStyles(theme => ({
     backdrop: {
-        background: theme.palette.grey['800'],
-        margin: '-24px',
-        padding: '24px',
-        height: `calc(100vh - ${theme.heights[3]}px)`,
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
     },
-    container: {
-        marginTop: theme.heights[3]
+    dialogContent: {
+        '&, &:first-child': {
+            padding: 0,
+        }
     },
     closeButton: {
         position: 'absolute',
-        top: '12px',
-        right: '12px',
-        width: '40px',
+        top: 0,
+        right: 4,
+        width: 40,
+
+        [theme.breakpoints.up('md')]: {
+            top: 12,
+            right: 12,
+        },
     },
     logoButton: {
         margin: '0.5rem',
@@ -98,7 +106,7 @@ const useCustomStyles = makeStyles(theme => ({
 }));
 
 
-function LogoWrapper({ walletKey }) {
+function LogoWrapper({ walletKey, onConnecting, onConnected }) {
     if (_.isUndefined(WalletProviders[walletKey])) { return ''; }
 
     const wallet = Wallet.instance();
@@ -108,11 +116,13 @@ function LogoWrapper({ walletKey }) {
 
     const _walletConnect = async () => {
         try {
+            onConnecting();
             await wallet.prepare(walletKey);
             await wallet.connect();
-            navigate(GLOBALS.ACCELERATOR_ROOT);
+            onConnected();
         }
         catch (err) {
+            onConnected();
             console.error(err);
         }
     };
@@ -145,14 +155,18 @@ function a11yProps(index) {
 
 // Login Route
 function ConnectWallet() {
-    const [ rootState ] = useContext(RootContext);
-    const { connectionState } = rootState;
+    const [ rootState, rootDispatch ] = useContext(RootContext);
+    const { showConnectWalletModal } = rootState;
+    const [ walletState ] = useContext(WalletContext);
+    const { connectedAddress } = walletState;
+    const isLoggedIn = !_.isEmpty(connectedAddress);
 
     const wallet = Wallet.instance();
-
     const theme = useTheme();
     const customClasses = useCustomStyles();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const [connecting, setConnecting] = useState(false);
     const [currentTab, setCurrentTab] = useState(0);
     const _handleTabChange = (event, newValue) => {
         setCurrentTab(newValue);
@@ -161,14 +175,23 @@ function ConnectWallet() {
         setCurrentTab(index);
     };
 
-    const _close = async () => {
-        navigate(GLOBALS.ACCELERATOR_ROOT);
+    const _handleConnecting = () => {
+        setConnecting(true);
+    };
+
+    const _handleClose = () => {
+        rootDispatch({type: 'SHOW_WALLET_MODAL', payload: false});
+        setConnecting(false);
+    };
+
+    const logoEventHandlers = {
+        onConnecting: _handleConnecting,
+        onConnected: _handleClose,
     };
 
     const _logout = async () => {
         try {
             await wallet.disconnect();
-            navigate(GLOBALS.ACCELERATOR_ROOT);
         }
         catch (err) {
             console.error(err);
@@ -180,7 +203,12 @@ function ConnectWallet() {
         if (!injected.injectedAvailable) { return ''; }
 
         if (injected.isMetaMask) {
-            return (<LogoWrapper walletKey={GLOBALS.WALLET_TYPE_METAMASK} />);
+            return (
+                <LogoWrapper
+                    walletKey={GLOBALS.WALLET_TYPE_METAMASK}
+                    {...logoEventHandlers}
+                />
+            );
         }
     };
 
@@ -193,8 +221,8 @@ function ConnectWallet() {
                     justify="space-evenly"
                     alignItems="center"
                 >
-                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_FORTMATIC} />
-                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_AUTHEREUM} />
+                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_FORTMATIC} {...logoEventHandlers} />
+                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_AUTHEREUM} {...logoEventHandlers} />
                     {_nativeWallet()}
                 </Grid>
             </Box>
@@ -210,9 +238,9 @@ function ConnectWallet() {
                     justify="space-evenly"
                     alignItems="center"
                 >
-                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_WALLETCONNECT} />
-                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_PORTIS} />
-                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_TORUS} />
+                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_WALLETCONNECT} {...logoEventHandlers} />
+                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_PORTIS} {...logoEventHandlers} />
+                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_TORUS} {...logoEventHandlers} />
                 </Grid>
                 <Grid
                     container
@@ -220,17 +248,17 @@ function ConnectWallet() {
                     justify="space-evenly"
                     alignItems="center"
                 >
-                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_ARKANE} />
-                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_SQUARELINK} />
+                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_ARKANE} {...logoEventHandlers} />
+                    <LogoWrapper walletKey={GLOBALS.WALLET_TYPE_SQUARELINK} {...logoEventHandlers} />
                 </Grid>
             </Box>
         );
     };
 
-    return (
-        <div className={customClasses.backdrop}>
-            <Container className={customClasses.container} maxWidth="md">
-                <Paper elevation={3}>
+    const _getDialogContent = () => {
+        return (
+            <>
+                <DialogContent className={customClasses.dialogContent}>
                     <AppBar position="static" color="default">
                         <Tabs
                             value={currentTab}
@@ -238,17 +266,18 @@ function ConnectWallet() {
                             indicatorColor="primary"
                             textColor="primary"
                             aria-label="Wallet Options"
-                            centered
+                            centered={fullScreen}
+                            variant={!fullScreen && 'fullWidth'}
                         >
-                            <Tab label="Recommended" icon={<StarIcon />} {...a11yProps(0)} />
-                            <Tab label="Alternatives" icon={<BeenhereIcon />} {...a11yProps(1)} />
+                            <Tab label={!fullScreen && 'Recommended'} icon={<StarIcon />} {...a11yProps(0)} />
+                            <Tab label={!fullScreen && 'Alternatives'} icon={<BeenhereIcon />} {...a11yProps(1)} />
                         </Tabs>
                         <IconButton
                             aria-label="close"
                             aria-haspopup="true"
                             color="inherit"
                             className={customClasses.closeButton}
-                            onClick={_close}
+                            onClick={_handleClose}
                         >
                             <CloseIcon />
                         </IconButton>
@@ -265,26 +294,39 @@ function ConnectWallet() {
                             {_alternativeWallets()}
                         </TabPanel>
                     </SwipeableViews>
-                    <Divider />
-                    <Grid
-                        container
-                        direction="row"
-                        justify="flex-end"
-                        alignItems="center"
-                    >
-                        <Box p={2}>
+                    <Backdrop className={customClasses.backdrop} open={connecting}>
+                        <Loading msg={'Connecting Wallet'} />
+                    </Backdrop>
+                </DialogContent>
+                {
+                    isLoggedIn && (
+                        <DialogActions>
                             <Button
                                 variant="outlined"
                                 onClick={_logout}
                             >
                                 Logout
                             </Button>
-                        </Box>
-                    </Grid>
-                </Paper>
-            </Container>
-        </div>
+                        </DialogActions>
+                    )
+                }
+            </>
+        );
+    };
+
+    return (
+        <Backdrop className={customClasses.backdrop} open={showConnectWalletModal}>
+            <Dialog
+                fullScreen={fullScreen}
+                open={showConnectWalletModal}
+                onClose={_handleClose}
+                maxWidth={'md'}
+                aria-labelledby="responsive-dialog-title"
+            >
+                {_getDialogContent()}
+            </Dialog>
+        </Backdrop>
     );
 }
 
-export default ConnectWallet;
+export { ConnectWallet };

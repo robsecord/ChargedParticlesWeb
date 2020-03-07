@@ -3,25 +3,32 @@ import React, { useEffect, useContext } from 'react';
 import UseAnimations from 'react-useanimations';
 import * as _ from 'lodash';
 
+// Material UI
+import Alert from '@material-ui/lab/Alert';
+import Typography from '@material-ui/core/Typography';
+
 // App Components
+import SEO from '../../components/seo';
 import Transactions from '../blockchain/transactions';
-import Loading from '../components/Loading.js';
+import Loading from '../components/Loading';
 import ParticleTypesList from '../components/ParticleTypesList';
+import { AcceleratorTabs } from '../components/AcceleratorTabs';
 
 // Data Context for State
 import { RootContext } from '../stores/root.store';
 import { WalletContext } from '../stores/wallet.store';
 import { TransactionContext } from '../stores/transaction.store';
 
-// Material UI
-import Alert from '@material-ui/lab/Alert';
+// Custom Styles
+import useRootStyles from '../layout/styles/root.styles';
 
 // Toast Styles
 import 'react-toastify/dist/ReactToastify.css';
 
 
 // Manage Route
-const Manage = () => {
+const Manage = ({ location }) => {
+    const classes = useRootStyles();
     const [ rootState ] = useContext(RootContext);
     const { networkId, isNetworkConnected } = rootState;
 
@@ -46,44 +53,74 @@ const Manage = () => {
     }, [allReady, networkId, isNetworkConnected, connectedAddress]);
 
 
-    if (searchState !== 'complete') {
-        return (
-            <Loading/>
-        );
-    }
+    const _getContent = () => {
+        if (!allReady) {
+            return (
+                <Alert
+                    variant="outlined"
+                    severity="warning"
+                    icon={<UseAnimations animationKey="alertTriangle" size={24} />}
+                >
+                    You must connect your account in order to Mint Particles!
+                </Alert>
+            );
+        }
 
-    if (!_.isEmpty(searchError)) {
-        return (
-            <Alert
-                variant="outlined"
-                severity="error"
-                icon={<UseAnimations animationKey="alertOctagon" size={24} />}
-            >
-                {searchError}
-            </Alert>
-        );
-    }
+        if (!_.isEmpty(searchError)) {
+            return (
+                <Alert
+                    variant="outlined"
+                    severity="error"
+                    icon={<UseAnimations animationKey="alertOctagon" size={24} />}
+                >
+                    {searchError}
+                </Alert>
+            );
+        }
 
-    if (_.isEmpty(searchTransactions)) {
-        return (
-            <Alert
-                variant="outlined"
-                severity="warning"
-                icon={<UseAnimations animationKey="alertTriangle" size={24} />}
-            >
-                You do not have any created Particle Types!
-            </Alert>
-        );
-    }
+        if (searchState !== 'complete') {
+            return (
+                <Loading/>
+            );
+        }
 
-    // Display Particle Types
-    return (
-        <>
+        if (_.isEmpty(searchTransactions)) {
+            return (
+                <Alert
+                    variant="outlined"
+                    severity="warning"
+                    icon={<UseAnimations animationKey="alertTriangle" size={24} />}
+                >
+                    You do not have any created Particle Types!
+                </Alert>
+            );
+        }
+
+        return (
             <ParticleTypesList
                 owner={connectedAddress}
                 transactions={searchTransactions}
                 allowCache={true}
             />
+        );
+    };
+
+
+    // Display Particle Types
+    return (
+        <>
+            <SEO title={'Manage your Particles'} />
+            <AcceleratorTabs location={location} />
+
+            <Typography
+                variant={'h5'}
+                component={'h3'}
+                className={classes.pageHeader}
+            >
+                Manage your Particles!
+            </Typography>
+
+            {_getContent()}
         </>
     );
 };

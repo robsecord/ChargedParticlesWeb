@@ -5,7 +5,7 @@ export const GLOBALS = {};
 
 GLOBALS.CODENAME = 'ChargedParticles';
 GLOBALS.CODENAME_ABBR = 'CP';
-GLOBALS.CODE_VERSION = 'v0.0.21';
+GLOBALS.CODE_VERSION = 'v0.0.23';
 GLOBALS.BASE_URL = 'https://charged-particles.netlify.com';
 GLOBALS.ACCELERATOR_URL = 'https://charged-particles.netlify.com';
 GLOBALS.ACCELERATOR_ROOT = '/app';

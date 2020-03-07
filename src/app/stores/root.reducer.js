@@ -1,16 +1,10 @@
 
 const RootReducer = (state, action) => {
     switch (action.type) {
-        case 'SET_ACCELERATOR_TAB':
+        case 'SHOW_WALLET_MODAL':
             return {
                 ...state,
-                acceleratorTab: action.payload
-            };
-        case 'MINT_BY_ID':
-            return {
-                ...state,
-                acceleratorTab: action.payload.acceleratorTab,
-                mintById: action.payload.mintById,
+                showConnectWalletModal: action.payload
             };
         case 'CONNECTION_STATE':
             return {

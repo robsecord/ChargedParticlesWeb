@@ -26,7 +26,7 @@ const transactionEventMap = {
     'UPDATE_PLASMA_TYPE': {   // find latest in logs for full record
         contract    : ChargedParticles,
         eventName   : 'PlasmaTypeUpdated',
-        method      : 'PlasmaTypeUpdated(uint256,string,bool,uint256,uint256,uint256,address,string)',
+        method      : 'PlasmaTypeUpdated(uint256,string,bool,uint256,uint256,uint256,string)',
     },
 
     'MINT_PARTICLE': {
@@ -186,6 +186,7 @@ class Transactions {
 
 
     async getPublicParticles() {
+        console.log('getPublicParticles');
         const partialQuery = `topic.3:${GLOBALS.BOOLEAN_FALSE_HEX}`;
         await this._searchCreatedTypes({partialQuery});
     }

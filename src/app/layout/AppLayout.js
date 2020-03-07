@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 // Material UI
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -15,16 +16,17 @@ import { theme as rimbleTheme } from 'rimble-ui';
 
 // Custom Styles
 import './styles/overrides.css';
-import theme from '../../layout/styles/root.theme.js';
+import theme from '../../layout/styles/root.theme';
 import useRootStyles from './styles/root.styles';
 
 // App Components
-import siteOptions from '../../utils/site-options';
 import Wallet from '../wallets';
 import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 import { HeaderBar } from '../components/HeaderBar';
 import { Sidemenu } from '../components/Sidemenu';
+import { ConnectionWarning } from '../components/ConnectionWarning';
+import { ConnectWallet } from '../components/ConnectWallet';
 
 // Contract Data
 import {
@@ -36,7 +38,7 @@ import ChargedParticlesEscrowData from '../blockchain/contracts/ChargedParticles
 
 // Transactions Monitor
 import Transactions from '../blockchain/transactions';
-import TxStreamView from '../components/TxStreamView.js';
+import TxStreamView from '../components/TxStreamView';
 
 // Data Context for State
 import { RootContext } from '../stores/root.store';
@@ -52,7 +54,6 @@ function AppLayout({ children }) {
     const [walletState, walletDispatch] = useContext(WalletContext);
     const [mobileOpen, setMobileOpen] = useState(false);
     const { allReady: isWalletReady, networkId } = walletState;
-    const siteTitle = siteOptions.metadata.title;
 
     const data = useStaticQuery(graphql`
         query SiteDataQuery {
@@ -64,17 +65,15 @@ function AppLayout({ children }) {
             }
         }
     `);
+    const siteTitle = data.site.siteMetadata.title;
+    const siteLogoUrl = data.site.siteMetadata.logoUrl;
 
     const correctNetwork = _.parseInt(GLOBALS.CHAIN_ID, 10);
     const correctNetworkName = _.upperFirst(Helpers.getNetworkName(correctNetwork));
 
     // Prepare Wallet Interface
     useEffect(() => {
-        wallet.init({
-            walletDispatch,
-            siteTitle: data.site.siteMetadata.title,
-            siteLogoUrl: data.site.siteMetadata.logoUrl
-        });
+        wallet.init({walletDispatch, siteTitle, siteLogoUrl});
     }, [wallet, walletDispatch]);
 
     // Reconnect to Contracts on network change
@@ -114,14 +113,14 @@ function AppLayout({ children }) {
     }, [networkId, rootDispatch]);
 
 
-    const _handleDrawerToggle = () => {
+    const _handleDrawerToggle = (evt) => {
+        evt.preventDefault();
         setMobileOpen(!mobileOpen);
     };
 
     const _handleCloseDrawer = () => {
         setMobileOpen(false);
     };
-
 
     return (
         <ThemeProvider theme={{...rimbleTheme, ...theme}}>
@@ -151,7 +150,15 @@ function AppLayout({ children }) {
                 </Hidden>
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
-                    {children}
+
+                    <div className={classes.tabBar}>
+                        <Container maxWidth="md">
+                            <ConnectionWarning />
+                            {children}
+                        </Container>
+                    </div>
+
+                    <ConnectWallet />
                     <TxStreamView />
                 </main>
             </div>

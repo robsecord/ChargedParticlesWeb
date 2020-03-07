@@ -1,21 +1,33 @@
 // Frameworks
 import React, { useState, useEffect, useContext } from 'react';
+import UseAnimations from 'react-useanimations';
 import * as _ from 'lodash';
 
+// Material UI
+import Alert from '@material-ui/lab/Alert';
+import Typography from '@material-ui/core/Typography';
+
 // App Components
-import FormCreate from '../components/FormCreate';
+import SEO from '../../components/seo';
+import FormCreate from '../components/create/FormCreate';
+import FormCreateWizard from '../components/create/FormCreateWizard';
 import LoadingModal from '../components/LoadingModal';
 import Transactions from '../blockchain/transactions';
 import { ContractHelpers } from '../blockchain/contract-helpers';
+import { AcceleratorTabs } from '../components/AcceleratorTabs';
 
 // Data Context for State
 import { WalletContext } from '../stores/wallet.store';
 
+// Custom Styles
+import useRootStyles from '../layout/styles/root.styles';
+
 
 // Create Route
-const Create = () => {
+const Create = ({ location }) => {
+    const classes = useRootStyles();
     const [ walletState ] = useContext(WalletContext);
-    const { connectedAddress } = walletState;
+    const { allReady, connectedAddress } = walletState;
     const [ isSubmitting, setSubmitting ] = useState(false);
     const [ txData, setTxData ] = useState({});
     const [ loadingProgress, setLoadingProgress ] = useState('');
@@ -89,11 +101,46 @@ const Create = () => {
         }
     };
 
-    return (
-        <>
-            <FormCreate
+    const _getContent = () => {
+        if (!allReady) {
+            return (
+                <Alert
+                    variant="outlined"
+                    severity="warning"
+                    icon={<UseAnimations animationKey="alertTriangle" size={24} />}
+                >
+                    You must connect your account in order to Mint Particles!
+                </Alert>
+            );
+        }
+
+        // return (
+        //     <FormCreate
+        //         onSubmitForm={handleSubmit}
+        //     />
+        // );
+
+        return (
+            <FormCreateWizard
                 onSubmitForm={handleSubmit}
             />
+        );
+    };
+
+    return (
+        <>
+            <SEO title={'Create Particles'} />
+            <AcceleratorTabs location={location} />
+
+            <Typography
+                variant={'h5'}
+                component={'h3'}
+                className={classes.pageHeader}
+            >
+                Create a new Particle Type!
+            </Typography>
+
+            {_getContent()}
 
             <LoadingModal
                 title={'Creating Particle!'}

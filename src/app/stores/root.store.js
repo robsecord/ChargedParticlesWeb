@@ -3,8 +3,7 @@ import RootReducer from './root.reducer'
 
 
 const initialState = {
-    acceleratorTab: 0,
-    mintById: '',
+    showConnectWalletModal: false,
 
     networkId: 0,
     isNetworkConnected: false,

@@ -1,11 +1,12 @@
 // Frameworks
+import window from 'global';
 import * as _ from 'lodash';
 
 // Internals
 import { GLOBALS } from '../../utils/globals';
 
 // Wallets
-import { WalletProviders } from '../wallets/providers.js';
+import { WalletProviders } from '../wallets/providers';
 
 
 class Wallet {

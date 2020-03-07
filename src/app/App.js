@@ -11,8 +11,10 @@ import TransactionStore from './stores/transaction.store';
 
 // Page Templates
 import AppLayout from './layout/AppLayout';
-import Accelerator from './pages/Accelerator';
-import ConnectWallet from './pages/ConnectWallet';
+import Create from './pages/Create';
+import Mint from './pages/Mint';
+import Manage from './pages/Manage';
+import Market from './pages/Market';
 
 function App() {
     return (
@@ -21,8 +23,11 @@ function App() {
                 <TransactionStore>
                     <AppLayout>
                         <Router>
-                            <Accelerator path={GLOBALS.ACCELERATOR_ROOT} />
-                            <ConnectWallet path={`${GLOBALS.ACCELERATOR_ROOT}/connect`} />
+                            <Market path={GLOBALS.ACCELERATOR_ROOT} />
+                            <Create path={`${GLOBALS.ACCELERATOR_ROOT}/create`} />
+                            <Mint path={`${GLOBALS.ACCELERATOR_ROOT}/mint`} />
+                            <Mint path={`${GLOBALS.ACCELERATOR_ROOT}/mint/:typeId`} />
+                            <Manage path={`${GLOBALS.ACCELERATOR_ROOT}/manage`} />
                         </Router>
                     </AppLayout>
                 </TransactionStore>

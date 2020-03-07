@@ -292,12 +292,6 @@
         },
         {
           "indexed": false,
-          "internalType": "address",
-          "name": "_mintReceiver",
-          "type": "address"
-        },
-        {
-          "indexed": false,
           "internalType": "string",
           "name": "_uri",
           "type": "string"
@@ -621,11 +615,6 @@
           "internalType": "uint256",
           "name": "_initialMint",
           "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "_mintReceiver",
-          "type": "address"
         },
         {
           "internalType": "bool",
@@ -1178,26 +1167,6 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_id",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_uri",
-          "type": "string"
-        }
-      ],
-      "name": "setURI",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "uint256",
           "name": "_createFeeEth",
           "type": "uint256"
         },
@@ -1334,8 +1303,8 @@
     "3": {
       "links": {},
       "events": {},
-      "address": "0x29239D2FD6B8a1DA41a16Eaa73CBef930f6bf517",
-      "updated_at": 1583123721487
+      "address": "0x224CD1c850659c1E43fc066e02b35072683cE994",
+      "updated_at": 1583616440397
     }
   }
 }

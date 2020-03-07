@@ -4,8 +4,8 @@ import { Buffer } from 'buffer';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
-import { WalletContext } from '../stores/wallet.store';
+import { RootContext } from '../../stores/root.store';
+import { WalletContext } from '../../stores/wallet.store';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -23,7 +23,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 
-import useRootStyles from '../layout/styles/root.styles';
+import useRootStyles from '../../layout/styles/root.styles';
 const useCustomStyles = makeStyles(theme => ({
     switchLabel: {
         pointerEvents: 'none',
@@ -64,7 +64,7 @@ let _commonClearTrigger = null;
 let _commonValidationTrigger = null;
 
 // Create Route
-const FormCreateCommon = ({ onUpdate, triggerClear, triggerValidation }) => {
+const FormCreateCommon = ({ back, next, onUpdate }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
     const [ rootState ] = useContext(RootContext);
@@ -118,20 +118,20 @@ const FormCreateCommon = ({ onUpdate, triggerClear, triggerValidation }) => {
         isPrivate,
     ]);
 
-    useEffect(() => {
-        if (triggerValidation !== _commonValidationTrigger) {
-            _commonValidationTrigger = triggerValidation;
-            _validateAll();
-        }
-        if (triggerClear !== _commonClearTrigger) {
-            _commonClearTrigger = triggerClear;
-            _clearAll();
-        }
-        return () => {
-            _commonClearTrigger = null;
-            _commonValidationTrigger = null;
-        };
-    }, [triggerValidation, triggerClear]);
+    // useEffect(() => {
+    //     if (triggerValidation !== _commonValidationTrigger) {
+    //         _commonValidationTrigger = triggerValidation;
+    //         _validateAll();
+    //     }
+    //     if (triggerClear !== _commonClearTrigger) {
+    //         _commonClearTrigger = triggerClear;
+    //         _clearAll();
+    //     }
+    //     return () => {
+    //         _commonClearTrigger = null;
+    //         _commonValidationTrigger = null;
+    //     };
+    // }, [triggerValidation, triggerClear]);
 
     const _validateAll = () => {
         setParticleNameValid(!_.isEmpty(particleName));
