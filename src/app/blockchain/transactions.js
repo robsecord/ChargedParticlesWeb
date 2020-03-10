@@ -115,8 +115,11 @@ class Transactions {
 
     clearSearch() {
         if (!this.txDispatch) { return; }
-        console.log('clearing search');
         this.txDispatch({type: 'CLEAR_SEARCH'});
+    }
+
+    cancelSearch() {
+        this.activeSearchId = null;
     }
 
     onClose() {
@@ -191,7 +194,6 @@ class Transactions {
 
 
     async getPublicParticles() {
-        console.log('getPublicParticles');
         const partialQuery = `topic.3:${GLOBALS.BOOLEAN_FALSE_HEX}`;
         await this._searchCreatedTypes({partialQuery});
     }
@@ -199,7 +201,6 @@ class Transactions {
 
     async searchPublicParticles({symbolSearch}) {
         const symbolHash = Helpers.keccakStr(symbolSearch);
-        console.log('searchPublicParticles', symbolSearch, symbolHash);
         const partialQuery = `topic.2:${symbolHash}`;
         await this._searchCreatedTypes({partialQuery});
     }
