@@ -36,23 +36,23 @@ ContractHelpers.saveMetadata = ({ particleData, onProgress }) => {
         try {
             // Save Image File to IPFS
             onProgress('Saving Image to IPFS..');
-            const imageFileUrl = await IPFS.saveImageFile({fileBuffer: particleData.particleIconBuffer});
+            const imageFileUrl = await IPFS.saveImageFile({fileBuffer: particleData.iconBuffer});
             console.log('imageFileUrl', imageFileUrl);
 
             // Generate Token Metadata
-            const metadata = {...tokenMetadata};
-            metadata.name = particleData.particleName;
-            metadata.symbol = particleData.particleSymbol;
-            metadata.description = particleData.particleDesc;
-            metadata.external_url = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
-            metadata.image = imageFileUrl;
+            const metadata          = {...tokenMetadata};
+            metadata.name           = particleData.name;
+            metadata.symbol         = particleData.symbol;
+            metadata.description    = particleData.desc;
+            metadata.external_url   = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
+            metadata.image          = imageFileUrl;
             // metadata.properties = {};
             // metadata.attributes = [];
 
             // Save Metadata to IPFS
             onProgress('Saving Metadata to IPFS..');
             const jsonFileUrl = await IPFS.saveJsonFile({jsonObj: metadata});
-            console.log('jsonFileUrl', jsonFileUrl);
+            console.log('jsonFileUrl', jsonFileUrl, metadata);
 
             resolve({imageFileUrl, jsonFileUrl});
         }
@@ -69,18 +69,22 @@ ContractHelpers.createParticle = ({ from, particleData, onProgress, payWithIons 
             const ethPrice = GLOBALS.CREATE_PARTICLE_PRICE.ETH.NFT;
             const {jsonFileUrl} = await ContractHelpers.saveMetadata({particleData, onProgress});
 
+            // Is Series or Collection?
+            particleData.isSeries = particleData.classification === 'series';
+
             // Create Particle on Blockchain
             onProgress('Creating Blockchain Transaction..');
             const chargedParticles = ChargedParticles.instance();
             const tx = {from, value: ethPrice};
             const args = [
-                jsonFileUrl,                        // string memory _uri,
-                particleData.particleSymbol,        // string memory _symbol,
-                particleData.isPrivate,             // bool _isPrivate,
-                particleData.particleAssetPair,     // string _assetPairId,
-                particleData.particleSupply,        // uint256 _maxSupply,
-                particleData.particleCreatorFee,    // uint16 _creatorFee
-                payWithIons,                        // bool _payWithIons
+                jsonFileUrl,                // string memory _uri,
+                particleData.symbol,        // string memory _symbol,
+                particleData.isPrivate,     // bool _isPrivate,
+                particleData.isSeries,      // bool _isSeries,
+                particleData.assetPair,     // string _assetPairId,
+                particleData.supply,        // uint256 _maxSupply,
+                particleData.creatorFee,    // uint256 _creatorFee
+                payWithIons,                // bool _payWithIons
             ];
 
             console.log('tx', tx);
@@ -112,15 +116,14 @@ ContractHelpers.createPlasma = ({ from, particleData, onProgress, payWithIons = 
             const chargedParticles = ChargedParticles.instance();
             const tx = {from, value: ethPrice};
             const args = [
-                from,                           // address _creator,
-                jsonFileUrl,                    // string memory _uri,
-                particleData.particleSymbol,    // string memory _symbol,
-                particleData.isPrivate,         // bool _isPrivate,
-                particleData.particleSupply,    // uint256 _maxSupply,
-                particleData.ethPerToken,       // uint256 _ethPerToken,
-                particleData.amountToMint,      // uint256 _initialMint,
-                particleData.mintReceiver,      // address _mintReceiver,
-                payWithIons                     // bool _payWithIons
+                from,                       // address _creator,
+                jsonFileUrl,                // string memory _uri,
+                particleData.symbol,        // string memory _symbol,
+                particleData.isPrivate,     // bool _isPrivate,
+                particleData.supply,        // uint256 _maxSupply,
+                particleData.ethPerToken,   // uint256 _ethPerToken,
+                particleData.amountToMint,  // uint256 _initialMint,
+                payWithIons                 // bool _payWithIons
             ];
 
             console.log('tx', tx);

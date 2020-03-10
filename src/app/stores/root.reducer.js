@@ -24,6 +24,19 @@ const RootReducer = (state, action) => {
                 isNetworkConnected : action.payload.isNetworkConnected,
                 networkErrors      : action.payload.networkErrors,
             };
+        case 'UPDATE_CREATION_DATA':
+            return {
+                ...state,
+                createParticleData : {
+                    ...state.createParticleData,
+                    ...action.payload
+                },
+            };
+        case 'CLEAR_CREATION_DATA':
+            return {
+                ...state,
+                createParticleData : {},
+            };
         default:
             return state;
     }

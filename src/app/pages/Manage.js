@@ -52,6 +52,12 @@ const Manage = ({ location }) => {
         }
     }, [allReady, networkId, isNetworkConnected, connectedAddress]);
 
+    useEffect(() => {
+        return () => {
+            Transactions.instance().clearSearch();
+        };
+    }, []);
+
 
     const _getContent = () => {
         if (!allReady) {

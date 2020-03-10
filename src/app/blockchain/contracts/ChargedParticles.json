@@ -169,15 +169,15 @@
         },
         {
           "indexed": false,
-          "internalType": "string",
-          "name": "_assetPairId",
-          "type": "string"
+          "internalType": "bool",
+          "name": "_isSeries",
+          "type": "bool"
         },
         {
           "indexed": false,
-          "internalType": "uint256",
-          "name": "_maxSupply",
-          "type": "uint256"
+          "internalType": "string",
+          "name": "_assetPairId",
+          "type": "string"
         },
         {
           "indexed": false,
@@ -271,12 +271,6 @@
           "internalType": "bool",
           "name": "_isPrivate",
           "type": "bool"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "_maxSupply",
-          "type": "uint256"
         },
         {
           "indexed": false,
@@ -546,6 +540,11 @@
           "type": "bool"
         },
         {
+          "internalType": "bool",
+          "name": "_isSeries",
+          "type": "bool"
+        },
+        {
           "internalType": "string",
           "name": "_assetPairId",
           "type": "string"
@@ -787,6 +786,27 @@
       ],
       "payable": false,
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSeriesNumber",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
       "type": "function"
     },
     {
@@ -1303,8 +1323,8 @@
     "3": {
       "links": {},
       "events": {},
-      "address": "0x224CD1c850659c1E43fc066e02b35072683cE994",
-      "updated_at": 1583616440397
+      "address": "0x94EA50510C391C3D068AD4f1c83fb0203d305E17",
+      "updated_at": 1583682242847
     }
   }
 }

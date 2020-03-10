@@ -1,41 +1,36 @@
 // Frameworks
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
 import * as _ from 'lodash';
+
+// Data Context for State
+import { RootContext } from '../../stores/root.store';
 
 // Material UI
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Collapse from '@material-ui/core/Collapse';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-import { red } from '@material-ui/core/colors';
-
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CheckIcon from '@material-ui/icons/Check';
 
 const useCustomStyles = makeStyles(theme => ({
     root: {
         minWidth: 200,
+    },
+    cardContent: {
+        padding: 22,
     },
     cardTitle: {
         marginLeft: 10,
@@ -58,7 +53,8 @@ const itemSpecs = {w: 100, h: 130, b: 3, r: 5, c1: '#ccc', c2: '#999'};
 const SeriesOption = withStyles(theme => ({
     root: {
         position: 'relative',
-        left: '53%',
+        left: '45%',
+        top: 14,
         width: itemSpecs.w,
         height: itemSpecs.h,
         border: `${itemSpecs.b}px dashed ${itemSpecs.c2}`,
@@ -69,8 +65,8 @@ const SeriesOption = withStyles(theme => ({
         '&::before': {
             display: 'block',
             position: 'absolute',
-            top: (itemSpecs.b * 2),
-            right: (itemSpecs.b * 2),
+            top: -12,
+            right: -12,
             width: itemSpecs.w,
             height: itemSpecs.h,
             border: `${itemSpecs.b}px dashed ${itemSpecs.c2}`,
@@ -82,8 +78,8 @@ const SeriesOption = withStyles(theme => ({
         '&::after': {
             display: 'block',
             position: 'absolute',
-            top: (itemSpecs.b * 2) + 10,
-            right: (itemSpecs.b * 2) + 10,
+            top: -21,
+            right: -21,
             width: itemSpecs.w,
             height: itemSpecs.h,
             border: `${itemSpecs.b}px solid ${itemSpecs.c1}`,
@@ -97,7 +93,7 @@ const SeriesOption = withStyles(theme => ({
 const CollectionOption = withStyles(theme => ({
     root: {
         position: 'relative',
-        left: '53%',
+        left: '45%',
         width: itemSpecs.w,
         height: itemSpecs.h,
         border: `${itemSpecs.b}px dashed ${itemSpecs.c2}`,
@@ -109,7 +105,7 @@ const CollectionOption = withStyles(theme => ({
             display: 'block',
             position: 'absolute',
             top: -itemSpecs.b,
-            right: itemSpecs.b + 10,
+            right: -18,
             width: itemSpecs.w,
             height: itemSpecs.h,
             border: `${itemSpecs.b}px dashed ${itemSpecs.c2}`,
@@ -122,7 +118,7 @@ const CollectionOption = withStyles(theme => ({
             display: 'block',
             position: 'absolute',
             top: -itemSpecs.b,
-            right: (itemSpecs.b * 10),
+            right: -34,
             width: itemSpecs.w,
             height: itemSpecs.h,
             border: `${itemSpecs.b}px solid ${itemSpecs.c1}`,
@@ -133,16 +129,16 @@ const CollectionOption = withStyles(theme => ({
     }
 }))(Paper);
 
-
 const PlasmaOption = withStyles(theme => ({
     root: {
         '&, &:last-child': {
             position: 'relative',
-            left: '53%',
-            width: itemSpecs.w - 5,
-            height: itemSpecs.w - 5,
+            top: 0,
+            left: '42%',
+            width: itemSpecs.w + 15,
+            height: itemSpecs.w + 15,
             marginTop: 10,
-            marginBottom: 25,
+            marginBottom: 6,
             border: `${itemSpecs.b}px dashed ${itemSpecs.c2}`,
             background: theme.palette.background.paper,
             borderRadius: '50%',
@@ -151,10 +147,10 @@ const PlasmaOption = withStyles(theme => ({
             '&::before': {
                 display: 'block',
                 position: 'absolute',
-                top: (itemSpecs.b * 2),
-                right: (itemSpecs.b * 2),
-                width: itemSpecs.w - 5,
-                height: itemSpecs.w - 5,
+                top: -3,
+                right: -18,
+                width: itemSpecs.w + 15,
+                height: itemSpecs.w + 15,
                 border: `${itemSpecs.b}px dashed ${itemSpecs.c2}`,
                 background: theme.palette.background.paper,
                 borderRadius: '50%',
@@ -164,10 +160,10 @@ const PlasmaOption = withStyles(theme => ({
             '&::after': {
                 display: 'block',
                 position: 'absolute',
-                top: (itemSpecs.b * 2) + 10,
-                right: (itemSpecs.b * 2) + 10,
-                width: itemSpecs.w,
-                height: itemSpecs.w,
+                top: -6,
+                right: -39,
+                width: itemSpecs.w + 20,
+                height: itemSpecs.w + 20,
                 border: `${itemSpecs.b}px solid ${itemSpecs.c1}`,
                 background: theme.palette.background.paper,
                 borderRadius: '50%',
@@ -216,8 +212,9 @@ const getTypes = () => {
 };
 
 
-const FormCreateClasification = ({ back, next, onUpdate }) => {
+const FormCreateClasification = ({ next }) => {
     const customClasses = useCustomStyles();
+    const [, rootDispatch] = useContext(RootContext);
     const [expanded, setExpanded] = useState(-1);
     const types = getTypes();
 
@@ -226,20 +223,18 @@ const FormCreateClasification = ({ back, next, onUpdate }) => {
     };
 
     const _selectClassifiation = (index) => (evt) => {
-        onUpdate({classification: types[index].type});
+        rootDispatch({type: 'UPDATE_CREATION_DATA', payload: {classification: types[index].type}});
         next();
     };
 
     const _getCardForType = (index) => {
         const isExpanded = (expanded === index);
         return (
-            <Grid item sm={12} md={4}>
+            <Grid item sm={12} md={4} key={index}>
                 <Card className={customClasses.root} variant="outlined">
                     <CardActionArea onClick={_selectClassifiation(index)}>
-                        <CardContent>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {types[index].content}
-                            </Typography>
+                        <CardContent className={customClasses.cardContent}>
+                            {types[index].content}
                         </CardContent>
                     </CardActionArea>
                     <CardActions disableSpacing>
@@ -266,8 +261,8 @@ const FormCreateClasification = ({ back, next, onUpdate }) => {
                     </Collapse>
                 </Card>
                 <List dense={true}>
-                    {_.map(types[index].bullets, (bullet) => (
-                        <ListItem>
+                    {_.map(types[index].bullets, (bullet, index) => (
+                        <ListItem key={index}>
                             <ListItemIcon>
                                 <CheckIcon color="primary" />
                             </ListItemIcon>

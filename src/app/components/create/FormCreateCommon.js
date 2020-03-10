@@ -10,7 +10,10 @@ import { WalletContext } from '../../stores/wallet.store';
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -60,27 +63,27 @@ const _maxSupplyInputOptions = {
     type: 'number',
 };
 
-let _commonClearTrigger = null;
-let _commonValidationTrigger = null;
-
 // Create Route
-const FormCreateCommon = ({ back, next, onUpdate }) => {
+const FormCreateCommon = ({ back, next }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
-    const [ rootState ] = useContext(RootContext);
-    const { connectionState } = rootState;
+
+    const [ rootState, rootDispatch ] = useContext(RootContext);
+    const { connectionState, createParticleData } = rootState;
+
     const [ walletState ] = useContext(WalletContext);
     const { allReady, connectedAddress } = walletState;
 
-    const [particleName,        setParticleName]        = useState('');
-    const [particleSymbol,      setParticleSymbol]      = useState('');
-    const [particleIcon,        setParticleIcon]        = useState('Upload Particle Icon *');
-    const [particleIconBuffer,  setParticleIconBuffer]  = useState('');
-    const [particleIconBase64,  setParticleIconBase64]  = useState('');
-    const [particleCreator,     setParticleCreator]     = useState('');
-    const [particleDesc,        setParticleDesc]        = useState('');
-    const [particleSupply,      setParticleSupply]      = useState(0);
-    const [isPrivate,           setPrivate]             = useState(false);
+    const [particleName,        setParticleName]        = useState(createParticleData.name || '');
+    const [particleDesc,        setParticleDesc]        = useState(createParticleData.desc || '');
+    const [particleSymbol,      setParticleSymbol]      = useState(createParticleData.symbol || '');
+    const [particleCreator,     setParticleCreator]     = useState(createParticleData.creator || '');
+    const [particleIcon,        setParticleIcon]        = useState(createParticleData.icon || 'Upload Particle Icon *');
+    const [particleIconBuffer,  setParticleIconBuffer]  = useState(createParticleData.iconBuffer || null);
+    const [particleIconBase64,  setParticleIconBase64]  = useState(createParticleData.iconBase64 || null);
+    const [particleSupply,      setParticleSupply]      = useState(createParticleData.supply || 0);
+    const [isPrivate,           setPrivate]             = useState(createParticleData.isPrivate || false);
+    const [formValidated,       setFormValidated]       = useState(false);
 
     const [isParticleNameValid,    setParticleNameValid]    = useState(true);
     const [isParticleSymbolValid,  setParticleSymbolValid]  = useState(true);
@@ -96,16 +99,12 @@ const FormCreateCommon = ({ back, next, onUpdate }) => {
     }, []);
 
     useEffect(() => {
-        const formValidated = _validateForm();
-        onUpdate({
-            formValidated,
-            particleName: _.trim(particleName),
-            particleDesc: _.trim(particleDesc),
-            particleSymbol,
-            particleCreator,
-            particleSupply,
-            particleIconBuffer,
-            isPrivate,
+        setFormValidated(_validateForm());
+
+        const formData = _getFormData();
+        rootDispatch({
+            type    : 'UPDATE_CREATION_DATA',
+            payload : formData
         });
     }, [
         connectionState,
@@ -114,24 +113,25 @@ const FormCreateCommon = ({ back, next, onUpdate }) => {
         particleDesc,
         particleCreator,
         particleSupply,
+        particleIcon,
         particleIconBuffer,
+        particleIconBase64,
         isPrivate,
     ]);
 
-    // useEffect(() => {
-    //     if (triggerValidation !== _commonValidationTrigger) {
-    //         _commonValidationTrigger = triggerValidation;
-    //         _validateAll();
-    //     }
-    //     if (triggerClear !== _commonClearTrigger) {
-    //         _commonClearTrigger = triggerClear;
-    //         _clearAll();
-    //     }
-    //     return () => {
-    //         _commonClearTrigger = null;
-    //         _commonValidationTrigger = null;
-    //     };
-    // }, [triggerValidation, triggerClear]);
+    const _getFormData = () => {
+        return {
+            name        : _.trim(particleName),
+            desc        : _.trim(particleDesc),
+            symbol      : particleSymbol,
+            creator     : particleCreator,
+            icon        : particleIcon,
+            iconBuffer  : particleIconBuffer,
+            iconBase64  : particleIconBase64,
+            supply      : particleSupply,
+            isPrivate,
+        };
+    };
 
     const _validateAll = () => {
         setParticleNameValid(!_.isEmpty(particleName));
@@ -151,24 +151,6 @@ const FormCreateCommon = ({ back, next, onUpdate }) => {
             !_.isEmpty(particleIconBuffer),
         ];
         return _.every(conditions, Boolean);
-    };
-
-    const _clearAll = () => {
-        setParticleName('');
-        setParticleSymbol('');
-        setParticleIcon('Upload Particle Icon *');
-        setParticleIconBuffer('');
-        setParticleIconBase64('');
-        setParticleCreator('');
-        setParticleDesc('');
-        setParticleSupply(0);
-        setPrivate(false);
-
-        setParticleNameValid(true);
-        setParticleSymbolValid(true);
-        setParticleDescValid(true);
-        setParticleCreatorValid(true);
-        setParticleIconValid(true);
     };
 
     const _cleanParticleIconDisplay = (filename) => {
@@ -236,149 +218,205 @@ const FormCreateCommon = ({ back, next, onUpdate }) => {
         setPrivate(_private);
     };
 
+    const _handleSubmit = async evt => {
+        evt.preventDefault();
+        if (!formValidated) {
+            return _validateAll();
+        }
+        next();
+    };
 
     return (
         <>
-            <Grid container spacing={3} className={classes.gridRow}>
-                <Grid item xs={6}>
-                    <TextField
-                        id="particleTypeName"
-                        label="Name"
-                        variant="outlined"
-                        onChange={_updateParticleName}
-                        value={particleName}
-                        fullWidth
-                        required
-                        error={!isParticleNameValid}
-                    />
-                </Grid>
-
-                <Grid item xs={6}>
-                    <TextField
-                        id="particleTypeSymbol"
-                        label="Symbol"
-                        variant="outlined"
-                        onChange={_updateParticleSymbol}
-                        value={particleSymbol}
-                        fullWidth
-                        required
-                        error={!isParticleSymbolValid}
-                    />
-                </Grid>
-            </Grid>
-
-            <Grid container spacing={3} className={classes.gridRow}>
-                <Grid item xs={12}>
-                    <TextField
-                        id="particleTypeDesc"
-                        label="Description"
-                        variant="outlined"
-                        onChange={_updateParticleDesc}
-                        value={particleDesc}
-                        multiline
-                        rows="4"
-                        fullWidth
-                        required
-                        error={!isParticleDescValid}
-                    />
-                </Grid>
-            </Grid>
-
-            <Grid container spacing={3} className={classes.gridRow}>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        id="particleTypeCreator"
-                        label="Creator"
-                        variant="outlined"
-                        onChange={_updateParticleCreator}
-                        value={particleCreator}
-                        fullWidth
-                        required
-                        error={!isParticleCreatorValid}
-                    />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                className={customClasses.switchControl}
-                                checked={isPrivate}
-                                onChange={_togglePrivate}
-                                value="private"
-                                required
-                            />
-                        }
-                        label="Private Minting"
-                    />
-                </Grid>
-            </Grid>
-
-            <Grid container spacing={3} className={classes.gridRow}>
-                <Grid item xs={12} sm={6}>
-                    <FormControl fullWidth variant="outlined">
-                        <InputLabel htmlFor="particleTypeSupply">Max-Supply</InputLabel>
-                        <OutlinedInput
-                            id="particleTypeSupply"
-                            onChange={_updateParticleSupply}
-                            onBlur={_handleMaxSupplyBlur}
-                            value={particleSupply}
+            <Box py={3}>
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="particleTypeName"
+                            label="Name"
+                            variant="outlined"
+                            onChange={_updateParticleName}
+                            value={particleName}
                             fullWidth
-                            labelWidth={90}
-                            inputProps={_maxSupplyInputOptions}
-                        />
-                    </FormControl>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                    <Grid
-                        container
-                        direction="row"
-                        justify="space-between"
-                        alignItems="center"
-                    >
-                        <FormControl
                             required
-                            error={!isParticleIconValid}
-                            component="fieldset"
-                            className={customClasses.fileInputFieldset}
-                        >
-                            <FormGroup>
-                                <FormControlLabel
-                                    classes={{
-                                        root: customClasses.fileName,
-                                        label: customClasses.fileNameLabel,
-                                    }}
-                                    control={
-                                        <>
-                                            <input
-                                                id="particleTypeIcon"
-                                                type="file"
-                                                accept="image/*"
-                                                className={customClasses.fileInput}
-                                                onChange={_updateParticleIcon}
-                                                required
-                                            />
-                                            <IconButton
-                                                color="secondary"
-                                                aria-label="upload icon"
-                                                component="span"
-                                            >
-                                                <PhotoCamera />
-                                            </IconButton>
-                                        </>
-                                    }
-                                    label={_cleanParticleIconDisplay(particleIcon)}
-                                />
-                            </FormGroup>
-                            <FormHelperText error={true}>{!isParticleIconValid ? 'Particle Icon required' : ''}</FormHelperText>
-                        </FormControl>
-                        <Avatar alt="User Icon" src={particleIconBase64}>?</Avatar>
+                            error={!isParticleNameValid}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <TextField
+                            id="particleTypeSymbol"
+                            label="Symbol"
+                            variant="outlined"
+                            onChange={_updateParticleSymbol}
+                            value={particleSymbol}
+                            fullWidth
+                            required
+                            error={!isParticleSymbolValid}
+                        />
                     </Grid>
                 </Grid>
-            </Grid>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12}>
+                        <TextField
+                            id="particleTypeDesc"
+                            label="Description"
+                            variant="outlined"
+                            onChange={_updateParticleDesc}
+                            value={particleDesc}
+                            multiline
+                            rows="4"
+                            fullWidth
+                            required
+                            error={!isParticleDescValid}
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            id="particleTypeCreator"
+                            label="Creator"
+                            variant="outlined"
+                            onChange={_updateParticleCreator}
+                            value={particleCreator}
+                            fullWidth
+                            required
+                            error={!isParticleCreatorValid}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    className={customClasses.switchControl}
+                                    checked={isPrivate}
+                                    onChange={_togglePrivate}
+                                    value="private"
+                                    required
+                                />
+                            }
+                            label="Private Minting"
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <InputLabel htmlFor="particleTypeSupply">Max-Supply</InputLabel>
+                            <OutlinedInput
+                                id="particleTypeSupply"
+                                onChange={_updateParticleSupply}
+                                onBlur={_handleMaxSupplyBlur}
+                                value={particleSupply}
+                                fullWidth
+                                labelWidth={90}
+                                inputProps={_maxSupplyInputOptions}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="space-between"
+                            alignItems="center"
+                        >
+                            <FormControl
+                                required
+                                error={!isParticleIconValid}
+                                component="fieldset"
+                                className={customClasses.fileInputFieldset}
+                            >
+                                <FormGroup>
+                                    <FormControlLabel
+                                        classes={{
+                                            root: customClasses.fileName,
+                                            label: customClasses.fileNameLabel,
+                                        }}
+                                        control={
+                                            <>
+                                                <input
+                                                    id="particleTypeIcon"
+                                                    type="file"
+                                                    accept="image/*"
+                                                    className={customClasses.fileInput}
+                                                    onChange={_updateParticleIcon}
+                                                    required
+                                                />
+                                                <IconButton
+                                                    color="secondary"
+                                                    aria-label="upload icon"
+                                                    component="span"
+                                                >
+                                                    <PhotoCamera />
+                                                </IconButton>
+                                            </>
+                                        }
+                                        label={_cleanParticleIconDisplay(particleIcon)}
+                                    />
+                                </FormGroup>
+                                <FormHelperText error={true}>{!isParticleIconValid ? 'Particle Icon required' : ''}</FormHelperText>
+                            </FormControl>
+                            <Avatar alt="User Icon" src={particleIconBase64}>?</Avatar>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
+
+            <Divider />
+
+            <Box py={2}>
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12} sm={6}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center"
+                            className={classes.gridRow}
+                        >
+                            <Button
+                                type="button"
+                                variant="outlined"
+                                size="large"
+                                onClick={back}
+                            >
+                                back
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-end"
+                            alignItems="center"
+                            className={classes.gridRow}
+                            style={{textAlign:'right'}}
+                        >
+                            <Button
+                                type="button"
+                                // disabled={!formValidated}
+                                variant={formValidated ? 'contained' : 'outlined'}
+                                color={formValidated ? 'primary' : 'default'}
+                                size="large"
+                                onClick={_handleSubmit}
+                                className={formValidated ? '' : customClasses.visiblyDisabledButton}
+                            >
+                                next
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
         </>
-    )
-};
+    );
+}
 
 export default FormCreateCommon;

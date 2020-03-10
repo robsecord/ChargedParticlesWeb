@@ -11,6 +11,8 @@ const initialState = {
 
     connectionState: {},
 
+    createParticleData: {},
+
     errors: null
 };
 

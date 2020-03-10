@@ -21,6 +21,7 @@ import {
 import Layout from '../layout/layout';
 import SEO from '../components/seo';
 import { ParticleText } from '../components/ParticleText';
+import { GLOBALS } from '../utils/globals';
 
 // Custom Theme
 import useLandingStyles from '../layout/styles/landing.styles';
@@ -92,7 +93,7 @@ const IndexPage = () => {
 
     const _gotoApp = (evt) => {
         evt.preventDefault();
-        navigate('/app/');
+        navigate(`${GLOBALS.ACCELERATOR_ROOT}`);
     };
 
     return (

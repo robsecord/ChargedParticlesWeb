@@ -20,13 +20,13 @@ const transactionEventMap = {
     'UPDATE_PARTICLE_TYPE': {   // find latest in logs for full record
         contract    : ChargedParticles,
         eventName   : 'ParticleTypeUpdated',
-        method      : 'ParticleTypeUpdated(uint256,string,bool,string,uint256,uint256,string)',
+        method      : 'ParticleTypeUpdated(uint256,string,bool,bool,string,uint256,string)',
     },
 
     'UPDATE_PLASMA_TYPE': {   // find latest in logs for full record
         contract    : ChargedParticles,
         eventName   : 'PlasmaTypeUpdated',
-        method      : 'PlasmaTypeUpdated(uint256,string,bool,uint256,uint256,uint256,string)',
+        method      : 'PlasmaTypeUpdated(uint256,string,bool,uint256,uint256,string)',
     },
 
     'MINT_PARTICLE': {
@@ -69,6 +69,7 @@ class Transactions {
         this.networkId = 0;
         this.stream = null;
         this.client = null;
+        this.activeSearchId = null;
     }
 
     static instance() {
@@ -107,11 +108,15 @@ class Transactions {
         const transactionHash = LocalCache.get('streamTxHash');
         if (_.isEmpty(transactionHash)) { return; }
 
-        console.log('resumeIncompleteStreams');
-
         (async () => {
             await this.streamTransaction({transactionHash});
         })();
+    }
+
+    clearSearch() {
+        if (!this.txDispatch) { return; }
+        console.log('clearing search');
+        this.txDispatch({type: 'CLEAR_SEARCH'});
     }
 
     onClose() {
@@ -194,6 +199,7 @@ class Transactions {
 
     async searchPublicParticles({symbolSearch}) {
         const symbolHash = Helpers.keccakStr(symbolSearch);
+        console.log('searchPublicParticles', symbolSearch, symbolHash);
         const partialQuery = `topic.2:${symbolHash}`;
         await this._searchCreatedTypes({partialQuery});
     }
@@ -223,6 +229,9 @@ class Transactions {
 
         const query = `address: ${contractAddress} (topic.0:${particleMethodHash} OR topic.0:${plasmaMethodHash}) ${partialQuery}`;
         console.log('query', query);
+        const activeSearchId = Helpers.keccakStr(query);
+        this.activeSearchId = activeSearchId;
+
         const response = await this.client.graphql(searchTransactionEvent, {
             variables: {
                 query,
@@ -231,6 +240,10 @@ class Transactions {
                 lowBlockNum: GLOBALS.STARTING_BLOCK,
             }
         });
+
+        if (this.activeSearchId !== activeSearchId) {
+            return; // Another search initiated after this one; ignore current
+        }
 
         if (response.errors) {
             this.txDispatch({type: 'SEARCH_ERROR', payload: {

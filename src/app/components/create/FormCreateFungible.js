@@ -4,17 +4,17 @@ import * as _ from 'lodash';
 
 // Data Context for State
 import { RootContext } from '../../stores/root.store';
-import { WalletContext } from '../../stores/wallet.store';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import TextField from '@material-ui/core/TextField';
 import Slider from '@material-ui/core/Slider';
 
 // Custom Styles
@@ -48,83 +48,44 @@ const _amountToMintInputOptions = {
     type: 'number',
 };
 
-let _fungibleClearTrigger = null;
-let _fungibleValdationTrigger = null;
-
 // Create Route
-const FormCreateFungible = ({ onUpdate, triggerClear, triggerValidation, isPrivate, maxSupply }) => {
+const FormCreateFungible = ({ back, next }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
-    const [ rootState ] = useContext(RootContext);
-    const { connectionState } = rootState;
-    const [ walletState ] = useContext(WalletContext);
-    const { allReady, connectedAddress } = walletState;
 
-    const mintableMaxSupply = (maxSupply > 0) ? maxSupply : _amountToMintInputOptions.max;
+    const [ rootState, rootDispatch ] = useContext(RootContext);
+    const { connectionState, createParticleData } = rootState;
+
+    const mintableMaxSupply = _.parseInt((createParticleData.supply > 0) ? createParticleData.supply : _amountToMintInputOptions.max, 10);
     const mintableStep = Math.max(_.round(mintableMaxSupply / 1000), 1);
 
-    const [mintReceiver,            setMintReceiver]        = useState('');
-    const [amountToMint,            setAmountToMint]        = useState(0);
-    const [amountToReserve,         setAmountToReserve]     = useState(mintableMaxSupply);
-    const [ethPerToken,             setEthPerToken]         = useState(0);
-    const [isMintReceiverValid,     setMintReceiverValid]   = useState(true);
+    let mintAmount = createParticleData.amountToMint || 0;
+    if (mintAmount > mintableMaxSupply) {
+        mintAmount = mintableMaxSupply;
+    }
+    const reserve = mintableMaxSupply - mintAmount;
+
+    const [amountToMint,    setAmountToMint]    = useState(mintAmount);
+    const [amountToReserve, setAmountToReserve] = useState(reserve);
+    const [ethPerToken,     setEthPerToken]     = useState(createParticleData.ethPerToken || 0);
 
     useEffect(() => {
-        if (allReady && _.isEmpty(mintReceiver)) {
-            setMintReceiver(connectedAddress);
-            setMintReceiverValid(!_.isEmpty(connectedAddress));
-        }
-    }, []);
-
-    useEffect(() => {
-        const formValidated = _validateForm();
-        onUpdate({
-            formValidated,
-            mintReceiver,
-            amountToMint,
-            ethPerToken,
+        const formData = _getFormData();
+        rootDispatch({
+            type    : 'UPDATE_CREATION_DATA',
+            payload : formData
         });
     }, [
         connectionState,
-        mintReceiver,
         amountToMint,
         ethPerToken,
     ]);
 
-    useEffect(() => {
-        if (triggerValidation !== _fungibleValdationTrigger) {
-            _fungibleValdationTrigger = triggerValidation;
-            _validateAll();
-        }
-        if (triggerClear !== _fungibleClearTrigger) {
-            _fungibleClearTrigger = triggerClear;
-            _clearAll();
-        }
-        return () => {
-            _fungibleClearTrigger = null;
-            _fungibleValdationTrigger = null;
+    const _getFormData = () => {
+        return {
+            amountToMint,
+            ethPerToken,
         };
-    }, [triggerValidation, triggerClear]);
-
-    const _validateAll = () => {
-        setMintReceiverValid(!_.isEmpty(mintReceiver));
-    };
-
-    const _validateForm = () => {
-        const conditions = [
-            _.isEmpty(connectionState),
-            !_.isEmpty(mintReceiver),
-        ];
-        return _.every(conditions, Boolean);
-    };
-
-    const _clearAll = () => {
-        setMintReceiver('');
-        setAmountToMint(0);
-        setAmountToReserve(mintableMaxSupply);
-        setEthPerToken(0);
-
-        setMintReceiverValid(true);
     };
 
     const _updateAmounts = (toMint) => {
@@ -149,12 +110,6 @@ const FormCreateFungible = ({ onUpdate, triggerClear, triggerValidation, isPriva
         }
     };
 
-    const _updateMintReceiver = evt => {
-        const value = _.trim(evt.target.value);
-        setMintReceiver(value);
-        setMintReceiverValid(!_.isEmpty(value));
-    };
-
     const _updateEthPerToken = evt => {
         const value = _.trim(evt.target.value);
         setEthPerToken(value);
@@ -169,96 +124,131 @@ const FormCreateFungible = ({ onUpdate, triggerClear, triggerValidation, isPriva
         _updateAmounts(newValue);
     };
 
+    const _handleSubmit = async evt => {
+        evt.preventDefault();
+        next();
+    };
+
     return (
         <>
-            <Grid container spacing={3} className={classes.gridRow}>
-                <Grid item xs={6}>
-                    <p className={customClasses.subHeading}>Initial Mint</p>
-                    <TextField
-                        id="mintReceiver"
-                        label="Mint To"
-                        variant="outlined"
-                        onChange={_updateMintReceiver}
-                        value={mintReceiver}
-                        fullWidth
-                        required
-                        error={!isMintReceiverValid}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    {
-                        isPrivate
-                            ? (
-                                <p className={customClasses.subHeading}><s>Public Mint</s></p>
+            <Box pt={2}>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={8}>
+                        <Grid container spacing={3} className={classes.gridRow}>
+                            <Grid item xs={6}>
+                                <FormControl fullWidth variant="outlined">
+                                    <InputLabel htmlFor="particleTypeSupply">Amount to Mint</InputLabel>
+                                    <OutlinedInput
+                                        id="amountToMint"
+                                        onChange={_updateAmountToMint}
+                                        onBlur={_handleAmountBlur}
+                                        value={amountToMint}
+                                        fullWidth
+                                        labelWidth={125}
+                                        inputProps={{
+                                            ..._amountToMintInputOptions,
+                                            step: mintableStep,
+                                            max: mintableMaxSupply,
+                                        }}
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl fullWidth variant="outlined">
+                                    <InputLabel htmlFor="particleTypeSupply">Amount to {createParticleData.isPrivate ? 'Reserve' : 'Sell'}</InputLabel>
+                                    <OutlinedInput
+                                        id="amountToReserve"
+                                        value={amountToReserve}
+                                        readOnly
+                                        fullWidth
+                                        labelWidth={125}
+                                        inputProps={{
+                                            ..._amountToMintInputOptions,
+                                            step: mintableStep,
+                                            max: mintableMaxSupply,
+                                        }}
+                                    />
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+
+                        <Box px={5} py={1}>
+                            <Slider
+                                min={_amountToMintInputOptions.min}
+                                max={mintableMaxSupply}
+                                step={mintableStep}
+                                value={amountToMint}
+                                onChange={_slideAmountToMint}
+                            />
+                        </Box>
+                    </Grid>
+                    <Grid item xs={4}>
+                        {
+                            !createParticleData.isPrivate && (
+                                <FormControl fullWidth variant="outlined">
+                                    <InputLabel htmlFor="ethPerToken">Token Price</InputLabel>
+                                    <OutlinedInput
+                                        id="ethPerToken"
+                                        startAdornment={<InputAdornment position="start">ETH</InputAdornment>}
+                                        onChange={_updateEthPerToken}
+                                        onBlur={_handleEthPerTokenBlur}
+                                        value={createParticleData.isPrivate ? 0 : ethPerToken}
+                                        fullWidth
+                                        labelWidth={100}
+                                        disabled={createParticleData.isPrivate}
+                                        inputProps={_ethPerTokenOptions}
+                                    />
+                                </FormControl>
                             )
-                            : (
-                                <p className={customClasses.subHeading}>Public Mint</p>
-                            )
-                    }
-                    <FormControl fullWidth variant="outlined">
-                        <InputLabel htmlFor="ethPerToken">Token Price</InputLabel>
-                        <OutlinedInput
-                            id="ethPerToken"
-                            startAdornment={<InputAdornment position="start">ETH</InputAdornment>}
-                            onChange={_updateEthPerToken}
-                            onBlur={_handleEthPerTokenBlur}
-                            value={isPrivate ? 0 : ethPerToken}
-                            fullWidth
-                            labelWidth={100}
-                            disabled={isPrivate}
-                            inputProps={_ethPerTokenOptions}
-                        />
-                    </FormControl>
+                        }
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Box>
 
+            <Divider />
 
-            <Grid container spacing={3} className={classes.gridRow}>
-                <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined">
-                        <InputLabel htmlFor="particleTypeSupply">Amount to Mint</InputLabel>
-                        <OutlinedInput
-                            id="amountToMint"
-                            onChange={_updateAmountToMint}
-                            onBlur={_handleAmountBlur}
-                            value={amountToMint}
-                            fullWidth
-                            labelWidth={125}
-                            inputProps={{
-                                ..._amountToMintInputOptions,
-                                step: mintableStep,
-                                max: mintableMaxSupply,
-                            }}
-                        />
-                    </FormControl>
+            <Box py={2}>
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12} sm={6}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center"
+                            className={classes.gridRow}
+                        >
+                            <Button
+                                type="button"
+                                variant="outlined"
+                                size="large"
+                                onClick={back}
+                            >
+                                back
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-end"
+                            alignItems="center"
+                            className={classes.gridRow}
+                            style={{textAlign:'right'}}
+                        >
+                            <Button
+                                type="button"
+                                variant={'contained'}
+                                color={'primary'}
+                                size="large"
+                                onClick={_handleSubmit}
+                            >
+                                next
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined">
-                        <InputLabel htmlFor="particleTypeSupply">Amount to {isPrivate ? 'Reserve' : 'Sell'}</InputLabel>
-                        <OutlinedInput
-                            id="amountToReserve"
-                            value={amountToReserve}
-                            readOnly
-                            fullWidth
-                            labelWidth={125}
-                            inputProps={{
-                                ..._amountToMintInputOptions,
-                                step: mintableStep,
-                                max: mintableMaxSupply,
-                            }}
-                        />
-                    </FormControl>
-                </Grid>
-            </Grid>
-
-            <Box px={5}>
-                <Slider
-                    min={_amountToMintInputOptions.min}
-                    max={mintableMaxSupply}
-                    step={mintableStep}
-                    value={amountToMint}
-                    onChange={_slideAmountToMint}
-                />
             </Box>
         </>
     )

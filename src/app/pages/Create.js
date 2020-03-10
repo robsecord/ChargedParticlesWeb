@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 
 // App Components
 import SEO from '../../components/seo';
-import FormCreate from '../components/create/FormCreate';
 import FormCreateWizard from '../components/create/FormCreateWizard';
 import LoadingModal from '../components/LoadingModal';
 import Transactions from '../blockchain/transactions';
@@ -26,8 +25,10 @@ import useRootStyles from '../layout/styles/root.styles';
 // Create Route
 const Create = ({ location }) => {
     const classes = useRootStyles();
+
     const [ walletState ] = useContext(WalletContext);
     const { allReady, connectedAddress } = walletState;
+
     const [ isSubmitting, setSubmitting ] = useState(false);
     const [ txData, setTxData ] = useState({});
     const [ loadingProgress, setLoadingProgress ] = useState('');
@@ -63,7 +64,7 @@ const Create = ({ location }) => {
         }, 3000);
     };
 
-    const handleSubmit = async ({formData}) => {
+    const handleSubmit = async (formData) => {
         let txReceipt;
         try {
             setSubmitting(true);

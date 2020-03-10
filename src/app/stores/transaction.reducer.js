@@ -51,6 +51,14 @@ const TransactionReducer = (state, action) => {
                 searchState: 'complete',
                 searchTransactions: action.payload.searchTransactions
             };
+
+        case 'CLEAR_SEARCH':
+            return {
+                ...state,
+                searchState: '',
+                searchTransactions: [],
+                searchError: '',
+            };
         default:
             return state;
     }
