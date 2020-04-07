@@ -173,7 +173,7 @@ const IndexPage = () => {
                     </StyledPre>
 
                     <Heading as={"h4"} className={classes.glowHeader}>
-                        Value Appreciation
+                        NFT Value Appreciation
                     </Heading>
                     <p>
                         Imagine a Babe Ruth rookie card stuffed with $1 and earning interest since 1916!<br/>
@@ -222,6 +222,20 @@ const IndexPage = () => {
                     </p>
 
                     <Heading as={"h4"} className={classes.glowHeader}>
+                        Decentralized
+                    </Heading>
+                    <p>Hosted on <strong>IPFS</strong>, with an <strong>ENS</strong> domain, using <strong>dFuse.io</strong> for transaction streaming.</p>
+                    <p>Fully open-source on <strong>Github</strong>.</p>
+                    <p>Aragon Agent <strong>DAO</strong>.</p>
+                    <p>Completely <strong>Client-Side</strong> app that you can run locally. Provide your own API keys for increased speed &amp; custom query caching.</p>
+                    <ul>
+                        <li><strong>No KYC</strong>.</li>
+                        <li><strong>No sign-up</strong>.</li>
+                        <li><strong>No tracking</strong>.</li>
+                    </ul>
+                    <p>Connect your wallet &amp; go!</p>
+
+                    <Heading as={"h4"} className={classes.glowHeader}>
                         Open-Source Flavors
                     </Heading>
                     <p>
@@ -247,6 +261,14 @@ const IndexPage = () => {
                                 ERC-1155&nbsp;
                                 <Icon name="Launch" size="12" />
                             </Button>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <a href="https://github.com/robsecord/ChargedParticlesEth" target="_new">https://github.com/robsecord/ChargedParticlesEth</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/robsecord/ChargedParticlesWeb" target="_new">https://github.com/robsecord/ChargedParticlesWeb</a>
                         </li>
                     </ul>
 

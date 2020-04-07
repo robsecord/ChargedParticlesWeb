@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 // App Components
 import SEO from '../../components/seo';
-import FormMint from '../components/FormMint';
+import FormMint from '../components/mint/FormMint';
 import LoadingModal from '../components/LoadingModal';
 import Transactions from '../blockchain/transactions';
 import { ContractHelpers } from '../blockchain/contract-helpers';
@@ -30,8 +30,6 @@ const Mint = ({ location, typeId }) => {
     const [ isSubmitting, setSubmitting ] = useState(false);
     const [ txData, setTxData ] = useState({});
     const [ loadingProgress, setLoadingProgress ] = useState('');
-
-    console.log('typeId', typeId);
 
     useEffect(() => {
         if (isSubmitting && !_.isEmpty(txData)) {
@@ -64,41 +62,45 @@ const Mint = ({ location, typeId }) => {
         }, 3000);
     };
 
-    const handleSubmit = async ({formData}) => {
-        let txReceipt;
-        try {
-            setSubmitting(true);
+    const _handleSubmit = async formData => {
 
-            const options = {
-                from: connectedAddress,
-                particleData: formData,
-                onProgress: setLoadingProgress,
-                payWithIons: false
-            };
+        console.log('MINT: submit form', formData);
+        return;
 
-            let response;
-            if (formData.isNonFungible) {
-                response = await ContractHelpers.mintParticle(options);
-            } else {
-                response = await ContractHelpers.mintPlasma(options);
-            }
-
-            const {tx, args, transactionHash} = response;
-            txReceipt = transactionHash;
-            setTxData({transactionHash, params: {tx, args}, type: 'MintParticle'});
-            return true;
-        }
-        catch (err) {
-            if (/gateway timeout/i.test(err)) {
-                _handleError('Failed to save Image and/or Metadata to IPFS!');
-            } else if (_.isUndefined(txReceipt)) {
-                _handleError('Transaction cancelled by user.');
-            } else {
-                _handleError('An unexpected error has occurred!');
-                console.error(err);
-            }
-            return false;
-        }
+        // let txReceipt;
+        // try {
+        //     setSubmitting(true);
+        //
+        //     const options = {
+        //         from: connectedAddress,
+        //         particleData: formData,
+        //         onProgress: setLoadingProgress,
+        //         payWithIons: false
+        //     };
+        //
+        //     let response;
+        //     if (formData.isNonFungible) {
+        //         response = await ContractHelpers.mintParticle(options);
+        //     } else {
+        //         response = await ContractHelpers.mintPlasma(options);
+        //     }
+        //
+        //     const {tx, args, transactionHash} = response;
+        //     txReceipt = transactionHash;
+        //     setTxData({transactionHash, params: {tx, args}, type: 'MintParticle'});
+        //     return true;
+        // }
+        // catch (err) {
+        //     if (/gateway timeout/i.test(err)) {
+        //         _handleError('Failed to save Image and/or Metadata to IPFS!');
+        //     } else if (_.isUndefined(txReceipt)) {
+        //         _handleError('Transaction cancelled by user.');
+        //     } else {
+        //         _handleError('An unexpected error has occurred!');
+        //         console.error(err);
+        //     }
+        //     return false;
+        // }
     };
 
     const _getContent = () => {
@@ -116,7 +118,8 @@ const Mint = ({ location, typeId }) => {
 
         return (
             <FormMint
-                onSubmitForm={handleSubmit}
+                typeId={typeId}
+                onSubmitForm={_handleSubmit}
             />
         );
     };

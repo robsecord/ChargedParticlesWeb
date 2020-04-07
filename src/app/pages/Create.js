@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 // App Components
 import SEO from '../../components/seo';
-import FormCreateWizard from '../components/create/FormCreateWizard';
+import CreateWizard from '../components/create/CreateWizard';
 import LoadingModal from '../components/LoadingModal';
 import Transactions from '../blockchain/transactions';
 import { ContractHelpers } from '../blockchain/contract-helpers';
@@ -73,7 +73,7 @@ const Create = ({ location }) => {
                 from: connectedAddress,
                 particleData: formData,
                 onProgress: setLoadingProgress,
-                payWithIons: false
+                payWithIons: formData.payWithIons,
             };
 
             let response;
@@ -115,16 +115,12 @@ const Create = ({ location }) => {
             );
         }
 
-        // return (
-        //     <FormCreate
-        //         onSubmitForm={handleSubmit}
-        //     />
-        // );
-
         return (
-            <FormCreateWizard
-                onSubmitForm={handleSubmit}
-            />
+            <form autoComplete={'off'}>
+                <CreateWizard
+                    onSubmitForm={handleSubmit}
+                />
+            </form>
         );
     };
 

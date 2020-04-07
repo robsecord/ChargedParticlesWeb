@@ -179,40 +179,43 @@ const getTypes = () => {
             type: 'series',
             title: 'Series',
             content: (<SeriesOption/>),
-            info: 'A single, unique NFT with multiple copies, each having their own Mass and generating a Charge. ERC721-compatible.',
+            info: 'A single, unique NFT with multiple copies, each having their own Mass and generating a Charge.',
             bullets: [
                 'One unique item',
                 'Many copies',
                 'Max supply',
+                'ERC-721 Compatible',
             ],
         },
         {
             type: 'collection',
             title: 'Collection',
             content: (<CollectionOption/>),
-            info: 'A collection of unique NFTs, single copy, each having their own Mass and generating a Charge. ERC721-compatible.',
+            info: 'A collection of unique NFTs, single copy, each having their own Mass and generating a Charge.',
             bullets: [
                 'Many unique items',
                 'One copy of each',
                 'No max supply',
+                'ERC-721 Compatible',
             ],
         },
         {
             type: 'plasma',
             title: 'Plasma',
             content: (<PlasmaOption/>),
-            info: 'A bag of fungible tokens which hold no mass and generate no charge.  ERC20-compatible.',
+            info: 'A bag of fungible tokens which hold no mass and generate no charge.',
             bullets: [
                 'Many tokens',
                 'You set the price',
                 'Max supply',
+                'ERC-20 Compatible',
             ],
         },
     ];
 };
 
 
-const FormCreateClasification = ({ next }) => {
+const ParticleClassification = ({ next }) => {
     const customClasses = useCustomStyles();
     const [, rootDispatch] = useContext(RootContext);
     const [expanded, setExpanded] = useState(-1);
@@ -222,7 +225,7 @@ const FormCreateClasification = ({ next }) => {
         setExpanded(expanded === index ? -1 : index);
     };
 
-    const _selectClassifiation = (index) => (evt) => {
+    const _selectClassification = (index) => (evt) => {
         rootDispatch({type: 'UPDATE_CREATION_DATA', payload: {classification: types[index].type}});
         next();
     };
@@ -232,7 +235,7 @@ const FormCreateClasification = ({ next }) => {
         return (
             <Grid item sm={12} md={4} key={index}>
                 <Card className={customClasses.root} variant="outlined">
-                    <CardActionArea onClick={_selectClassifiation(index)}>
+                    <CardActionArea onClick={_selectClassification(index)}>
                         <CardContent className={customClasses.cardContent}>
                             {types[index].content}
                         </CardContent>
@@ -291,4 +294,4 @@ const FormCreateClasification = ({ next }) => {
     )
 };
 
-export default FormCreateClasification;
+export default ParticleClassification;

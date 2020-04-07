@@ -2,44 +2,25 @@
 import React, { useState, useEffect, useContext } from 'react';
 import * as _ from 'lodash';
 
+// App Components
+import ParticleEconomics from './ParticleEconomics';
+
 // Data Context for State
 import { RootContext } from '../../stores/root.store';
 
 // Material UI
-import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
 
 // Custom Styles
 import useRootStyles from '../../layout/styles/root.styles';
-const useCustomStyles = makeStyles(theme => ({
-    subHeading: {
-        marginTop: 0,
-        fontSize: '0.7rem',
-        color: theme.palette.grey[500],
-        textAlign: 'center',
-        textTransform: 'uppercase',
-
-        '& s': {
-            textDecorationColor: 'white',
-            textDecorationThickness: '3px',
-        }
-    },
-}));
-
-const _ethPerTokenOptions = {
-    step: 0.00001,
-    min: 0,
-    max: 10,
-    type: 'number',
-};
 
 const _amountToMintInputOptions = {
     step: 10,
@@ -48,10 +29,9 @@ const _amountToMintInputOptions = {
     type: 'number',
 };
 
-// Create Route
-const FormCreateFungible = ({ back, next }) => {
+
+const FungibleParticle = ({ back, next }) => {
     const classes = useRootStyles();
-    const customClasses = useCustomStyles();
 
     const [ rootState, rootDispatch ] = useContext(RootContext);
     const { connectionState, createParticleData } = rootState;
@@ -67,39 +47,21 @@ const FormCreateFungible = ({ back, next }) => {
 
     const [amountToMint,    setAmountToMint]    = useState(mintAmount);
     const [amountToReserve, setAmountToReserve] = useState(reserve);
-    const [ethPerToken,     setEthPerToken]     = useState(createParticleData.ethPerToken || 0);
 
     useEffect(() => {
-        const formData = _getFormData();
         rootDispatch({
             type    : 'UPDATE_CREATION_DATA',
-            payload : formData
+            payload : {amountToMint}
         });
     }, [
         connectionState,
         amountToMint,
-        ethPerToken,
     ]);
-
-    const _getFormData = () => {
-        return {
-            amountToMint,
-            ethPerToken,
-        };
-    };
 
     const _updateAmounts = (toMint) => {
         // if (_.isEmpty(toMint)) { toMint = '0'; }
         setAmountToMint(toMint);
         setAmountToReserve(Math.max(mintableMaxSupply - toMint, 0));
-    };
-
-    const _handleEthPerTokenBlur = () => {
-        if (ethPerToken < _ethPerTokenOptions.min) {
-            setEthPerToken(_ethPerTokenOptions.min);
-        } else if (ethPerToken > _ethPerTokenOptions.max) {
-            setEthPerToken(_ethPerTokenOptions.max);
-        }
     };
 
     const _handleAmountBlur = () => {
@@ -108,11 +70,6 @@ const FormCreateFungible = ({ back, next }) => {
         } else if (amountToMint > mintableMaxSupply) {
             _updateAmounts(mintableMaxSupply);
         }
-    };
-
-    const _updateEthPerToken = evt => {
-        const value = _.trim(evt.target.value);
-        setEthPerToken(value);
     };
 
     const _updateAmountToMint = evt => {
@@ -132,9 +89,26 @@ const FormCreateFungible = ({ back, next }) => {
     return (
         <>
             <Box pt={2}>
+                <ParticleEconomics />
+
+                <Box py={5}><Divider /></Box>
 
                 <Grid container spacing={3} className={classes.gridRow}>
-                    <Grid item xs={8}>
+                    <Grid item xs={12}>
+                        <Typography>
+                            Specify the amount of Particles to pre-mint.
+                        </Typography>
+                        <ul>
+                            <li>You may choose to pre-mint any amount of particles to yourself.</li>
+                            {
+                                createParticleData.isPrivate
+                                    ? (<li>The remaining particles will be held in reserve for you to mint at a later time.</li>)
+                                    : (<li>The remaining particles will be available for public sale on the Market Page.</li>)
+                            }
+                        </ul>
+                    </Grid>
+
+                    <Grid item xs={12}>
                         <Grid container spacing={3} className={classes.gridRow}>
                             <Grid item xs={6}>
                                 <FormControl fullWidth variant="outlined">
@@ -145,7 +119,7 @@ const FormCreateFungible = ({ back, next }) => {
                                         onBlur={_handleAmountBlur}
                                         value={amountToMint}
                                         fullWidth
-                                        labelWidth={125}
+                                        labelWidth={126}
                                         inputProps={{
                                             ..._amountToMintInputOptions,
                                             step: mintableStep,
@@ -162,7 +136,7 @@ const FormCreateFungible = ({ back, next }) => {
                                         value={amountToReserve}
                                         readOnly
                                         fullWidth
-                                        labelWidth={125}
+                                        labelWidth={122}
                                         inputProps={{
                                             ..._amountToMintInputOptions,
                                             step: mintableStep,
@@ -182,26 +156,6 @@ const FormCreateFungible = ({ back, next }) => {
                                 onChange={_slideAmountToMint}
                             />
                         </Box>
-                    </Grid>
-                    <Grid item xs={4}>
-                        {
-                            !createParticleData.isPrivate && (
-                                <FormControl fullWidth variant="outlined">
-                                    <InputLabel htmlFor="ethPerToken">Token Price</InputLabel>
-                                    <OutlinedInput
-                                        id="ethPerToken"
-                                        startAdornment={<InputAdornment position="start">ETH</InputAdornment>}
-                                        onChange={_updateEthPerToken}
-                                        onBlur={_handleEthPerTokenBlur}
-                                        value={createParticleData.isPrivate ? 0 : ethPerToken}
-                                        fullWidth
-                                        labelWidth={100}
-                                        disabled={createParticleData.isPrivate}
-                                        inputProps={_ethPerTokenOptions}
-                                    />
-                                </FormControl>
-                            )
-                        }
                     </Grid>
                 </Grid>
             </Box>
@@ -254,4 +208,4 @@ const FormCreateFungible = ({ back, next }) => {
     )
 };
 
-export default FormCreateFungible;
+export default FungibleParticle;

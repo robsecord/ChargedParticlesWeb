@@ -26,7 +26,7 @@ const transactionEventMap = {
     'UPDATE_PLASMA_TYPE': {   // find latest in logs for full record
         contract    : ChargedParticles,
         eventName   : 'PlasmaTypeUpdated',
-        method      : 'PlasmaTypeUpdated(uint256,string,bool,uint256,uint256,string)',
+        method      : 'PlasmaTypeUpdated(uint256,string,bool,uint256,string)',
     },
 
     'MINT_PARTICLE': {
@@ -118,6 +118,11 @@ class Transactions {
         this.txDispatch({type: 'CLEAR_SEARCH'});
     }
 
+    clearLoad() {
+        if (!this.txDispatch) { return; }
+        this.txDispatch({type: 'CLEAR_LOAD'});
+    }
+
     cancelSearch() {
         this.activeSearchId = null;
     }
@@ -130,10 +135,22 @@ class Transactions {
     }
 
     onError(error) {
-        this.rootDispatch({type: 'DISCONNECTED_NETWORK', payload: {
+        this.rootDispatch({type: 'DISCONNECTED_NETWORK', payoad: {
             isNetworkConnected: false,
             networkErrors: ["Transactions: An error occurred with the socket.", JSON.stringify(error)]
         }});
+    }
+
+    generateSearchQuery({index, value, hash, type = 'topic', format = 'keccak'}) {
+        if (!_.isEmpty(value) && _.isEmpty(hash)) {
+            if (format === 'keccak') {
+                hash = Helpers.keccakStr(value);
+            }
+            if (format === 'hex') {
+                hash = `0x${Helpers.toHex(value)}`;
+            }
+        }
+        return `${type}.${index}:${hash}`;
     }
 
     async streamTransaction({transactionHash}) {
@@ -195,28 +212,27 @@ class Transactions {
 
     async getPublicParticles() {
         const partialQuery = `topic.3:${GLOBALS.BOOLEAN_FALSE_HEX}`;
-        await this._searchCreatedTypes({partialQuery});
+        await this._searchCreatedTypes({queryType: 'SEARCH', partialQuery});
     }
 
-
-    async searchPublicParticles({symbolSearch}) {
-        const symbolHash = Helpers.keccakStr(symbolSearch);
-        const partialQuery = `topic.2:${symbolHash}`;
-        await this._searchCreatedTypes({partialQuery});
+    async searchPublicParticles({partialQuery}) {
+        await this._searchCreatedTypes({queryType: 'SEARCH', partialQuery});
     }
 
+    async loadPublicParticle({partialQuery}) {
+        await this._searchCreatedTypes({queryType: 'LOAD', partialQuery});
+    }
 
     async getCreatedParticlesByOwner({owner}) {
         const partialQuery = `signer:${_.toLower(owner)}`;
-        await this._searchCreatedTypes({partialQuery, onVerifyNode: (node) => {
+        await this._searchCreatedTypes({queryType: 'SEARCH', partialQuery, onVerifyNode: (node) => {
             return (_.toLower(node.from) === _.toLower(owner)); // Validate Owner
         }});
     }
 
-
-    async _searchCreatedTypes({partialQuery, limit = '11', cursor = '', onVerifyNode}) {
+    async _searchCreatedTypes({partialQuery, queryType, limit = '11', cursor = '', onVerifyNode}) {
         if (!this.txDispatch) { return; }
-        this.txDispatch({type: 'BEGIN_SEARCH', payload: {}});
+        this.txDispatch({type: `BEGIN_${queryType}`, payload: {}});
 
         const particleEventId = 'UPDATE_PARTICLE_TYPE';
         const plasmaEventId = 'UPDATE_PLASMA_TYPE';
@@ -247,15 +263,13 @@ class Transactions {
         }
 
         if (response.errors) {
-            this.txDispatch({type: 'SEARCH_ERROR', payload: {
-                    searchError: JSON.stringify(response.errors)
-                }});
+            this.txDispatch({type: `${queryType}_ERROR`, payload: JSON.stringify(response.errors)});
             return;
         }
 
         const edges = response.data.searchTransactions.edges || [];
         if (edges.length <= 0) {
-            this.txDispatch({type: 'SEARCH_COMPLETE', payload: {searchTransactions: []}});
+            this.txDispatch({type: `${queryType}_COMPLETE`, payload: []});
             return;
         }
 
@@ -285,7 +299,7 @@ class Transactions {
                 }
             });
         });
-        this.txDispatch({type: 'SEARCH_COMPLETE', payload: {searchTransactions}});
+        this.txDispatch({type: `${queryType}_COMPLETE`, payload: searchTransactions});
     }
 
 

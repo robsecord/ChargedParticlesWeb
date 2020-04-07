@@ -43,13 +43,13 @@ const TransactionReducer = (state, action) => {
             return {
                 ...state,
                 searchState: 'complete',
-                searchError: action.payload.searchError
+                searchError: action.payload
             };
         case 'SEARCH_COMPLETE':
             return {
                 ...state,
                 searchState: 'complete',
-                searchTransactions: action.payload.searchTransactions
+                searchTransactions: action.payload
             };
 
         case 'CLEAR_SEARCH':
@@ -58,6 +58,34 @@ const TransactionReducer = (state, action) => {
                 searchState: '',
                 searchTransactions: [],
                 searchError: '',
+            };
+
+        case 'BEGIN_LOAD':
+            return {
+                ...state,
+                loadState: 'loading',
+                loadTransactions: [],
+                loadError: '',
+            };
+        case 'LOAD_ERROR':
+            return {
+                ...state,
+                loadState: 'complete',
+                loadError: action.payload
+            };
+        case 'LOAD_COMPLETE':
+            return {
+                ...state,
+                loadState: 'complete',
+                loadTransactions: action.payload
+            };
+
+        case 'CLEAR_LOAD':
+            return {
+                ...state,
+                loadState: '',
+                loadTransactions: [],
+                loadError: '',
             };
         default:
             return state;

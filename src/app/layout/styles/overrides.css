@@ -4,6 +4,15 @@ body {
     /*background: #f8f8f8;*/
 }
 
+ul {
+    margin: 0.75rem 0;
+    padding-left: 1rem;
+}
+ul li {
+    margin: 0.5rem 0;
+    list-style: none;
+}
+
 @media only screen and (min-width: 600px) {
 
     .bn-onboard-custom.bn-onboard-modal {

@@ -34,7 +34,8 @@ function ParticleSearch({ initialValue = '', onSearch }) {
             (async () => {
                 _newSearch = true;
                 const transactions = Transactions.instance();
-                await transactions.searchPublicParticles({symbolSearch: debouncedSearchSymbol});
+                const partialQuery = transactions.generateSearchQuery({index: '2', value: debouncedSearchSymbol});
+                await transactions.searchPublicParticles({partialQuery});
             })();
         }
     }, [debouncedSearchSymbol]);
@@ -46,13 +47,7 @@ function ParticleSearch({ initialValue = '', onSearch }) {
                 results = {success: false, searchSymbol, searchError};
             } else {
                 results = {success: true, searchSymbol};
-                results.data = _.map(searchTransactions, tx => {
-                    return {
-                        symbol: searchSymbol,
-                        plasmaTypeId: tx._plasmaTypeId,
-                        particleTypeId: tx._particleTypeId,
-                    };
-                });
+                results.data = searchTransactions;
             }
             _newSearch = false;
             onSearch(results);
@@ -62,12 +57,12 @@ function ParticleSearch({ initialValue = '', onSearch }) {
     useEffect(() => {
         return () => {
             Transactions.instance().clearSearch();
-            // setSearchSymbol('');
         };
     }, []);
 
     const _handleSearchSymbolChanged = (evt) => {
-        setSearchSymbol(evt.target.value);
+        evt.preventDefault();
+        setSearchSymbol(_.toUpper(evt.target.value));
     };
 
     return (

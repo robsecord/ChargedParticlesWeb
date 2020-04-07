@@ -15,12 +15,9 @@ import CollectionsIcon from '@material-ui/icons/Collections';
 import FiberSmartRecordIcon from '@material-ui/icons/FiberSmartRecord';
 
 // Custom Styles
-import useRootStyles from '../layout/styles/root.styles';
 const useCustomStyles = makeStyles(theme => ({
     typeBadge: {
-        position: 'absolute',
-        top: 20,
-        right: 30,
+        position: 'relative',
     },
     iconContainer: {
         position: 'relative',
@@ -34,13 +31,17 @@ const useCustomStyles = makeStyles(theme => ({
 
 
 const TokenTypeBadge = ({ typeData }) => {
-    const classes = useRootStyles();
     const customClasses = useCustomStyles();
 
+    if (_.isUndefined(typeData.classification)) {
+        if (typeData.isNF) {
+            typeData.classification = (typeData.isSeries) ? 'series' : 'collection';
+        } else {
+            typeData.classification = 'plasma';
+        }
+    }
     const isNonFungible = typeData.classification !== 'plasma';
     const fungibility = isNonFungible ? 'Non-fungible' : 'Fungible';
-
-    console.log('typeData', typeData);
 
     const _getIconTooltip = () => {
         const tooltip = [typeData.isPrivate ? 'Private' : 'Public'];
@@ -73,14 +74,14 @@ const TokenTypeBadge = ({ typeData }) => {
     };
 
     return (
-        <>
+        <div className={'type-badge'}>
             <Chip
                 className={customClasses.typeBadge}
                 color={typeData.isPrivate ? 'default' : 'secondary'}
                 icon={_getIcons()}
                 label={fungibility}
             />
-        </>
+        </div>
     );
 };
 

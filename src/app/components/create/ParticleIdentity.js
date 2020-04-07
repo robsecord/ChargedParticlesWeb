@@ -19,10 +19,9 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 
@@ -53,18 +52,17 @@ const useCustomStyles = makeStyles(theme => ({
     fileNameLabel: {
         verticalAlign: 'middle',
     },
+
+    imageCard: {
+        maxWidth: 300,
+    },
+    imageCardMedia: {
+        height: 300,
+    },
 }));
 
 
-const _maxSupplyInputOptions = {
-    step: 10,
-    min: 0,
-    max: 999999999999999, // = 1 QUADRILLION - 1;  Need larger?  Set to 0 for unlimited (nearly, 2^256-1)
-    type: 'number',
-};
-
-// Create Route
-const FormCreateCommon = ({ back, next }) => {
+const ParticleIdentity = ({ back, next }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
 
@@ -78,13 +76,13 @@ const FormCreateCommon = ({ back, next }) => {
     const [particleDesc,        setParticleDesc]        = useState(createParticleData.desc || '');
     const [particleSymbol,      setParticleSymbol]      = useState(createParticleData.symbol || '');
     const [particleCreator,     setParticleCreator]     = useState(createParticleData.creator || '');
-    const [particleIcon,        setParticleIcon]        = useState(createParticleData.icon || 'Upload Particle Icon *');
+    const [isPrivate,           setPrivate]             = useState(createParticleData.isPrivate || false);
+
+    const [particleIcon,        setParticleIcon]        = useState(createParticleData.icon || 'Upload Icon *');
     const [particleIconBuffer,  setParticleIconBuffer]  = useState(createParticleData.iconBuffer || null);
     const [particleIconBase64,  setParticleIconBase64]  = useState(createParticleData.iconBase64 || null);
-    const [particleSupply,      setParticleSupply]      = useState(createParticleData.supply || 0);
-    const [isPrivate,           setPrivate]             = useState(createParticleData.isPrivate || false);
-    const [formValidated,       setFormValidated]       = useState(false);
 
+    const [formValidated,          setFormValidated]        = useState(false);
     const [isParticleNameValid,    setParticleNameValid]    = useState(true);
     const [isParticleSymbolValid,  setParticleSymbolValid]  = useState(true);
     const [isParticleDescValid,    setParticleDescValid]    = useState(true);
@@ -112,7 +110,6 @@ const FormCreateCommon = ({ back, next }) => {
         particleSymbol,
         particleDesc,
         particleCreator,
-        particleSupply,
         particleIcon,
         particleIconBuffer,
         particleIconBase64,
@@ -128,7 +125,6 @@ const FormCreateCommon = ({ back, next }) => {
             icon        : particleIcon,
             iconBuffer  : particleIconBuffer,
             iconBase64  : particleIconBase64,
-            supply      : particleSupply,
             isPrivate,
         };
     };
@@ -155,14 +151,6 @@ const FormCreateCommon = ({ back, next }) => {
 
     const _cleanParticleIconDisplay = (filename) => {
         return _.last(filename.split('\\'));
-    };
-
-    const _handleMaxSupplyBlur = () => {
-        if (_.isEmpty(particleSupply) || particleSupply < _maxSupplyInputOptions.min) {
-            setParticleSupply(_maxSupplyInputOptions.min);
-        } else if (particleSupply > _maxSupplyInputOptions.max) {
-            setParticleSupply(_maxSupplyInputOptions.max);
-        }
     };
 
     const _updateParticleName = evt => {
@@ -208,10 +196,6 @@ const FormCreateCommon = ({ back, next }) => {
         const value = evt.target.value;
         setParticleDesc(value);
         setParticleDescValid(!_.isEmpty(value));
-    };
-
-    const _updateParticleSupply = evt => {
-        setParticleSupply(evt.target.value);
     };
 
     const _togglePrivate = (evt, _private) => {
@@ -275,7 +259,7 @@ const FormCreateCommon = ({ back, next }) => {
                 </Grid>
 
                 <Grid container spacing={3} className={classes.gridRow}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12}>
                         <TextField
                             id="particleTypeCreator"
                             label="Creator"
@@ -287,37 +271,51 @@ const FormCreateCommon = ({ back, next }) => {
                             error={!isParticleCreatorValid}
                         />
                     </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    className={customClasses.switchControl}
-                                    checked={isPrivate}
-                                    onChange={_togglePrivate}
-                                    value="private"
-                                    required
-                                />
-                            }
-                            label="Private Minting"
-                        />
-                    </Grid>
                 </Grid>
 
-                <Grid container spacing={3} className={classes.gridRow}>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <InputLabel htmlFor="particleTypeSupply">Max-Supply</InputLabel>
-                            <OutlinedInput
-                                id="particleTypeSupply"
-                                onChange={_updateParticleSupply}
-                                onBlur={_handleMaxSupplyBlur}
-                                value={particleSupply}
-                                fullWidth
-                                labelWidth={90}
-                                inputProps={_maxSupplyInputOptions}
+                <Box pt={5}><Divider /></Box>
+
+                <Box py={5}>
+                    <Grid container spacing={3} className={classes.gridRow}>
+                        <Grid item xs={12}>
+                            <Typography>
+                                Do you want to display your {_.startCase(createParticleData.classification)} on the Market Page?
+                            </Typography>
+                            <ul>
+                                <li>Public Minting allows anyone to mint your particles by paying the <em>Mint Fee</em> to you. These particles are displayed on the Market Page and are searchable.</li>
+                                <li>Private Minting allows only the {_.startCase(createParticleData.classification)} Creator (You) to mint particles, bypassing the <em>Mint Fee</em>.</li>
+                                <li>You can always sell your minted particles on 3rd-party marketplaces.</li>
+                            </ul>
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        className={customClasses.switchControl}
+                                        checked={isPrivate}
+                                        onChange={_togglePrivate}
+                                        value="private"
+                                        required
+                                    />
+                                }
+                                label={isPrivate ? 'Private Minting' : 'Public Minting'}
                             />
-                        </FormControl>
+                        </Grid>
+                    </Grid>
+                </Box>
+
+                <Box pb={5}><Divider /></Box>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12}>
+                        <Typography>
+                            Select an <strong>Icon</strong> for the Particle Type.
+                        </Typography>
+                        <ul>
+                            <li>This is NOT the Image for the Item, this is only an Icon related to the Particle "Type".</li>
+                            <li>This icon is only used for display within the Charged Particles universe to visually represent the Particle "Type".</li>
+                        </ul>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
@@ -327,6 +325,7 @@ const FormCreateCommon = ({ back, next }) => {
                             justify="space-between"
                             alignItems="center"
                         >
+                            <Avatar alt="Type Icon" src={particleIconBase64}>?</Avatar>
                             <FormControl
                                 required
                                 error={!isParticleIconValid}
@@ -363,7 +362,6 @@ const FormCreateCommon = ({ back, next }) => {
                                 </FormGroup>
                                 <FormHelperText error={true}>{!isParticleIconValid ? 'Particle Icon required' : ''}</FormHelperText>
                             </FormControl>
-                            <Avatar alt="User Icon" src={particleIconBase64}>?</Avatar>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -407,7 +405,6 @@ const FormCreateCommon = ({ back, next }) => {
                                 color={formValidated ? 'primary' : 'default'}
                                 size="large"
                                 onClick={_handleSubmit}
-                                className={formValidated ? '' : customClasses.visiblyDisabledButton}
                             >
                                 next
                             </Button>
@@ -419,4 +416,4 @@ const FormCreateCommon = ({ back, next }) => {
     );
 }
 
-export default FormCreateCommon;
+export default ParticleIdentity;

@@ -7,7 +7,10 @@ import { GLOBALS } from '../../utils/globals';
 import IPFS from '../../utils/ipfs';
 
 // Contract Data
-import { ChargedParticles } from '../blockchain/contracts';
+import {
+    getContractByName,
+    ChargedParticles
+} from '../blockchain/contracts';
 
 
 // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1155.md#erc-1155-metadata-uri-json-schema
@@ -15,15 +18,16 @@ import { ChargedParticles } from '../blockchain/contracts';
 const tokenMetadata = {
     'description'       : '',
     'external_url'      : '',
-    'animation_url'     : '',
-    'youtube_url'       : '',
+    'animation_url'     : '',       // TODO
+    'youtube_url'       : '',       // TODO
+    'icon'              : '',
     'image'             : '',
     'name'              : '',
     'symbol'            : '',
     'decimals'          : 18,
-    'background_color'  : 'FFF',
-    'properties'        : {},
-    'attributes'        : [],   // OpenSea
+    'background_color'  : 'FFF',    // TODO
+    'properties'        : {},       // TODO - OpenSea
+    'attributes'        : [],       // TODO - OpenSea
 };
 
 
@@ -34,27 +38,34 @@ const ContractHelpers = {};
 ContractHelpers.saveMetadata = ({ particleData, onProgress }) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Save Image File to IPFS
-            onProgress('Saving Image to IPFS..');
-            const imageFileUrl = await IPFS.saveImageFile({fileBuffer: particleData.iconBuffer});
-            console.log('imageFileUrl', imageFileUrl);
-
             // Generate Token Metadata
-            const metadata          = {...tokenMetadata};
-            metadata.name           = particleData.name;
-            metadata.symbol         = particleData.symbol;
-            metadata.description    = particleData.desc;
-            metadata.external_url   = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
-            metadata.image          = imageFileUrl;
-            // metadata.properties = {};
-            // metadata.attributes = [];
+            const jsonMetadata          = {...tokenMetadata};
+            jsonMetadata.name           = particleData.name;
+            jsonMetadata.symbol         = particleData.symbol;
+            jsonMetadata.description    = particleData.desc;
+            jsonMetadata.external_url   = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
+            // jsonMetadata.properties = {};
+            // jsonMetadata.attributes = [];
+
+            // Save Image File(s) to IPFS
+            onProgress('Saving Image(s) to IPFS..');
+            if (particleData.isSeries) {
+                // Icon
+                jsonMetadata.icon = await IPFS.saveImageFile({fileBuffer: particleData.iconBuffer});
+
+                // Image
+                jsonMetadata.image = await IPFS.saveImageFile({fileBuffer: particleData.imageBuffer});
+            } else {
+                // Icon as Image
+                jsonMetadata.image = await IPFS.saveImageFile({fileBuffer: particleData.iconBuffer});
+            }
 
             // Save Metadata to IPFS
             onProgress('Saving Metadata to IPFS..');
-            const jsonFileUrl = await IPFS.saveJsonFile({jsonObj: metadata});
-            console.log('jsonFileUrl', jsonFileUrl, metadata);
+            const jsonFileUrl = await IPFS.saveJsonFile({jsonObj: jsonMetadata});
+            console.log('jsonFileUrl', jsonFileUrl, jsonMetadata);
 
-            resolve({imageFileUrl, jsonFileUrl});
+            resolve({jsonFileUrl, jsonMetadata});
         }
         catch (err) {
             reject(err);
@@ -63,27 +74,33 @@ ContractHelpers.saveMetadata = ({ particleData, onProgress }) => {
 };
 
 
-ContractHelpers.createParticle = ({ from, particleData, onProgress, payWithIons = false}) => {
+ContractHelpers.createParticle = ({from, particleData, onProgress, payWithIons = false}) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const ethPrice = GLOBALS.CREATE_PARTICLE_PRICE.ETH.NFT;
-            const {jsonFileUrl} = await ContractHelpers.saveMetadata({particleData, onProgress});
+            let ethPrice = 0;
+            if (!payWithIons) {
+                ethPrice = GLOBALS.CREATE_PARTICLE_PRICE.ETH.NFT;
+            }
 
             // Is Series or Collection?
             particleData.isSeries = particleData.classification === 'series';
+            particleData.accessType = (particleData.isPrivate ? 2 : 1) | (particleData.isSeries ? 4 : 8);
+
+            const {jsonFileUrl} = await ContractHelpers.saveMetadata({particleData, onProgress});
 
             // Create Particle on Blockchain
             onProgress('Creating Blockchain Transaction..');
             const chargedParticles = ChargedParticles.instance();
             const tx = {from, value: ethPrice};
             const args = [
+                from,                       // address _creator,
                 jsonFileUrl,                // string memory _uri,
                 particleData.symbol,        // string memory _symbol,
-                particleData.isPrivate,     // bool _isPrivate,
-                particleData.isSeries,      // bool _isSeries,
+                particleData.accessType,    // uint8 _accessType,
                 particleData.assetPair,     // string _assetPairId,
                 particleData.supply,        // uint256 _maxSupply,
-                particleData.creatorFee,    // uint256 _creatorFee
+                particleData.mintFee,       // uint256 _mintFee,
+                particleData.energizeFee,   // uint256 _energizeFee,
                 payWithIons,                // bool _payWithIons
             ];
 
@@ -104,11 +121,13 @@ ContractHelpers.createParticle = ({ from, particleData, onProgress, payWithIons 
     });
 };
 
-ContractHelpers.createPlasma = ({ from, particleData, onProgress, payWithIons = false}) => {
+ContractHelpers.createPlasma = ({from, particleData, onProgress, payWithIons = false}) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const ethPrice = GLOBALS.CREATE_PARTICLE_PRICE.ETH.FT;
-
+            let ethPrice = 0;
+            if (!payWithIons) {
+                ethPrice = GLOBALS.CREATE_PARTICLE_PRICE.ETH.FT;
+            }
             const {jsonFileUrl} = await ContractHelpers.saveMetadata({particleData, onProgress});
 
             // Create Plasma on Blockchain
@@ -121,7 +140,7 @@ ContractHelpers.createPlasma = ({ from, particleData, onProgress, payWithIons = 
                 particleData.symbol,        // string memory _symbol,
                 particleData.isPrivate,     // bool _isPrivate,
                 particleData.supply,        // uint256 _maxSupply,
-                particleData.ethPerToken,   // uint256 _ethPerToken,
+                particleData.mintFee,       // uint256 _mintFee,
                 particleData.amountToMint,  // uint256 _initialMint,
                 payWithIons                 // bool _payWithIons
             ];
@@ -149,6 +168,14 @@ ContractHelpers.mintParticle = () => {
 
 ContractHelpers.mintPlasma = () => {
 
+};
+
+ContractHelpers.readContractValue = async (contractName, method, ...args) => {
+    const contract = getContractByName(contractName);
+    if (!contract) {
+        throw new Error(`[ContractHelpers.readContractValue] Invalid Contract Name: ${contractName}`);
+    }
+    return await contract.instance().callContractFn(method, ...args);
 };
 
 export { ContractHelpers, tokenMetadata };

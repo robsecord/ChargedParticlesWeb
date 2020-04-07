@@ -93,7 +93,7 @@ const STATE_MSG = {
 };
 
 
-// Create Route
+
 const TxStreamView = () => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();

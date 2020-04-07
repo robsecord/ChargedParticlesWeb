@@ -15,11 +15,12 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 // App Components
-import FormCreateClasification from './FormCreateClassification';
-import FormCreateCommon from './FormCreateCommon';
-import FormCreateFungible from './FormCreateFungible';
-import FormCreateNonFungible from './FormCreateNonFungible';
-import FormCreateConfirm from './FormCreateConfirm';
+import ParticleClassification from './ParticleClassification';
+import ParticleIdentity from './ParticleIdentity';
+import ParticleAttributes from './ParticleAttributes';
+import FungibleParticle from './FungibleParticle';
+import NonFungibleParticle from './NonFungibleParticle';
+import CreateConfirm from './CreateConfirm';
 import TokenTypeBadge from '../TokenTypeBadge';
 
 // App Images
@@ -33,6 +34,12 @@ const useCustomStyles = makeStyles(theme => ({
     root: {
         position: 'relative',
         width: '100%',
+
+        '& .type-badge': {
+            position: 'absolute',
+            top: 20,
+            right: 30,
+        }
     },
     button: {
         marginTop: theme.spacing(1),
@@ -46,41 +53,29 @@ const useCustomStyles = makeStyles(theme => ({
     },
 }));
 
-const getSteps = () => {
-    return [
-        'Select a Classification',
-        'Identify Particle',
-        'Define Physics',
-        'Spawn into Existence',
-    ];
-};
-
-const getStepContent = ({createParticleData, onSubmitForm, step, back, next}) => {
-    switch (step) {
-        case 0:
-            return (<FormCreateClasification back={back} next={next} />);
-        case 1:
-            return (<FormCreateCommon back={back} next={next} />);
-        case 2:
-            if (createParticleData.classification === 'plasma') {
-                return (<FormCreateFungible back={back} next={next} />);
-            }
-            return (<FormCreateNonFungible back={back} next={next} />);
-        case 3:
-            return (<FormCreateConfirm back={back} next={onSubmitForm} />);
-        default:
-            return 'Unknown step';
+const getSteps = ({createParticleData, onSubmitForm, back, next}) => {
+    const steps = [];
+    steps.push({label: 'Select a Classification', content: (<ParticleClassification back={back} next={next} />)});
+    steps.push({label: 'Identify Particle Type', content: (<ParticleIdentity back={back} next={next} />)});
+    if (createParticleData.classification === 'series') {
+        steps.push({label: 'Customize Series', content: (<ParticleAttributes back={back} next={next} />)});
     }
+    if (createParticleData.classification === 'plasma') {
+        steps.push({label: 'Define Physics', content: (<FungibleParticle back={back} next={next} />)});
+    } else {
+        steps.push({label: 'Define Physics', content: (<NonFungibleParticle back={back} next={next} />)});
+    }
+    steps.push({label: 'Spawn into Existence', content: (<CreateConfirm back={back} next={onSubmitForm} />)});
+    return steps;
 };
 
-function FormCreateWizard({ onSubmitForm }) {
+function CreateWizard({ onSubmitForm }) {
     const customClasses = useCustomStyles();
 
     const [rootState, rootDispatch] = useContext(RootContext);
     const { createParticleData } = rootState;
 
     const [activeStep, setActiveStep] = useState(0);
-    const steps = getSteps();
 
     useEffect(() => {
         return () => {
@@ -106,6 +101,13 @@ function FormCreateWizard({ onSubmitForm }) {
         onSubmitForm(formData);
     };
 
+    const steps = getSteps({
+        createParticleData,
+        onSubmitForm: _handleSubmitForm,
+        back: handleBack,
+        next: handleNext,
+    });
+
     return (
         <div className={customClasses.root}>
             {
@@ -116,19 +118,11 @@ function FormCreateWizard({ onSubmitForm }) {
                 )
             }
             <Stepper activeStep={activeStep} orientation="vertical">
-                {steps.map((label, step) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
+                {steps.map(data => (
+                    <Step key={data.label}>
+                        <StepLabel>{data.label}</StepLabel>
                         <StepContent component="div">
-                            {
-                                getStepContent({
-                                    step,
-                                    createParticleData,
-                                    onSubmitForm: _handleSubmitForm,
-                                    back: handleBack,
-                                    next: handleNext,
-                                })
-                            }
+                            {data.content}
                         </StepContent>
                     </Step>
                 ))}
@@ -157,4 +151,4 @@ function FormCreateWizard({ onSubmitForm }) {
     );
 }
 
-export default FormCreateWizard;
+export default CreateWizard;

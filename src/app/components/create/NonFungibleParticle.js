@@ -1,5 +1,9 @@
 // Frameworks
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import * as _ from 'lodash';
+
+// App Components
+import ParticleEconomics from './ParticleEconomics';
 
 // Data Context for State
 import { RootContext } from '../../stores/root.store';
@@ -15,6 +19,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
 
 // Custom Styles
 import useRootStyles from '../../layout/styles/root.styles';
@@ -25,16 +30,15 @@ const customFeeSettings = {
 };
 
 
-// Create Route
-const FormCreateNonFungible = ({ back, next }) => {
+const NonFungibleParticle = ({ back, next }) => {
     const classes = useRootStyles();
 
     const [ rootState, rootDispatch ] = useContext(RootContext);
     const { createParticleData } = rootState;
 
-    const [particleAssetPair,   setParticleAssetPair]   = useState(createParticleData.assetPair || 'chai');
-    const [particleCreatorFee,  setParticleCreatorFee]  = useState(createParticleData.creatorFee || 0.25);
-    const [creatorFeeMode,      setCreatorFeeMode]      = useState(createParticleData.creatorFee > 1 ? 'higher' : 'lower');
+    const [assetPair,       setParticleAssetPair]   = useState(createParticleData.assetPair || 'chai');
+    const [energizeFee,     setParticleEnergizeFee] = useState(createParticleData.energizeFee || 0.25);
+    const [energizeFeeMode, setEnergizeFeeMode]     = useState(createParticleData.energizeFee > 1 ? 'higher' : 'lower');
 
     const inputLabelRef = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
@@ -43,40 +47,32 @@ const FormCreateNonFungible = ({ back, next }) => {
     }, []);
 
     useEffect(() => {
-        const formData = _getFormData();
         rootDispatch({
             type    : 'UPDATE_CREATION_DATA',
-            payload : formData
+            payload : {assetPair, energizeFee}
         });
     }, [
-        particleAssetPair,
-        particleCreatorFee,
+        assetPair,
+        energizeFee,
     ]);
-
-    const _getFormData = () => {
-        return {
-            assetPair: particleAssetPair,
-            creatorFee: particleCreatorFee,
-        };
-    };
 
     const updateParticleAssetPair = evt => {
         setParticleAssetPair(evt.target.value);
     };
 
-    const updateParticleCreatorFee = evt => {
-        setParticleCreatorFee(evt.target.value);
+    const updateParticleEnergizeFee = evt => {
+        setParticleEnergizeFee(evt.target.value);
     };
 
-    const slideParticleCreatorFee = (evt, newValue) => {
-        setParticleCreatorFee(newValue);
+    const slideParticleEnergizeFee = (evt, newValue) => {
+        setParticleEnergizeFee(newValue);
     };
 
     const toggleHigherFees = (evt) => {
         evt.preventDefault();
         evt.stopPropagation();
-        setParticleCreatorFee(customFeeSettings.lower.max);
-        setCreatorFeeMode(creatorFeeMode === 'lower' ? 'higher' : 'lower');
+        setParticleEnergizeFee(customFeeSettings.lower.max);
+        setEnergizeFeeMode(energizeFeeMode === 'lower' ? 'higher' : 'lower');
     };
 
     const _handleSubmit = async evt => {
@@ -87,17 +83,32 @@ const FormCreateNonFungible = ({ back, next }) => {
     return (
         <>
             <Box py={2}>
+                <ParticleEconomics />
+
+                <Box py={5}><Divider /></Box>
+
                 <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12}>
+                        <Typography>
+                            Specify the Charge-Dynamics of your Particles, as well as any Energize Fees.
+                        </Typography>
+                        <ul>
+                            <li>The Asset/Interest Pairing specifies which Asset Token (such as DAI) is used to Energize your Particles, and which Interest Token (such as CHAI) generates the Charge.</li>
+                            <li>Asset Tokens must be deposited each time a Particle is Minted and/or Energized.  The creator earns the <em>Energize Fee</em> as a percentage of the deposited Asset Token, but held in the Interest Token, earning the creator interest on collected fees.</li>
+                            <li>You can modify the Min &amp; Max amount of Asset Tokens that a single Particle can hold after you have created the Particle Type.</li>
+                        </ul>
+                    </Grid>
+
                     <Grid item xs={12} sm={6}>
                         <FormControl variant="outlined" className={classes.formControl}>
-                            <InputLabel ref={inputLabelRef} id="particleAssetPairLabel">
+                            <InputLabel ref={inputLabelRef} id="assetPairLabel">
                                 Asset-Pair
                             </InputLabel>
                             <Select
-                                id="particleAssetPair"
-                                labelId="particleAssetPairLabel"
+                                id="assetPair"
+                                labelId="assetPairLabel"
                                 labelWidth={labelWidth}
-                                value={particleAssetPair}
+                                value={assetPair}
                                 onChange={updateParticleAssetPair}
                             >
                                 <MenuItem value={'chai'}>DAI - CHAI</MenuItem>
@@ -109,31 +120,31 @@ const FormCreateNonFungible = ({ back, next }) => {
                         <Grid container spacing={0}>
                             <Grid item xs={9} md={6}>
                                 <TextField
-                                    id="particleTypeCreatorFee"
-                                    label="Deposit Fee (as %)"
+                                    id="particleTypeEnergizeFee"
+                                    label="Energize Fee (as %)"
                                     variant="outlined"
                                     type="number"
-                                    min={customFeeSettings[creatorFeeMode].min}
-                                    max={customFeeSettings[creatorFeeMode].max}
-                                    step={customFeeSettings[creatorFeeMode].step}
-                                    value={particleCreatorFee}
-                                    onChange={updateParticleCreatorFee}
+                                    min={customFeeSettings[energizeFeeMode].min}
+                                    max={customFeeSettings[energizeFeeMode].max}
+                                    step={customFeeSettings[energizeFeeMode].step}
+                                    value={energizeFee}
+                                    onChange={updateParticleEnergizeFee}
                                     fullWidth
                                 />
                             </Grid>
                             <Grid item xs={3} md={6}>
                                 <Button onClick={toggleHigherFees} color="secondary">
-                                    {creatorFeeMode === 'higher' ? 'lower' : 'higher'}
+                                    {energizeFeeMode === 'higher' ? 'lower' : 'higher'}
                                 </Button>
                             </Grid>
                         </Grid>
 
                         <Slider
-                            min={customFeeSettings[creatorFeeMode].min}
-                            max={customFeeSettings[creatorFeeMode].max}
-                            step={customFeeSettings[creatorFeeMode].step}
-                            value={particleCreatorFee}
-                            onChange={slideParticleCreatorFee}
+                            min={customFeeSettings[energizeFeeMode].min}
+                            max={customFeeSettings[energizeFeeMode].max}
+                            step={customFeeSettings[energizeFeeMode].step}
+                            value={energizeFee}
+                            onChange={slideParticleEnergizeFee}
                         />
                     </Grid>
                 </Grid>
@@ -187,4 +198,4 @@ const FormCreateNonFungible = ({ back, next }) => {
     )
 };
 
-export default FormCreateNonFungible;
+export default NonFungibleParticle;

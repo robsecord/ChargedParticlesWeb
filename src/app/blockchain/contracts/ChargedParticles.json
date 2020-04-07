@@ -182,7 +182,7 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "_creatorFee",
+          "name": "_energizeFee",
           "type": "uint256"
         },
         {
@@ -271,12 +271,6 @@
           "internalType": "bool",
           "name": "_isPrivate",
           "type": "bool"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "_ethPerToken",
-          "type": "uint256"
         },
         {
           "indexed": false,
@@ -397,7 +391,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_tokenId",
+          "name": "_typeId",
           "type": "uint256"
         }
       ],
@@ -423,7 +417,7 @@
         },
         {
           "internalType": "uint256[]",
-          "name": "_tokenIds",
+          "name": "_typeIds",
           "type": "uint256[]"
         }
       ],
@@ -500,7 +494,7 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_type",
+          "name": "_typeId",
           "type": "uint256"
         },
         {
@@ -525,6 +519,11 @@
       "constant": false,
       "inputs": [
         {
+          "internalType": "address",
+          "name": "_creator",
+          "type": "address"
+        },
+        {
           "internalType": "string",
           "name": "_uri",
           "type": "string"
@@ -535,14 +534,9 @@
           "type": "string"
         },
         {
-          "internalType": "bool",
-          "name": "_isPrivate",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "_isSeries",
-          "type": "bool"
+          "internalType": "uint8",
+          "name": "_accessType",
+          "type": "uint8"
         },
         {
           "internalType": "string",
@@ -556,7 +550,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "_creatorFee",
+          "name": "_mintFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_energizeFee",
           "type": "uint256"
         },
         {
@@ -607,7 +606,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_ethPerToken",
+          "name": "_mintFee",
           "type": "uint256"
         },
         {
@@ -793,6 +792,48 @@
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getMaxSupply",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getMintingFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "_tokenId",
           "type": "uint256"
         }
@@ -814,7 +855,28 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_type",
+          "name": "_typeId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTotalMinted",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_typeId",
           "type": "uint256"
         }
       ],
@@ -915,7 +977,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_ethPerToken",
+          "name": "_mintFee",
           "type": "uint256"
         }
       ],
@@ -941,7 +1003,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_type",
+          "name": "_typeId",
           "type": "uint256"
         },
         {
@@ -968,8 +1030,8 @@
           "type": "uint256"
         }
       ],
-      "payable": false,
-      "stateMutability": "nonpayable",
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -982,7 +1044,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_type",
+          "name": "_typeId",
           "type": "uint256"
         },
         {
@@ -1323,8 +1385,8 @@
     "3": {
       "links": {},
       "events": {},
-      "address": "0x94EA50510C391C3D068AD4f1c83fb0203d305E17",
-      "updated_at": 1583682242847
+      "address": "0xa613Bf1c1733A22fABF15194caf28270f6740945",
+      "updated_at": 1584821690877
     }
   }
 }
