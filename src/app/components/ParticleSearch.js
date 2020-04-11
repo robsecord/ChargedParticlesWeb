@@ -11,6 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Data Context for State
+import { RootContext } from '../stores/root.store';
+import { WalletContext } from '../stores/wallet.store';
 import { TransactionContext } from '../stores/transaction.store';
 
 
@@ -18,6 +20,12 @@ let _newSearch = false;
 
 function ParticleSearch({ initialValue = '', onSearch }) {
     const [searchSymbol, setSearchSymbol] = useState(initialValue);
+
+    const [ rootState ] = useContext(RootContext);
+    const { isNetworkConnected } = rootState;
+
+    const [ walletState ] = useContext(WalletContext);
+    const { allReady } = walletState;
 
     const [ txState ] = useContext(TransactionContext);
     const {
@@ -30,7 +38,7 @@ function ParticleSearch({ initialValue = '', onSearch }) {
     const isSearching = searchState === 'searching';
 
     useEffect(() => {
-        if (_.size(debouncedSearchSymbol) >= 2) {
+        if (allReady && isNetworkConnected && _.size(debouncedSearchSymbol) >= 2) {
             (async () => {
                 _newSearch = true;
                 const transactions = Transactions.instance();
@@ -38,7 +46,7 @@ function ParticleSearch({ initialValue = '', onSearch }) {
                 await transactions.searchPublicParticles({partialQuery});
             })();
         }
-    }, [debouncedSearchSymbol]);
+    }, [allReady, isNetworkConnected, debouncedSearchSymbol]);
 
     useEffect(() => {
         if (_newSearch && searchState === 'complete') {

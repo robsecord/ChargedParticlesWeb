@@ -77,11 +77,11 @@ function CreateWizard({ onSubmitForm }) {
 
     const [activeStep, setActiveStep] = useState(0);
 
-    useEffect(() => {
-        return () => {
-            rootDispatch({type: 'CLEAR_CREATION_DATA'});
-        };
-    }, []);
+    // useEffect(() => {
+    //     return () => {
+    //         rootDispatch({type: 'CLEAR_CREATION_DATA'});
+    //     };
+    // }, []);
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);

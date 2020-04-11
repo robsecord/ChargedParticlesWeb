@@ -61,8 +61,9 @@ const ParticleAttributes = ({ back, next }) => {
     const [ rootState, rootDispatch ] = useContext(RootContext);
     const { connectionState, createParticleData } = rootState;
 
-    const [backgroundColor,      setBackgroundColor] = useState(createParticleData.backgroundColor || '#fff');
-    const [particleImage,        setParticleImage]        = useState(createParticleData.icon || 'Upload Image *');
+    const [backgroundColor,      setBackgroundColor]      = useState(createParticleData.backgroundColor || '#fff');
+    const [particleImage,        setParticleImage]        = useState(createParticleData.image || 'Upload Image *');
+    const [particleAttributes,   setParticleAttributes]   = useState(createParticleData.attributes || []);
     const [particleImageBuffer,  setParticleImageBuffer]  = useState(createParticleData.imageBuffer || null);
     const [particleImageBase64,  setParticleImageBase64]  = useState(createParticleData.imageBase64 || null);
 
@@ -80,6 +81,7 @@ const ParticleAttributes = ({ back, next }) => {
     }, [
         connectionState,
         particleImage,
+        particleAttributes,
         particleImageBuffer,
         particleImageBase64,
         backgroundColor,
@@ -88,6 +90,7 @@ const ParticleAttributes = ({ back, next }) => {
     const _getFormData = () => {
         return {
             image       : particleImage,
+            attributes  : particleAttributes,
             imageBuffer : particleImageBuffer,
             imageBase64 : particleImageBase64,
             backgroundColor,
@@ -133,6 +136,10 @@ const ParticleAttributes = ({ back, next }) => {
 
     const _handleColorChange = ({hex}) => {
         setBackgroundColor(hex);
+    };
+
+    const _onAttributesUpdate = (attributes) => {
+        setParticleAttributes(attributes);
     };
 
     const _handleSubmit = async evt => {
@@ -241,11 +248,18 @@ const ParticleAttributes = ({ back, next }) => {
                     </Typography>
                     <ul>
                         <li>These attributes are useful for adding unique display-characteristics to your particles.</li>
+                        <li>
+                            These Custom-Attributes follow the Token Metadata Standards for ERC721 & ERC1155. You can read more about custom attributes here:
+                            <a href="https://docs.opensea.io/docs/metadata-standards#section-attributes" target="_new">OpenSea Documentation</a>!
+                        </li>
                     </ul>
                 </Grid>
 
                 <Grid item xs={12}>
-                    <AttrListContainer />
+                    <AttrListContainer
+                        initialAttributes={particleAttributes}
+                        onUpdate={_onAttributesUpdate}
+                    />
                 </Grid>
             </Grid>
 

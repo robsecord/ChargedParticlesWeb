@@ -1,13 +1,17 @@
 // Frameworks
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useAttributes } from './customHooks';
 
 import AttrAddItem from './AttrAddItem';
 import AttrList from './AttrList';
 
-const AttrListContainer = ({ initialAttributes = [] }) => {
+const AttrListContainer = ({ initialAttributes = [], onUpdate }) => {
     const { attributes, addAttribute, removeAttribute } = useAttributes(initialAttributes);
+
+    useEffect(() => {
+        onUpdate(attributes);
+    }, [attributes, onUpdate]);
 
     return (
         <>

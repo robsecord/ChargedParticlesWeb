@@ -44,8 +44,30 @@ ContractHelpers.saveMetadata = ({ particleData, onProgress }) => {
             jsonMetadata.symbol         = particleData.symbol;
             jsonMetadata.description    = particleData.desc;
             jsonMetadata.external_url   = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
-            // jsonMetadata.properties = {};
-            // jsonMetadata.attributes = [];
+
+            // Rich Metadata from Custom Attributes
+            jsonMetadata.attributes = _.map(particleData.attributes, attr => {
+                const options = {
+                    'trait_type' : attr.name,
+                    'value'      : attr.value,
+                };
+                if (attr.type !== 'properties') {
+                    options.value = parseFloat(attr.value);
+                }
+                if (!_.isEmpty(attr.maxValue)) {
+                    options['max_value'] = parseFloat(attr.maxValue);
+                }
+                if (attr.type === 'stats') {
+                    options['display_type'] = 'number';
+                }
+                if (attr.type === 'boost_number') {
+                    options['display_type'] = 'boost_number';
+                }
+                if (attr.type === 'boost_percentage') {
+                    options['display_type'] = 'boost_percentage';
+                }
+                return options;
+            });
 
             // Save Image File(s) to IPFS
             onProgress('Saving Image(s) to IPFS..');
@@ -107,7 +129,7 @@ ContractHelpers.createParticle = ({from, particleData, onProgress, payWithIons =
             console.log('tx', tx);
             console.log('args', args);
 
-            // // Submit Transaction and wait for Receipt
+            // Submit Transaction and wait for Receipt
             chargedParticles.sendContractTx('createParticle', tx, args, (err, transactionHash) => {
                 if (err) {
                     return reject(err);
@@ -148,7 +170,7 @@ ContractHelpers.createPlasma = ({from, particleData, onProgress, payWithIons = f
             console.log('tx', tx);
             console.log('args', args);
 
-            // // Submit Transaction and wait for Receipt
+            // Submit Transaction and wait for Receipt
             chargedParticles.sendContractTx('createPlasma', tx, args, (err, transactionHash) => {
                 if (err) {
                     return reject(err);

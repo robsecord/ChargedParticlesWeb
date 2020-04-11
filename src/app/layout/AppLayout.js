@@ -5,17 +5,12 @@ import { ToastContainer } from 'react-toastify';
 import * as _ from 'lodash';
 
 // Material UI
-import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 
-// Rimble UI
-import { theme as rimbleTheme } from 'rimble-ui';
-
 // Custom Styles
-import './styles/overrides.css';
 import theme from '../../layout/styles/root.theme';
 import useRootStyles from './styles/root.styles';
 
@@ -123,45 +118,43 @@ function AppLayout({ children }) {
     };
 
     return (
-        <ThemeProvider theme={{...rimbleTheme, ...theme}}>
-            <div className={classes.root}>
-                <CssBaseline />
-                <HeaderBar
-                    title={siteTitle}
-                    drawerToggle={_handleDrawerToggle}
-                />
-                <Hidden mdUp implementation="css">
-                    <nav className={classes.drawer} aria-label="mailbox folders">
-                        <Drawer
-                            variant="temporary"
-                            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                            open={mobileOpen}
-                            onClose={_handleDrawerToggle}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
-                        >
-                            <Sidemenu title={siteTitle} closeDrawer={_handleCloseDrawer} />
-                        </Drawer>
-                    </nav>
-                </Hidden>
-                <main className={classes.content}>
-                    <div className={classes.toolbar} />
+        <div className={classes.root}>
+            <CssBaseline />
+            <HeaderBar
+                title={siteTitle}
+                drawerToggle={_handleDrawerToggle}
+            />
+            <Hidden mdUp implementation="css">
+                <nav className={classes.drawer} aria-label="mailbox folders">
+                    <Drawer
+                        variant="temporary"
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        open={mobileOpen}
+                        onClose={_handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                    >
+                        <Sidemenu title={siteTitle} closeDrawer={_handleCloseDrawer} />
+                    </Drawer>
+                </nav>
+            </Hidden>
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
 
-                    <div className={classes.tabBar}>
-                        <Container maxWidth="md">
-                            <ConnectionWarning />
-                            {children}
-                        </Container>
-                    </div>
+                <div className={classes.tabBar}>
+                    <Container maxWidth="md">
+                        <ConnectionWarning />
+                        {children}
+                    </Container>
+                </div>
 
-                    <ConnectWallet />
-                    <TxStreamView />
-                </main>
-            </div>
+                <ConnectWallet />
+                <TxStreamView />
+            </main>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -172,7 +165,7 @@ function AppLayout({ children }) {
                 draggable
                 pauseOnHover
             />
-        </ThemeProvider>
+        </div>
     );
 }
 

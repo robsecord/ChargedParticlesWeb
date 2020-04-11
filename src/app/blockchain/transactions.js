@@ -238,13 +238,16 @@ class Transactions {
         const plasmaEventId = 'UPDATE_PLASMA_TYPE';
         const contract = transactionEventMap[particleEventId].contract.instance();
         const contractAddress = _.toLower(contract.getAddress());
+        if (_.isEmpty(contractAddress)) {
+            throw new Error('Contract Address is not set! Are you on the wrong Network?');
+        }
 
         const particleEventName = transactionEventMap[particleEventId].eventName;
         const particleMethodHash = Helpers.keccakStr(transactionEventMap[particleEventId].method);
         const plasmaEventName = transactionEventMap[plasmaEventId].eventName;
         const plasmaMethodHash = Helpers.keccakStr(transactionEventMap[plasmaEventId].method);
 
-        const query = `address: ${contractAddress} (topic.0:${particleMethodHash} OR topic.0:${plasmaMethodHash}) ${partialQuery}`;
+        const query = `address: ${contractAddress} ${partialQuery} (topic.0:${particleMethodHash} OR topic.0:${plasmaMethodHash})`;
         console.log('query', query);
         const activeSearchId = Helpers.keccakStr(query);
         this.activeSearchId = activeSearchId;
