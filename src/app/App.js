@@ -14,12 +14,13 @@ import theme from '../layout/styles/root.theme';
 // Common
 import { GLOBALS } from '../utils/globals';
 
-// Data Store
-import RootStore from './stores/root.store';
-import NetworkStore from './stores/network.store';
-import WalletStore from './stores/wallet.store';
-import TransactionStore from './stores/transaction.store';
-import UserInputStore from './stores/user-input.store';
+// Data Contexts
+import RootContextProvider from './contexts/root';
+import LocalStorageContextProvider, { Updater as LocalStorageContextUpdater } from './contexts/local-storage';
+import NetworkContextProvider from './contexts/network';
+import WalletContextProvider from './contexts/wallet';
+import TransactionContextProvider from './contexts/transaction';
+import UserInputContextProvider from './contexts/user-input';
 
 // Page Templates
 import AppLayout from './layout/AppLayout';
@@ -29,29 +30,28 @@ import Manage from './pages/Manage';
 import Market from './pages/Market';
 
 
-function Stores({ children }) {
+function AppContexts({ children }) {
     return (
-        <RootStore>
-            <NetworkStore>
-                <WalletStore>
-                    <TransactionStore>
-                        <UserInputStore>
-                            {children}
-                        </UserInputStore>
-                    </TransactionStore>
-                </WalletStore>
-            </NetworkStore>
-        </RootStore>
+        <RootContextProvider>
+            <LocalStorageContextProvider>
+                <NetworkContextProvider>
+                    <WalletContextProvider>
+                        <TransactionContextProvider>
+                            <UserInputContextProvider>
+                                {children}
+                            </UserInputContextProvider>
+                        </TransactionContextProvider>
+                    </WalletContextProvider>
+                </NetworkContextProvider>
+            </LocalStorageContextProvider>
+        </RootContextProvider>
     );
 }
 
-function Updaters() {
+function AppUpdaters() {
     return (
         <>
-            {/*<LocalStorageContextUpdater />*/}
-            {/*<ApplicationContextUpdater />*/}
-            {/*<TransactionContextUpdater />*/}
-            {/*<BalancesContextUpdater />*/}
+            <LocalStorageContextUpdater />
         </>
     );
 }
@@ -59,9 +59,9 @@ function Updaters() {
 function App() {
     return (
         <ThemeProvider theme={{...rimbleTheme, ...theme}}>
-            <Stores>
+            <AppContexts>
                 <AppLayout>
-                    <Updaters />
+                    <AppUpdaters />
                     <Router>
                         <Market path={GLOBALS.ACCELERATOR_ROOT} />
                         <Create path={`${GLOBALS.ACCELERATOR_ROOT}/create`} />
@@ -70,7 +70,7 @@ function App() {
                         <Manage path={`${GLOBALS.ACCELERATOR_ROOT}/manage`} />
                     </Router>
                 </AppLayout>
-            </Stores>
+            </AppContexts>
         </ThemeProvider>
     );
 }

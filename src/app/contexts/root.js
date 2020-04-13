@@ -1,3 +1,21 @@
+import React, { createContext, useReducer } from 'react';
+
+
+const initialState = {
+    showConnectWalletModal: false,
+
+    networkId: 0,
+    isNetworkConnected: false,
+    networkErrors: [],
+
+    connectionState: {},
+
+    createParticleData: {},
+
+    errors: null
+};
+export const RootContext = createContext(initialState);
+
 
 const RootReducer = (state, action) => {
     switch (action.type) {
@@ -42,4 +60,13 @@ const RootReducer = (state, action) => {
     }
 };
 
-export default RootReducer;
+const RootContextProvider = ({children}) => {
+    const [state, dispatch] = useReducer(RootReducer, initialState);
+    return (
+        <RootContext.Provider value={[state, dispatch]}>
+            {children}
+        </RootContext.Provider>
+    )
+};
+
+export default RootContextProvider;

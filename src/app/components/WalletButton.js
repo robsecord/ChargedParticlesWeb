@@ -16,8 +16,8 @@ import { Blockie } from 'rimble-ui';
 import { Helpers } from '../../utils/helpers';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
-import { WalletContext } from '../stores/wallet.store';
+import { RootContext } from '../contexts/root';
+import { WalletContext } from '../contexts/wallet';
 
 
 // Custom Styles

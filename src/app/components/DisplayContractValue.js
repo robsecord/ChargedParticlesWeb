@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { ContractHelpers } from '../blockchain/contract-helpers';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
+import { RootContext } from '../contexts/root';
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';

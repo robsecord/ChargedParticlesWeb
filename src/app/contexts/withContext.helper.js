@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 
-const withStore = CustomStore => CustomTarget => {
-    class WithStore extends Component {
+const withContext = CustomContext => CustomTarget => {
+    class WithContext extends Component {
         constructor(props) {
             super(props);
         }
         render() {
             return (
-                <CustomStore>
+                <CustomContext>
                     <CustomTarget
                         {...{
                             ...this.props
                         }}
                     />
-                </CustomStore>
+                </CustomContext>
             );
         }
     }
 
-    WithStore.displayName = `withStore(${CustomTarget.displayName || CustomTarget.name})`;
+    WithContext.displayName = `withContext(${CustomTarget.displayName || CustomTarget.name})`;
 
-    return WithStore;
+    return WithContext;
 };

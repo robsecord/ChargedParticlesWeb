@@ -8,7 +8,7 @@ import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
+import { RootContext } from '../contexts/root';
 
 
 function ConnectionWarning() {

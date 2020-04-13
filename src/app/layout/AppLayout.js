@@ -36,9 +36,9 @@ import Transactions from '../blockchain/transactions';
 import TxStreamView from '../components/TxStreamView';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
-import { WalletContext } from '../stores/wallet.store';
-import { TransactionContext } from '../stores/transaction.store';
+import { RootContext } from '../contexts/root';
+import { WalletContext } from '../contexts/wallet';
+import { TransactionContext } from '../contexts/transaction';
 
 
 function AppLayout({ children }) {

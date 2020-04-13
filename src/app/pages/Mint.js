@@ -16,7 +16,7 @@ import { ContractHelpers } from '../blockchain/contract-helpers';
 import { AcceleratorTabs } from '../components/AcceleratorTabs';
 
 // Data Context for State
-import { WalletContext } from '../stores/wallet.store';
+import { WalletContext } from '../contexts/wallet';
 
 // Custom Styles
 import useRootStyles from '../layout/styles/root.styles';

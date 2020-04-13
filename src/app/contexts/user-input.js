@@ -1,11 +1,20 @@
 import React, { createContext, useReducer } from 'react';
-import UserInputReducer from './user-input.reducer'
 
 
 const initialState = {
+
+};
+export const UserInputContext = createContext(initialState);
+
+const UserInputReducer = (state, action) => {
+    switch (action.type) {
+
+        default:
+            return state;
+    }
 };
 
-const UserInputStore = ({children}) => {
+const UserInputContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(UserInputReducer, initialState);
     return (
         <UserInputContext.Provider value={[state, dispatch]}>
@@ -14,5 +23,4 @@ const UserInputStore = ({children}) => {
     )
 };
 
-export const UserInputContext = createContext(initialState);
-export default UserInputStore;
+export default UserInputContextProvider;

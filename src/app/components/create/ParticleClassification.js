@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { RootContext } from '../../stores/root.store';
+import { RootContext } from '../../contexts/root';
 
 // Material UI
 import { makeStyles, withStyles } from '@material-ui/core/styles';

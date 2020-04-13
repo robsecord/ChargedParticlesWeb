@@ -30,8 +30,8 @@ import TabPanel from './TabPanel';
 import Loading from '../components/Loading';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
-import { WalletContext } from '../stores/wallet.store';
+import { RootContext } from '../contexts/root';
+import { WalletContext } from '../contexts/wallet';
 
 // Common
 import { GLOBALS } from '../../utils/globals';

@@ -27,7 +27,7 @@ import TokenTypeBadge from '../TokenTypeBadge';
 import partyPopperImg from '../../../images/party-popper.png';
 
 // Data Context for State
-import { RootContext } from '../../stores/root.store';
+import { RootContext } from '../../contexts/root';
 
 
 const useCustomStyles = makeStyles(theme => ({

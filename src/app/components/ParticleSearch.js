@@ -11,9 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
-import { WalletContext } from '../stores/wallet.store';
-import { TransactionContext } from '../stores/transaction.store';
+import { RootContext } from '../contexts/root';
+import { WalletContext } from '../contexts/wallet';
+import { TransactionContext } from '../contexts/transaction';
 
 
 let _newSearch = false;

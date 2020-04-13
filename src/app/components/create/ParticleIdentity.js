@@ -4,8 +4,8 @@ import { Buffer } from 'buffer';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { RootContext } from '../../stores/root.store';
-import { WalletContext } from '../../stores/wallet.store';
+import { RootContext } from '../../contexts/root';
+import { WalletContext } from '../../contexts/wallet';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';

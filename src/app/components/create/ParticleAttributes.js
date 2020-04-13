@@ -8,7 +8,7 @@ import AttrListContainer from '../attributeList/AttrListContainer';
 import ColorInput from '../ColorInput';
 
 // Data Context for State
-import { RootContext } from '../../stores/root.store';
+import { RootContext } from '../../contexts/root';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';

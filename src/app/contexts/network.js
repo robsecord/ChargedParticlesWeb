@@ -1,5 +1,4 @@
 import React, { createContext, useReducer } from 'react';
-import NetworkReducer from './network.reducer'
 
 
 const initialState = {
@@ -8,8 +7,17 @@ const initialState = {
     // networkErrors: [],
     // connectionState: {},
 };
+export const NetworkContext = createContext(initialState);
 
-const NetworkStore = ({children}) => {
+const NetworkReducer = (state, action) => {
+    switch (action.type) {
+
+        default:
+            return state;
+    }
+};
+
+const NetworkContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(NetworkReducer, initialState);
     return (
         <NetworkContext.Provider value={[state, dispatch]}>
@@ -18,5 +26,4 @@ const NetworkStore = ({children}) => {
     )
 };
 
-export const NetworkContext = createContext(initialState);
-export default NetworkStore;
+export default NetworkContextProvider;

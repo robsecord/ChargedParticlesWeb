@@ -3,8 +3,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { WalletContext } from '../../stores/wallet.store';
-import { TransactionContext } from '../../stores/transaction.store';
+import { WalletContext } from '../../contexts/wallet';
+import { TransactionContext } from '../../contexts/transaction';
 
 // Material UI
 import Box from '@material-ui/core/Box';
@@ -19,18 +19,14 @@ import FormMintSingleSeries from './FormMintSingleSeries';
 import FormMintSingleCollection from './FormMintSingleCollection';
 import FormMintSinglePlasma from './FormMintSinglePlasma';
 import { Helpers } from '../../../utils/helpers';
+import { ParticleHelpers } from '../../../utils/particle-helpers';
 import useRootStyles from '../../layout/styles/root.styles';
 
-let _fetchedParticles = {};
 let _newSearch = false;
 
-const _contractMethodCalls = [
-    {contract: 'ChargedParticles', method: 'getMaxSupply',   as: 'maxSupply',   fields: ['typeId']},
-    {contract: 'ChargedParticles', method: 'getTotalMinted', as: 'totalMinted', fields: ['typeId']},
-    {contract: 'ChargedParticles', method: 'getMintingFee',  as: 'mintFee',     fields: ['typeId']},
-];
 
 const FormMintSingle = ({ typeId, onSubmit }) => {
+    let isMounted = true;
     const classes = useRootStyles();
 
     const [ walletState ] = useContext(WalletContext);
@@ -45,7 +41,6 @@ const FormMintSingle = ({ typeId, onSubmit }) => {
 
     const [ currentParticle, setCurrentParticle ] = useState({});
 
-    let isMounted = true;
     useEffect(() => {
         if (!_.isEmpty(typeId)) {
             (async () => {
@@ -65,32 +60,15 @@ const FormMintSingle = ({ typeId, onSubmit }) => {
         if (_newSearch && loadState === 'complete') {
             if (_.isEmpty(loadError)) {
                 const onlyFirst = _.first(loadTransactions);
-                const transactions = Helpers.cleanCommonTxnFields([onlyFirst]);
-                const loadedParticleData = _.first(transactions) || {};
-
-                if (_fetchedParticles[loadedParticleData.typeId]) {
-                    setCurrentParticle(_fetchedParticles[loadedParticleData.typeId]);
-                } else {
-                    // Fetch Particle Data from IPFS + Contract
-                    (async () => {
-                        try {
-                            const metadata = await Helpers.fetchParticleMetadata(transactions);
-                            const contractData = await Helpers.fetchParticleContractData(transactions, _contractMethodCalls);
-
-                            if (isMounted) {
-                                const particle = {
-                                    ...metadata[loadedParticleData.typeId],
-                                    ...contractData[loadedParticleData.typeId],
-                                };
-                                _fetchedParticles[loadedParticleData.typeId] = particle;
-                                setCurrentParticle(particle);
-                            }
+                const transactions = ParticleHelpers.cleanCommonTxnFields([onlyFirst]);
+                const particleTxData = _.first(transactions) || {};
+                ParticleHelpers.getParticleData(transactions)
+                    .then((loadedParticles) => {
+                        if (isMounted) {
+                            setCurrentParticle(loadedParticles[particleTxData.typeId]);
                         }
-                        catch (err) {
-                            console.error(err);
-                        }
-                    })();
-                }
+                    })
+                    .catch(console.error);
             }
         }
     }, [loadState, loadError, loadTransactions, setCurrentParticle]);

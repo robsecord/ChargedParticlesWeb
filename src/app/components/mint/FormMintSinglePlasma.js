@@ -7,8 +7,8 @@ import { Helpers } from '../../../utils/helpers';
 import { GLOBALS } from '../../../utils/globals';
 
 // Data Context for State
-import { RootContext } from '../../stores/root.store';
-import { WalletContext } from '../../stores/wallet.store';
+import { RootContext } from '../../contexts/root';
+import { WalletContext } from '../../contexts/wallet';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';

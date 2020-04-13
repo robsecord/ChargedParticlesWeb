@@ -18,7 +18,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { AppTitleLink } from './AppTitleLink';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
+import { RootContext } from '../contexts/root';
 
 // Common
 import { GLOBALS } from '../../utils/globals';

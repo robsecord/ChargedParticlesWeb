@@ -25,9 +25,8 @@ const tokenMetadata = {
     'name'              : '',
     'symbol'            : '',
     'decimals'          : 18,
-    'background_color'  : 'FFF',    // TODO
-    'properties'        : {},       // TODO - OpenSea
-    'attributes'        : [],       // TODO - OpenSea
+    'background_color'  : 'FFF',
+    'attributes'        : [],
 };
 
 
@@ -39,11 +38,12 @@ ContractHelpers.saveMetadata = ({ particleData, onProgress }) => {
     return new Promise(async (resolve, reject) => {
         try {
             // Generate Token Metadata
-            const jsonMetadata          = {...tokenMetadata};
-            jsonMetadata.name           = particleData.name;
-            jsonMetadata.symbol         = particleData.symbol;
-            jsonMetadata.description    = particleData.desc;
-            jsonMetadata.external_url   = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
+            const jsonMetadata            = {...tokenMetadata};
+            jsonMetadata.name             = particleData.name;
+            jsonMetadata.symbol           = particleData.symbol;
+            jsonMetadata.description      = particleData.desc;
+            jsonMetadata.background_color = particleData.backgroundColor.replace('#', '');
+            jsonMetadata.external_url     = `${GLOBALS.ACCELERATOR_URL}${GLOBALS.ACCELERATOR_ROOT}/type/{id}`;
 
             // Rich Metadata from Custom Attributes
             jsonMetadata.attributes = _.map(particleData.attributes, attr => {

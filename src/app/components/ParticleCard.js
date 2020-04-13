@@ -1,19 +1,19 @@
 // Frameworks
 import React, { useContext } from 'react';
 import { navigate } from 'gatsby';
-import classNames from 'classnames';
 import window from 'global';
 import * as _ from 'lodash';
 
 // App Components
 import DisplayContractValue from './DisplayContractValue';
+import ContentSplitter from './ContentSplitter';
 import TokenTypeBadge from './TokenTypeBadge';
 import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 import { VerifiedParticleTypes } from '../../utils/verified';
 
 // Data Context for State
-import { WalletContext } from '../stores/wallet.store';
+import { WalletContext } from '../contexts/wallet';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,10 +35,11 @@ import YouTubeIcon from '@material-ui/icons/YouTube';
 import LaunchIcon from '@material-ui/icons/Launch';
 import PermMediaIcon from '@material-ui/icons/PermMedia';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import OfflineBoltIcon from '@material-ui/icons/OfflineBolt';
+import InfoIcon from '@material-ui/icons/Info';
 
 // Custom Styles
 import useRootStyles from '../layout/styles/root.styles';
-
 const useCustomStyles = makeStyles(theme => ({
     flatPanel: {
         position: 'relative',
@@ -123,7 +124,7 @@ const ParticleCard = ({ particle, noFooter = false, expansionPanel = false }) =>
     const [ walletState ] = useContext(WalletContext);
     const { connectedAddress } = walletState;
 
-    // console.log('particle', particle);
+    console.log('ParticleCard - particle', particle);
 
     const id = particle.typeId;
     const verification = _.get(VerifiedParticleTypes, id, {verified: false});
@@ -189,99 +190,126 @@ const ParticleCard = ({ particle, noFooter = false, expansionPanel = false }) =>
         );
     };
 
-    const _getBody = () => {
+    const _getLeftContent = () => {
         return (
-            <>
-                <div className={customClasses.columnTwoThirds}>
-                    <Typography className={customClasses.titleHeading}>Description:</Typography>
-                    <Typography className={customClasses.content}>{particle.description}</Typography>
+            <Box px={2}>
+                <Typography component={'p'} className={customClasses.titleHeading}>Description:</Typography>
+                <Typography component={'p'} className={customClasses.content}>{particle.description}</Typography>
 
-                    <Grid
-                        container
-                        direction="row"
-                        justify="space-between"
-                        alignItems="center"
-                    >
-                        <Box>
-                            <Typography className={customClasses.titleHeading}>In Circulation:</Typography>
-                            <Typography component={'div'} className={customClasses.content}>
-                                <DisplayContractValue
-                                    contractName="ChargedParticles"
-                                    method="getTotalMinted"
-                                    methodArgs={[particle.typeId]}
-                                    formatValue={Helpers.toEtherWithLocale}
-                                    defaultValue={'0'}
-                                />
-                                &nbsp;of&nbsp;
-                                <DisplayContractValue
-                                    contractName="ChargedParticles"
-                                    method="getMaxSupply"
-                                    methodArgs={[particle.typeId]}
-                                    formatValue={Helpers.toEtherWithLocale}
-                                    defaultValue={'0'}
-                                />
-                            </Typography>
-                        </Box>
-                        <Box>
-                            <Box mr={3} component="span">
-                                <YouTubeIcon
-                                    fontSize="large"
-                                    color={hasYoutubeUrl ? 'primary' : 'disabled'}
-                                />
-                            </Box>
-                            <Box mr={3} component="span">
-                                <PermMediaIcon
-                                    fontSize="large"
-                                    color={hasAnimationUrl ? 'primary' : 'disabled'}
-                                />
-                            </Box>
-                        </Box>
+                <Grid
+                    container
+                    direction="row"
+                    justify="flex-end"
+                    alignItems="center"
+                >
+                    <Box mr={3} component="span">
+                        <YouTubeIcon
+                            fontSize="large"
+                            color={hasYoutubeUrl ? 'primary' : 'disabled'}
+                        />
+                    </Box>
+                    <Box mr={3} component="span">
+                        <PermMediaIcon
+                            fontSize="large"
+                            color={hasAnimationUrl ? 'primary' : 'disabled'}
+                        />
+                    </Box>
+                </Grid>
+            </Box>
+        );
+    };
+
+    const _getRightContent = () => {
+        return (
+            <Box px={2}>
+                <Grid
+                    container
+                    direction="row"
+                    justify="space-around"
+                    alignItems="center"
+                >
+                    <Grid item xs={12} sm={6}>
+                        <Typography className={customClasses.titleHeading}>Price per Token:</Typography>
+                        <Typography component={'div'} className={customClasses.content}>
+                            <DisplayContractValue
+                                contractName="ChargedParticles"
+                                method="getMintingFee"
+                                methodArgs={[particle.typeId]}
+                                formatValue={Helpers.toEtherWithLocalePrecise(6)}
+                                defaultValue={'0'}
+                            />
+                            &nbsp; ETH
+                        </Typography>
                     </Grid>
-                </div>
-                <div className={classNames(customClasses.columnThirds, customClasses.helper)}>
-                    {
-                        particle.isNF
-                            ? (
+                    <Grid item xs={12} sm={6}>
+                        <Typography className={customClasses.titleHeading}>In Circulation:</Typography>
+                        <Typography component={'div'} className={customClasses.content}>
+                            <DisplayContractValue
+                                contractName="ChargedParticles"
+                                method="getTotalMinted"
+                                methodArgs={[particle.typeId]}
+                                formatValue={Helpers.toEtherWithLocale}
+                                defaultValue={'0'}
+                            />
+                            &nbsp;of&nbsp;
+                            <DisplayContractValue
+                                contractName="ChargedParticles"
+                                method="getMaxSupply"
+                                methodArgs={[particle.typeId]}
+                                formatValue={Helpers.toEtherWithLocale}
+                                defaultValue={'0'}
+                            />
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    direction="row"
+                    justify="space-around"
+                    alignItems="center"
+                >
+                    <Grid item xs={12} sm={6}>
+                        {
+                            particle.isNF && (
                                 <>
                                     <Typography className={customClasses.titleHeading}>Asset Type:</Typography>
                                     <Typography className={customClasses.content}>{particle.assetPairId}</Typography>
                                 </>
                             )
-                            : (
-                                <>
-                                    <Typography className={customClasses.titleHeading}>Price per Token:</Typography>
-                                    <Typography component={'div'} className={customClasses.content}>
+                        }
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Typography className={customClasses.titleHeading}>My balance:</Typography>
+                        <Typography component={'div'} className={customClasses.content}>
+                            {
+                                !_.isEmpty(connectedAddress) && (
+                                    <>
                                         <DisplayContractValue
                                             contractName="ChargedParticles"
-                                            method="getMintingFee"
-                                            methodArgs={[particle.typeId]}
-                                            formatValue={Helpers.toEtherWithLocalePrecise(6)}
+                                            method="balanceOf"
+                                            methodArgs={[connectedAddress, particle.typeId]}
+                                            formatValue={Helpers.toEtherWithLocale}
                                             defaultValue={'0'}
                                         />
-                                        &nbsp; ETH
-                                    </Typography>
-                                </>
-                            )
-                    }
-                    <Typography className={customClasses.titleHeading}>My balance:</Typography>
-                    <Typography component={'div'} className={customClasses.content}>
-                        {
-                            !_.isEmpty(connectedAddress) && (
-                                <>
-                                    <DisplayContractValue
-                                        contractName="ChargedParticles"
-                                        method="balanceOf"
-                                        methodArgs={[connectedAddress, particle.typeId]}
-                                        formatValue={Helpers.toEtherWithLocale}
-                                        defaultValue={'0'}
-                                    />
-                                    &nbsp; {particle.symbol}
-                                </>
-                            )
-                        }
-                    </Typography>
-                </div>
-            </>
+                                        &nbsp; {particle.symbol}
+                                    </>
+                                )
+                            }
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Box>
+        );
+    };
+
+    const _getBody = () => {
+        return (
+            <ContentSplitter
+                iconLeft={() => (<InfoIcon fontSize="large" color="disabled" />)}
+                iconRight={() => (<OfflineBoltIcon fontSize="large" color="disabled" />)}
+                contentLeft={_getLeftContent}
+                contentRight={_getRightContent}
+            />
         );
     };
 

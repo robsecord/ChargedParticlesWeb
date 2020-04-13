@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { RootContext } from '../../stores/root.store';
+import { RootContext } from '../../contexts/root';
 
 // Material UI
 import Grid from '@material-ui/core/Grid';

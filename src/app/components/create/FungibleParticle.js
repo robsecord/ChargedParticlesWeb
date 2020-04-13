@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import ParticleEconomics from './ParticleEconomics';
 
 // Data Context for State
-import { RootContext } from '../../stores/root.store';
+import { RootContext } from '../../contexts/root';
 
 // Material UI
 import Box from '@material-ui/core/Box';

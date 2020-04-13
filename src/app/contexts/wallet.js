@@ -1,3 +1,18 @@
+import React, { createContext, useReducer } from 'react';
+
+
+const initialState = {
+    networkId           : 0,
+
+    allReady            : false,
+
+    // Connected Wallet
+    connectedType       : '', // Wallet Connected if not Empty
+    connectedAddress    : '',
+    connectedName       : '',
+    connectedBalance    : 0,
+};
+export const WalletContext = createContext(initialState);
 
 const WalletReducer = (state, action) => {
     switch (action.type) {
@@ -30,4 +45,13 @@ const WalletReducer = (state, action) => {
     }
 };
 
-export default WalletReducer;
+const WalletContextProvider = ({children}) => {
+    const [state, dispatch] = useReducer(WalletReducer, initialState);
+    return (
+        <WalletContext.Provider value={[state, dispatch]}>
+            {children}
+        </WalletContext.Provider>
+    )
+};
+
+export default WalletContextProvider;

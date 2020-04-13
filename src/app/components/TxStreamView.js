@@ -10,8 +10,8 @@ import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 
 // Data Context for State
-import { RootContext } from '../stores/root.store';
-import { TransactionContext } from '../stores/transaction.store';
+import { RootContext } from '../contexts/root';
+import { TransactionContext } from '../contexts/transaction';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
