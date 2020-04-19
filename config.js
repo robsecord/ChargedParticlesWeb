@@ -6,7 +6,7 @@ const imageSm  = 'src/images/favicon/android-chrome-192x192.png';
 const imageLg  = 'src/images/favicon/android-chrome-512x512.png';
 
 const site = {
-    title           : subtitle,
+    title           : title,
     titleTemplate   : `%s · ${title}`,
     desc            : 'Interest-bearing NFTs on the Ethereum Blockchain!',
     author          : 'Rob Secord (robsecord.eth)',

@@ -1,4 +1,5 @@
 // Frameworks
+import ENS from 'ethereum-ens';
 import window from 'global';
 import * as _ from 'lodash';
 
@@ -38,6 +39,7 @@ class Wallet {
         const walletClass = walletData.wallet;
         this.wallet = new walletClass(this.siteTitle, this.siteLogoUrl, this.dispatchState);
         await this.wallet.prepare({options: walletData.options, ...Wallet._getEnv()});
+        this.ens = new ENS(this.getProvider());
     }
 
     async connect() {
@@ -62,6 +64,26 @@ class Wallet {
     getProvider() {
         if (!this.wallet) { return; }
         return this.wallet.provider;
+    }
+
+    async getEnsName(address) {
+        if (!this.ens) { return 'ENS Unavailable'; }
+        try {
+            return await this.ens.reverse(address).addr();
+        }
+        catch (err) {
+            return 'ENS: Name not found';
+        }
+    }
+
+    async getEnsAddress(name) {
+        if (!this.ens) { return 'ENS Unavailable'; }
+        try {
+            return await this.ens.resolver(name).addr();
+        }
+        catch (err) {
+            return 'ENS: Address not found';
+        }
     }
 
     checkInjectedProviders() {

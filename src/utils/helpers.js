@@ -1,4 +1,5 @@
 // Frameworks
+import Web3 from 'web3';
 import * as _ from 'lodash';
 import toHex from 'to-hex';
 
@@ -56,9 +57,7 @@ Helpers.toEther = (value) => {
     if (!_.isString(value)) {
         value = value.toLocaleString('fullwide', {useGrouping: false});
     }
-    const web3 = Wallet.instance().getWeb3();
-    if (!web3) { return value; }
-    return web3.utils.fromWei(value, 'ether');
+    return Web3.utils.fromWei(value, 'ether');
 };
 
 Helpers.toEtherWithLocale = (value, precision = 0) => {
@@ -68,21 +67,15 @@ Helpers.toEtherWithLocale = (value, precision = 0) => {
 Helpers.toEtherWithLocalePrecise = (precision) => (value) => Helpers.toEtherWithLocale(value, precision);
 
 Helpers.toAscii = (str) => {
-    const web3 = Wallet.instance().getWeb3();
-    if (!web3) { return str; }
-    return web3.utils.hexToAscii(str);
+    return Web3.utils.hexToAscii(str);
 };
 
 Helpers.toBytes16 = (str) => {
-    const web3 = Wallet.instance().getWeb3();
-    if (!web3) { return str; }
-    return web3.utils.utf8ToHex(str);
+    return Web3.utils.utf8ToHex(str);
 };
 
 Helpers.toBigNumber = (str) => {
-    const web3 = Wallet.instance().getWeb3();
-    if (!web3) { return str; }
-    return new web3.utils.BN(str);
+    return new Web3.utils.BN(str);
 };
 
 Helpers.toHex = (str) => {
@@ -90,9 +83,7 @@ Helpers.toHex = (str) => {
 };
 
 Helpers.keccak = ({type, value}) => {
-    const web3 = Wallet.instance().getWeb3();
-    if (!web3) { return value; }
-    return web3.utils.soliditySha3({type, value});
+    return Web3.utils.soliditySha3({type, value});
 };
 
 Helpers.keccakStr = (str) => {

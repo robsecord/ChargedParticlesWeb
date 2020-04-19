@@ -26,7 +26,8 @@ import { ConnectWallet } from '../components/ConnectWallet';
 // Contract Data
 import {
     ChargedParticles,
-    ChargedParticlesEscrow
+    ChargedParticlesEscrow,
+    DAI,
 } from '../blockchain/contracts';
 import ChargedParticlesData from '../blockchain/contracts/ChargedParticles';
 import ChargedParticlesEscrowData from '../blockchain/contracts/ChargedParticlesEscrow';
@@ -78,12 +79,16 @@ function AppLayout({ children }) {
 
             const chargedParticlesAddress = _.get(ChargedParticlesData.networks[networkId], 'address', '');
             const chargedParticlesEscrowAddress = _.get(ChargedParticlesEscrowData.networks[networkId], 'address', '');
+            const daiAddress = _.get(GLOBALS.ASSET_TOKENS.DAI.ADDRESS, networkId, '');
 
             ChargedParticles.prepare({web3, address: chargedParticlesAddress});
             ChargedParticles.instance();
 
             ChargedParticlesEscrow.prepare({web3, address: chargedParticlesEscrowAddress});
             ChargedParticlesEscrow.instance();
+
+            DAI.prepare({web3, address: daiAddress});
+            DAI.instance();
 
             const transactions = Transactions.instance();
             transactions.init({rootDispatch, txDispatch});

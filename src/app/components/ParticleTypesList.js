@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 // App Components
 import ParticleCard from './ParticleCard';
-import { ParticleHelpers } from '../../utils/particle-helpers';
+import { ParticleHelpers } from '../blockchain/particle-helpers';
 import { GLOBALS } from '../../utils/globals';
 
 // List of Particle Types

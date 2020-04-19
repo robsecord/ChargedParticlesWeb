@@ -124,8 +124,6 @@ const ParticleCard = ({ particle, noFooter = false, expansionPanel = false }) =>
     const [ walletState ] = useContext(WalletContext);
     const { connectedAddress } = walletState;
 
-    console.log('ParticleCard - particle', particle);
-
     const id = particle.typeId;
     const verification = _.get(VerifiedParticleTypes, id, {verified: false});
     const asExpansionPanel = expansionPanel !== false;

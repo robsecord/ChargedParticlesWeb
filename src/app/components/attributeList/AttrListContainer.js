@@ -1,7 +1,7 @@
 // Frameworks
 import React, { useEffect } from 'react';
 
-import { useAttributes } from './customHooks';
+import { useAttributes } from '../../hooks';
 
 import AttrAddItem from './AttrAddItem';
 import AttrList from './AttrList';

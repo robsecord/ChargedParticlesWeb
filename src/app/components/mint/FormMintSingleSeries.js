@@ -2,8 +2,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import * as _ from 'lodash';
 
+// App Components
+import Wallet from '../../wallets';
+import UnlockableAssetInput from '../UnlockableAssetInput';
+import { Helpers } from '../../../utils/helpers';
+import { GLOBALS } from '../../../utils/globals';
+
 // Data Context for State
 import { RootContext } from '../../contexts/root';
+import { WalletContext } from '../../contexts/wallet';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,6 +23,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Slider from '@material-ui/core/Slider';
+import TextField from '@material-ui/core/TextField';
 
 // Custom Styles
 import useRootStyles from '../../layout/styles/root.styles';
@@ -23,73 +31,120 @@ import useRootStyles from '../../layout/styles/root.styles';
 
 const FormMintSingleSeries = ({ particle, onSubmit }) => {
     const classes = useRootStyles();
+    const wallet = Wallet.instance();
+
+    const [ rootState ] = useContext(RootContext);
+    const { connectionState } = rootState;
+
+    const [ walletState ] = useContext(WalletContext);
+    const { allReady, connectedAddress } = walletState;
+
+    const [receiver,            setReceiver]         = useState('');
+    const [receiverEns,         setReceiverEns]      = useState('');
+    const [assetAmount,         setAssetAmount]      = useState(0);
+    const [isReceiverValid,     setReceiverValid]    = useState(true);
+    const [isAssetAmountValid,  setAssetAmountValid] = useState(true);
+    const [formValidated,       setFormValidated]    = useState(false);
 
 
-    console.log('FormMintSingleSeries - particle:', particle);
+    useEffect(() => {
+        if (allReady && _.isEmpty(receiver)) {
+            setReceiver(connectedAddress);
+            setReceiverValid(!_.isEmpty(connectedAddress));
+        }
+        console.log('FormMintSingleSeries - particle:', particle);
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            if (!_.isEmpty(receiver)) {
+                const ensName = await wallet.getEnsName(receiver);
+                if (!_.isUndefined(ensName)) {
+                    setReceiverEns(ensName);
+                }
+            }
+        })();
+    }, [wallet, receiver, setReceiverEns]);
+
+    useEffect(() => {
+        setFormValidated(_validateForm());
+    }, [connectionState, receiver, isAssetAmountValid, setFormValidated]);
 
 
+    const _validateAll = () => {
+        setReceiverValid(!_.isEmpty(receiver));
+        setAssetAmountValid(isAssetAmountValid);
+    };
+
+    const _validateForm = () => {
+        const conditions = [
+            _.isEmpty(connectionState),
+            !_.isEmpty(receiver),
+            isAssetAmountValid,
+        ];
+        return _.every(conditions, Boolean);
+    };
 
     const _handleSubmit = (evt) => {
         evt.preventDefault();
-        onSubmit({ test: '123' });
+        if (!formValidated) {
+            return _validateAll();
+        }
+        onSubmit({
+            receiver,
+            assetAmount,
+        });
     };
 
+    const _updateReceiver = evt => {
+        const value = _.trim(evt.target.value);
+        setReceiver(value);
+        setReceiverValid(!_.isEmpty(value));
+    };
 
-    // When minting Plasma, need:
-    //      Amount to Mint
-    //      Receiver
-
-    // When Minting Token of Series, need:
-    //      Type ID
-    //      (Inherit Token Metadata of Type)
-    //      Asset Amount
-
-    // When Minting Token of Collection, need:
-    //      Type ID
-    //      Token Metadata
-    //      Asset Amount
-
-    // Token Metadata
-    //      Name
-    //      Symbol
-    //      Description
-    //      Icon            (for Particle Types only)
-    //      Image
-    //      External URL
-    //      Animation URL
-    //      Youtube URL
-    //      Background Color
-    //      Attributes
-    //
-
-    // Before Minting, need to check/display:
-    //      Creator
-    //      Asset Pair
-    //      Max Supply
-    //      Mint Fee
-    //      Energize Fee
-    //
-
+    const _updateAssetAmount = ({amount, assetPairId, isValid}) => {
+        console.log('amount', amount, assetPairId, isValid);
+        setAssetAmount(amount);
+        setAssetAmountValid(isValid);
+    };
 
     return (
         <>
-            <Box pt={2}>
+            <Box pt={2} pb={3}>
                 <Grid container spacing={3} className={classes.gridRow}>
                     <Grid item xs={12}>
                         <Grid container spacing={3} className={classes.gridRow}>
-                            <Grid item xs={6}>
-                                <p>Series</p>
-                                <ul>
-                                    <li>NFT Data:</li>
-                                </ul>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    id="mintReceiver"
+                                    label="Receiver"
+                                    variant="outlined"
+                                    onChange={_updateReceiver}
+                                    value={receiver}
+                                    fullWidth
+                                    required
+                                    error={!isReceiverValid}
+                                />
                             </Grid>
-                            <Grid item xs={6}>
-                                <ul>
-                                    <li>DISPLAY - Inherit NFT Data from Type</li>
-                                    <li>DISPLAY - Number of Copies in Circulation</li>
-                                    <li>INPUT - Amount to Fund in Asset-Type</li>
-                                    <li>INPUT - Receiver</li>
-                                </ul>
+                            <Grid item xs={12} sm={6}>
+                                <p>{receiverEns}</p>
+                            </Grid>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+
+                <Grid container spacing={3} className={classes.gridRow}>
+                    <Grid item xs={12}>
+                        <Grid container spacing={3} className={classes.gridRow}>
+                            <Grid item xs={12} sm={6}>
+                                <UnlockableAssetInput
+                                    particle={particle}
+                                    onUpdate={_updateAssetAmount}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <p>...</p>
                             </Grid>
                         </Grid>
 
@@ -116,6 +171,7 @@ const FormMintSingleSeries = ({ particle, onSubmit }) => {
                                 color={'primary'}
                                 size="large"
                                 onClick={_handleSubmit}
+                                disabled={!formValidated}
                             >
                                 Mint
                             </Button>

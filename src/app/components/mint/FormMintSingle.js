@@ -19,7 +19,7 @@ import FormMintSingleSeries from './FormMintSingleSeries';
 import FormMintSingleCollection from './FormMintSingleCollection';
 import FormMintSinglePlasma from './FormMintSinglePlasma';
 import { Helpers } from '../../../utils/helpers';
-import { ParticleHelpers } from '../../../utils/particle-helpers';
+import { ParticleHelpers } from '../../blockchain/particle-helpers';
 import useRootStyles from '../../layout/styles/root.styles';
 
 let _newSearch = false;

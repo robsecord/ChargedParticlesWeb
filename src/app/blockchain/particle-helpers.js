@@ -2,14 +2,15 @@
 import * as _ from 'lodash';
 
 // App Components
-import { ContractHelpers } from '../app/blockchain/contract-helpers';
+import { ContractHelpers } from './contract-helpers';
 
 const _fetchedParticles = {};
 const _contractMethodCalls = [
-    {contract: 'ChargedParticles', method: 'uri',            as: 'tokenUri',    fields: ['typeId']},
-    {contract: 'ChargedParticles', method: 'getMaxSupply',   as: 'maxSupply',   fields: ['typeId']},
-    {contract: 'ChargedParticles', method: 'getTotalMinted', as: 'totalMinted', fields: ['typeId']},
-    {contract: 'ChargedParticles', method: 'getMintingFee',  as: 'mintFee',     fields: ['typeId']},
+    {contract: 'ChargedParticles', method: 'uri',                as: 'tokenUri',    fields: ['typeId']},
+    {contract: 'ChargedParticles', method: 'getMaxSupply',       as: 'maxSupply',   fields: ['typeId']},
+    {contract: 'ChargedParticles', method: 'getTotalMinted',     as: 'totalMinted', fields: ['typeId']},
+    {contract: 'ChargedParticles', method: 'getMintingFee',      as: 'mintFee',     fields: ['typeId']},
+    {contract: 'ChargedParticles', method: 'getTypeTokenBridge', as: 'tokenBridge', fields: ['typeId']},
 ];
 
 

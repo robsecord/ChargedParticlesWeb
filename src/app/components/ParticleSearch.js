@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 // App Components
 import Transactions from '../blockchain/transactions';
-import { useDebounce } from '../../utils/use-debounce';
+import { useDebounce } from '../hooks';
 
 // Material UI
 import TextField from '@material-ui/core/TextField';
