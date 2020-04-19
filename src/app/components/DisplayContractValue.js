@@ -1,12 +1,12 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as _ from 'lodash';
 
 // App Components
 import { ContractHelpers } from '../blockchain/contract-helpers';
 
 // Data Context for State
-import { RootContext } from '../contexts/root';
+import { useNetworkContext } from '../contexts/network';
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
@@ -32,8 +32,8 @@ const DisplayContractValue = ({
     defaultValue = '',
     onValue = ({ raw, formatted }) => {}
 }) => {
-    const [ rootState ] = useContext(RootContext);
-    const { isNetworkConnected } = rootState;
+    const [ networkState ] = useNetworkContext();
+    const { isNetworkConnected } = networkState;
 
     const [ isLoading, setLoading ] = useState(true);
     const [ displayValue, setDisplayValue ] = useState(defaultValue);

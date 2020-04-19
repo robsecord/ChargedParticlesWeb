@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useContext } from 'react';
+import React from 'react';
 import { navigate } from 'gatsby';
 import window from 'global';
 import * as _ from 'lodash';
@@ -13,7 +13,7 @@ import { GLOBALS } from '../../utils/globals';
 import { VerifiedParticleTypes } from '../../utils/verified';
 
 // Data Context for State
-import { WalletContext } from '../contexts/wallet';
+import { useWalletContext } from '../contexts/wallet';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -121,7 +121,7 @@ const ParticleCard = ({ particle, noFooter = false, expansionPanel = false }) =>
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
 
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { connectedAddress } = walletState;
 
     const id = particle.typeId;

@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as _ from 'lodash';
 
 // App Components
@@ -11,9 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Data Context for State
-import { RootContext } from '../contexts/root';
-import { WalletContext } from '../contexts/wallet';
-import { TransactionContext } from '../contexts/transaction';
+import { useNetworkContext } from '../contexts/network';
+import { useWalletContext } from '../contexts/wallet';
+import { useTransactionContext } from '../contexts/transaction';
 
 
 let _newSearch = false;
@@ -21,13 +21,13 @@ let _newSearch = false;
 function ParticleSearch({ initialValue = '', onSearch }) {
     const [searchSymbol, setSearchSymbol] = useState(initialValue);
 
-    const [ rootState ] = useContext(RootContext);
-    const { isNetworkConnected } = rootState;
+    const [ networkState ] = useNetworkContext();
+    const { isNetworkConnected } = networkState;
 
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { allReady } = walletState;
 
-    const [ txState ] = useContext(TransactionContext);
+    const [ txState ] = useTransactionContext();
     const {
         searchState,
         searchError,

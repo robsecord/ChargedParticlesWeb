@@ -1,10 +1,10 @@
 // Frameworks
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
+import { useRootContext } from '../../contexts/root';
 
 // Material UI
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -217,7 +217,7 @@ const getTypes = () => {
 
 const ParticleClassification = ({ next }) => {
     const customClasses = useCustomStyles();
-    const [, rootDispatch] = useContext(RootContext);
+    const [, rootDispatch] = useRootContext();
     const [expanded, setExpanded] = useState(-1);
     const types = getTypes();
 

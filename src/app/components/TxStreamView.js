@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import UseAnimations from 'react-useanimations';
 import classNames from 'classnames';
@@ -10,8 +10,8 @@ import { Helpers } from '../../utils/helpers';
 import { GLOBALS } from '../../utils/globals';
 
 // Data Context for State
-import { RootContext } from '../contexts/root';
-import { TransactionContext } from '../contexts/transaction';
+import { useNetworkContext } from '../contexts/network';
+import { useTransactionContext } from '../contexts/transaction';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -97,9 +97,9 @@ const STATE_MSG = {
 const TxStreamView = () => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
-    const [ rootState ] = useContext(RootContext);
-    const { networkId } = rootState;
-    const [ txState, txDispatch ] = useContext(TransactionContext);
+    const [ networkState ] = useNetworkContext();
+    const { networkId } = networkState;
+    const [ txState, txDispatch ] = useTransactionContext();
     const {
         transactionHash,
         streamState,

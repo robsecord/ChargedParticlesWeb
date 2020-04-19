@@ -1,8 +1,11 @@
 // Frameworks
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { ToastContainer } from 'react-toastify';
-import * as _ from 'lodash';
+
+// Custom Styles
+import theme from '../../layout/styles/root.theme';
+import useRootStyles from './styles/root.styles';
 
 // Material UI
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,108 +13,28 @@ import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 
-// Custom Styles
-import theme from '../../layout/styles/root.theme';
-import useRootStyles from './styles/root.styles';
-
 // App Components
-import Wallet from '../wallets';
-import { Helpers } from '../../utils/helpers';
-import { GLOBALS } from '../../utils/globals';
 import { HeaderBar } from '../components/HeaderBar';
 import { Sidemenu } from '../components/Sidemenu';
 import { ConnectionWarning } from '../components/ConnectionWarning';
 import { ConnectWallet } from '../components/ConnectWallet';
-
-// Contract Data
-import {
-    ChargedParticles,
-    ChargedParticlesEscrow,
-    DAI,
-} from '../blockchain/contracts';
-import ChargedParticlesData from '../blockchain/contracts/ChargedParticles';
-import ChargedParticlesEscrowData from '../blockchain/contracts/ChargedParticlesEscrow';
-
-// Transactions Monitor
-import Transactions from '../blockchain/transactions';
 import TxStreamView from '../components/TxStreamView';
-
-// Data Context for State
-import { RootContext } from '../contexts/root';
-import { WalletContext } from '../contexts/wallet';
-import { TransactionContext } from '../contexts/transaction';
 
 
 function AppLayout({ children }) {
     const classes = useRootStyles();
-    const wallet = Wallet.instance();
-    const [, rootDispatch] = useContext(RootContext);
-    const [, txDispatch] = useContext(TransactionContext);
-    const [walletState, walletDispatch] = useContext(WalletContext);
     const [mobileOpen, setMobileOpen] = useState(false);
-    const { allReady: isWalletReady, networkId } = walletState;
 
     const data = useStaticQuery(graphql`
-        query SiteDataQuery {
+        query AppLayoutQuery {
             site {
                 siteMetadata {
                     title
-                    logoUrl
                 }
             }
         }
     `);
     const siteTitle = data.site.siteMetadata.title;
-    const siteLogoUrl = data.site.siteMetadata.logoUrl;
-
-    const correctNetwork = _.parseInt(GLOBALS.CHAIN_ID, 10);
-    const correctNetworkName = _.upperFirst(Helpers.getNetworkName(correctNetwork));
-
-    // Prepare Wallet Interface
-    useEffect(() => {
-        wallet.init({walletDispatch, siteTitle, siteLogoUrl});
-    }, [wallet, walletDispatch]);
-
-    // Reconnect to Contracts on network change
-    useEffect(() => {
-        if (isWalletReady) {
-            const web3 = wallet.getWeb3();
-
-            const chargedParticlesAddress = _.get(ChargedParticlesData.networks[networkId], 'address', '');
-            const chargedParticlesEscrowAddress = _.get(ChargedParticlesEscrowData.networks[networkId], 'address', '');
-            const daiAddress = _.get(GLOBALS.ASSET_TOKENS.DAI.ADDRESS, networkId, '');
-
-            ChargedParticles.prepare({web3, address: chargedParticlesAddress});
-            ChargedParticles.instance();
-
-            ChargedParticlesEscrow.prepare({web3, address: chargedParticlesEscrowAddress});
-            ChargedParticlesEscrow.instance();
-
-            DAI.prepare({web3, address: daiAddress});
-            DAI.instance();
-
-            const transactions = Transactions.instance();
-            transactions.init({rootDispatch, txDispatch});
-            transactions.connectToNetwork({networkId});
-            transactions.resumeIncompleteStreams();
-        }
-    }, [isWalletReady, networkId, wallet]);
-
-    useEffect(() => {
-        const isModernWeb3 = !!window.ethereum;
-        const isLegacyWeb3 = (typeof window.web3 !== 'undefined');
-
-        if (!isLegacyWeb3 && !isModernWeb3) {
-            rootDispatch({type: 'CONNECTION_STATE', payload: {type: 'NON_WEB3', message: 'Not a Web3 capable browser'}});
-        } else if (_.isUndefined(networkId) || networkId === 0) {
-            rootDispatch({type: 'CONNECTION_STATE', payload: {type: 'WEB3_DISCONNECTED', message: 'Please connect your Web3 Wallet'}});
-        } else if (networkId !== correctNetwork) {
-            rootDispatch({type: 'CONNECTION_STATE', payload: {type: 'WEB3_WRONG_NETWORK', message: `Wrong Ethereum network, please connect to ${correctNetworkName}.`}});
-        } else {
-            rootDispatch({type: 'CONNECTION_STATE', payload: {}}); // Web3, Connected, Correct Network
-        }
-    }, [networkId, rootDispatch]);
-
 
     const _handleDrawerToggle = (evt) => {
         evt.preventDefault();

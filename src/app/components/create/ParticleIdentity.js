@@ -1,11 +1,12 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Buffer } from 'buffer';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
-import { WalletContext } from '../../contexts/wallet';
+import { useRootContext } from '../../contexts/root';
+import { useNetworkContext } from '../../contexts/network';
+import { useWalletContext } from '../../contexts/wallet';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -66,10 +67,13 @@ const ParticleIdentity = ({ back, next }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
 
-    const [ rootState, rootDispatch ] = useContext(RootContext);
-    const { connectionState, createParticleData } = rootState;
+    const [ rootState, rootDispatch ] = useRootContext();
+    const { createParticleData } = rootState;
 
-    const [ walletState ] = useContext(WalletContext);
+    const [ networkState ] = useNetworkContext();
+    const { connectionState } = networkState;
+
+    const [ walletState ] = useWalletContext();
     const { allReady, connectedAddress } = walletState;
 
     const [particleName,        setParticleName]        = useState(createParticleData.name || '');

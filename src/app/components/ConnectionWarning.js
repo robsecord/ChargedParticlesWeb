@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useContext } from 'react';
+import React from 'react';
 import UseAnimations from 'react-useanimations';
 import * as _ from 'lodash';
 
@@ -8,12 +8,12 @@ import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 
 // Data Context for State
-import { RootContext } from '../contexts/root';
+import { useNetworkContext } from '../contexts/network';
 
 
 function ConnectionWarning() {
-    const [ rootState ] = useContext(RootContext);
-    const { connectionState } = rootState;
+    const [ networkState ] = useNetworkContext();
+    const { connectionState } = networkState;
 
     if (_.isEmpty(connectionState) || connectionState.type !== 'WEB3_WRONG_NETWORK') {
         return '';

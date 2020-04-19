@@ -1,9 +1,10 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
+import { useRootContext } from '../../contexts/root';
+import { useNetworkContext } from '../../contexts/network';
 
 // Material UI
 import Grid from '@material-ui/core/Grid';
@@ -33,8 +34,11 @@ const _maxSupplyInputOptions = {
 const ParticleEconomics = () => {
     const classes = useRootStyles();
 
-    const [ rootState, rootDispatch ] = useContext(RootContext);
-    const { connectionState, createParticleData } = rootState;
+    const [ rootState, rootDispatch ] = useRootContext();
+    const { createParticleData } = rootState;
+
+    const [ networkState ] = useNetworkContext();
+    const { connectionState } = networkState;
 
     const [supply,  setSupply]  = useState(createParticleData.supply || 0);
     const [mintFee, setMintFee] = useState(createParticleData.mintFee || 0);

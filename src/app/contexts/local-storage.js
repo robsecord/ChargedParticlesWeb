@@ -1,12 +1,12 @@
+// Frameworks
 import React, { createContext, useEffect, useCallback, useContext, useReducer, useMemo } from 'react';
-
 import window from 'global';
 
+// App Components
 import { GLOBALS } from '../../utils/globals';
 
 
 const LOCAL_STORAGE_KEY = `${GLOBALS.CODENAME_ABBR}_LS`;
-
 
 const initialState = {
     'VERSION': GLOBALS.CODE_VERSION,
@@ -26,7 +26,7 @@ function initStorage() {
     }
 }
 
-function useLocalStorageContext() {
+export function useLocalStorageContext() {
     return useContext(LocalStorageContext);
 }
 
@@ -58,7 +58,7 @@ export default function Provider({ children }) {
 }
 
 export function Updater() {
-    const [state] = useLocalStorageContext();
+    const [ state ] = useLocalStorageContext();
 
     useEffect(() => {
         window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({

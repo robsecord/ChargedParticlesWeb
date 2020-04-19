@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as _ from 'lodash';
 
 // App Components
@@ -9,8 +9,8 @@ import { Helpers } from '../../../utils/helpers';
 import { GLOBALS } from '../../../utils/globals';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
-import { WalletContext } from '../../contexts/wallet';
+import { useNetworkContext } from '../../contexts/network';
+import { useWalletContext } from '../../contexts/wallet';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -33,10 +33,10 @@ const FormMintSingleSeries = ({ particle, onSubmit }) => {
     const classes = useRootStyles();
     const wallet = Wallet.instance();
 
-    const [ rootState ] = useContext(RootContext);
-    const { connectionState } = rootState;
+    const [ networkState ] = useNetworkContext();
+    const { connectionState } = networkState;
 
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { allReady, connectedAddress } = walletState;
 
     const [receiver,            setReceiver]         = useState('');

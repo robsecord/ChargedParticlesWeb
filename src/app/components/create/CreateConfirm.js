@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { navigate } from 'gatsby';
 import * as _ from 'lodash';
 
@@ -9,8 +9,8 @@ import { Helpers } from '../../../utils/helpers';
 import { GLOBALS } from '../../../utils/globals';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
-import { WalletContext } from '../../contexts/wallet';
+import { useRootContext } from '../../contexts/root';
+import { useWalletContext } from '../../contexts/wallet';
 
 // Material UI
 import Box from '@material-ui/core/Box';
@@ -23,9 +23,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 
-// Rimble UI
-import NetworkIndicator from '@rimble/network-indicator';
-
 // Custom Styles
 import useRootStyles from '../../layout/styles/root.styles';
 
@@ -33,11 +30,11 @@ import useRootStyles from '../../layout/styles/root.styles';
 const CreateConfirm = ({ back, next }) => {
     const classes = useRootStyles();
 
-    const [ rootState ] = useContext(RootContext);
+    const [ rootState ] = useRootContext();
     const { createParticleData } = rootState;
     const isNonFungible = (createParticleData.classification !== 'plasma');
 
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { connectedBalance, connectedAddress } = walletState;
 
     const [paymentType, setPaymentType] = useState('eth');

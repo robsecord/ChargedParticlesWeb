@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import SwipeableViews from 'react-swipeable-views';
@@ -30,8 +30,8 @@ import TabPanel from './TabPanel';
 import Loading from '../components/Loading';
 
 // Data Context for State
-import { RootContext } from '../contexts/root';
-import { WalletContext } from '../contexts/wallet';
+import { useRootContext } from '../contexts/root';
+import { useWalletContext } from '../contexts/wallet';
 
 // Common
 import { GLOBALS } from '../../utils/globals';
@@ -155,9 +155,9 @@ function a11yProps(index) {
 
 // Login Route
 function ConnectWallet() {
-    const [ rootState, rootDispatch ] = useContext(RootContext);
+    const [ rootState, rootDispatch ] = useRootContext();
     const { showConnectWalletModal } = rootState;
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { connectedAddress } = walletState;
     const isLoggedIn = !_.isEmpty(connectedAddress);
 

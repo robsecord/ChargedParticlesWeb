@@ -1,12 +1,12 @@
 // Frameworks
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as _ from 'lodash';
 
 // App Components
 import ParticleEconomics from './ParticleEconomics';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
+import { useRootContext } from '../../contexts/root';
 
 // Material UI
 import Box from '@material-ui/core/Box';
@@ -33,7 +33,7 @@ const customFeeSettings = {
 const NonFungibleParticle = ({ back, next }) => {
     const classes = useRootStyles();
 
-    const [ rootState, rootDispatch ] = useContext(RootContext);
+    const [ rootState, rootDispatch ] = useRootContext();
     const { createParticleData } = rootState;
 
     const [assetPair,       setParticleAssetPair]   = useState(createParticleData.assetPair || 'chai');

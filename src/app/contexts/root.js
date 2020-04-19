@@ -1,20 +1,19 @@
-import React, { createContext, useReducer } from 'react';
+// Frameworks
+import React, { createContext, useContext, useReducer } from 'react';
 
 
 const initialState = {
     showConnectWalletModal: false,
-
-    networkId: 0,
-    isNetworkConnected: false,
-    networkErrors: [],
-
-    connectionState: {},
 
     createParticleData: {},
 
     errors: null
 };
 export const RootContext = createContext(initialState);
+
+export function useRootContext() {
+    return useContext(RootContext);
+}
 
 
 const RootReducer = (state, action) => {
@@ -23,24 +22,6 @@ const RootReducer = (state, action) => {
             return {
                 ...state,
                 showConnectWalletModal: action.payload
-            };
-        case 'CONNECTION_STATE':
-            return {
-                ...state,
-                connectionState: action.payload
-            };
-        case 'CONNECTED_NETWORK':
-            return {
-                ...state,
-                networkId          : action.payload.networkId,
-                isNetworkConnected : action.payload.isNetworkConnected,
-                networkErrors      : action.payload.networkErrors,
-            };
-        case 'DISCONNECTED_NETWORK':
-            return {
-                ...state,
-                isNetworkConnected : action.payload.isNetworkConnected,
-                networkErrors      : action.payload.networkErrors,
             };
         case 'UPDATE_CREATION_DATA':
             return {
@@ -60,13 +41,12 @@ const RootReducer = (state, action) => {
     }
 };
 
-const RootContextProvider = ({children}) => {
+export default function Provider({children}) {
     const [state, dispatch] = useReducer(RootReducer, initialState);
     return (
         <RootContext.Provider value={[state, dispatch]}>
             {children}
         </RootContext.Provider>
     )
-};
+}
 
-export default RootContextProvider;

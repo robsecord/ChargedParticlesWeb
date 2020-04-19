@@ -1,4 +1,24 @@
-import React, { createContext, useReducer } from 'react';
+// Frameworks
+import React, { createContext, useContext, useReducer, useEffect, useMemo } from 'react';
+import * as _ from 'lodash';
+
+// App Components
+import Wallet from '../wallets';
+import { useWalletContext } from './wallet';
+import { useNetworkContext } from './network';
+import { GLOBALS } from '../../utils/globals';
+
+// Contract Data
+import {
+    ChargedParticles,
+    ChargedParticlesEscrow,
+    DAI,
+} from '../blockchain/contracts';
+import ChargedParticlesData from '../blockchain/contracts/ChargedParticles';
+import ChargedParticlesEscrowData from '../blockchain/contracts/ChargedParticlesEscrow';
+
+// Transactions Monitor
+import Transactions from '../blockchain/transactions';
 
 
 const initialState = {
@@ -19,6 +39,10 @@ const initialState = {
     loadTransactions: [],
 };
 export const TransactionContext = createContext(initialState);
+
+export function useTransactionContext() {
+    return useContext(TransactionContext);
+}
 
 const TransactionReducer = (state, action) => {
     switch (action.type) {
@@ -113,13 +137,46 @@ const TransactionReducer = (state, action) => {
     }
 };
 
-const TransactionContextProvider = ({children}) => {
+export default function Provider({children}) {
     const [state, dispatch] = useReducer(TransactionReducer, initialState);
     return (
         <TransactionContext.Provider value={[state, dispatch]}>
             {children}
         </TransactionContext.Provider>
     )
-};
+}
 
-export default TransactionContextProvider;
+export function Updater() {
+    const wallet = useMemo(() => Wallet.instance(), [Wallet]);
+    const [, txDispatch ] = useTransactionContext();
+    const [, networkDispatch ] = useNetworkContext();
+
+    const [ walletState ] = useWalletContext();
+    const { allReady: isWalletReady, networkId } = walletState;
+
+    useEffect(() => {
+        if (isWalletReady) {
+            const web3 = wallet.getWeb3();
+
+            const chargedParticlesAddress = _.get(ChargedParticlesData.networks[networkId], 'address', '');
+            const chargedParticlesEscrowAddress = _.get(ChargedParticlesEscrowData.networks[networkId], 'address', '');
+            const daiAddress = _.get(GLOBALS.ASSET_TOKENS.DAI.ADDRESS, networkId, '');
+
+            ChargedParticles.prepare({web3, address: chargedParticlesAddress});
+            ChargedParticles.instance();
+
+            ChargedParticlesEscrow.prepare({web3, address: chargedParticlesEscrowAddress});
+            ChargedParticlesEscrow.instance();
+
+            DAI.prepare({web3, address: daiAddress});
+            DAI.instance();
+
+            const transactions = Transactions.instance();
+            transactions.init({networkDispatch, txDispatch});
+            transactions.connectToNetwork({networkId});
+            transactions.resumeIncompleteStreams();
+        }
+    }, [isWalletReady, networkId, wallet]);
+
+    return null;
+}

@@ -64,7 +64,7 @@ class Transactions {
 
     constructor() {
         this.apiKey = GLOBALS.DFUSE_API_KEY;
-        this.rootDispatch = null;
+        this.networkDispatch = null;
         this.txDispatch = null;
         this.networkId = 0;
         this.stream = null;
@@ -79,8 +79,8 @@ class Transactions {
         return Transactions.__instance;
     }
 
-    init({rootDispatch, txDispatch}) {
-        this.rootDispatch = rootDispatch;
+    init({networkDispatch, txDispatch}) {
+        this.networkDispatch = networkDispatch;
         this.txDispatch = txDispatch;
     }
 
@@ -97,7 +97,7 @@ class Transactions {
                 }
             }
         });
-        this.rootDispatch({type: 'CONNECTED_NETWORK', payload: {
+        this.networkDispatch({type: 'CONNECTED_NETWORK', payload: {
             networkId,
             isNetworkConnected: true,
             networkErrors: []
@@ -128,14 +128,14 @@ class Transactions {
     }
 
     onClose() {
-        this.rootDispatch({type: 'DISCONNECTED_NETWORK', payload: {
+        this.networkDispatch({type: 'DISCONNECTED_NETWORK', payload: {
             isNetworkConnected: false,
             networkErrors: []
         }});
     }
 
     onError(error) {
-        this.rootDispatch({type: 'DISCONNECTED_NETWORK', payoad: {
+        this.networkDispatch({type: 'DISCONNECTED_NETWORK', payoad: {
             isNetworkConnected: false,
             networkErrors: ["Transactions: An error occurred with the socket.", JSON.stringify(error)]
         }});

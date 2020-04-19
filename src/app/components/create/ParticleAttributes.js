@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Buffer } from 'buffer';
 import * as _ from 'lodash';
 
@@ -8,7 +8,8 @@ import AttrListContainer from '../attributeList/AttrListContainer';
 import ColorInput from '../ColorInput';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
+import { useRootContext } from '../../contexts/root';
+import { useNetworkContext } from '../../contexts/network';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -58,8 +59,11 @@ const ParticleAttributes = ({ back, next }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
 
-    const [ rootState, rootDispatch ] = useContext(RootContext);
-    const { connectionState, createParticleData } = rootState;
+    const [ rootState, rootDispatch ] = useRootContext();
+    const { createParticleData } = rootState;
+
+    const [ networkState ] = useNetworkContext();
+    const { connectionState } = networkState;
 
     const [backgroundColor,      setBackgroundColor]      = useState(createParticleData.backgroundColor || '#fff');
     const [particleImage,        setParticleImage]        = useState(createParticleData.image || 'Upload Image *');

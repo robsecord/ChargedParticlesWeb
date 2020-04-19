@@ -1,12 +1,13 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as _ from 'lodash';
 
 // App Components
 import ParticleEconomics from './ParticleEconomics';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
+import { useRootContext } from '../../contexts/root';
+import { useNetworkContext } from '../../contexts/network';
 
 // Material UI
 import Box from '@material-ui/core/Box';
@@ -33,8 +34,11 @@ const _amountToMintInputOptions = {
 const FungibleParticle = ({ back, next }) => {
     const classes = useRootStyles();
 
-    const [ rootState, rootDispatch ] = useContext(RootContext);
-    const { connectionState, createParticleData } = rootState;
+    const [ rootState, rootDispatch ] = useRootContext();
+    const { createParticleData } = rootState;
+
+    const [ networkState ] = useNetworkContext();
+    const { connectionState } = networkState;
 
     const mintableMaxSupply = _.parseInt((createParticleData.supply > 0) ? createParticleData.supply : _amountToMintInputOptions.max, 10);
     const mintableStep = Math.max(_.round(mintableMaxSupply / 1000), 1);

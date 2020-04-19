@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { navigate } from '@reach/router';
@@ -16,9 +16,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 // App Components
 import { AppTitleLink } from './AppTitleLink';
-
-// Data Context for State
-import { RootContext } from '../contexts/root';
 
 // Common
 import { GLOBALS } from '../../utils/globals';

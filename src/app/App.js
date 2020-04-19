@@ -17,9 +17,9 @@ import { GLOBALS } from '../utils/globals';
 // Data Contexts
 import RootContextProvider from './contexts/root';
 import LocalStorageContextProvider, { Updater as LocalStorageContextUpdater } from './contexts/local-storage';
-import NetworkContextProvider from './contexts/network';
-import WalletContextProvider from './contexts/wallet';
-import TransactionContextProvider from './contexts/transaction';
+import WalletContextProvider, { Updater as WalletContextUpdater } from './contexts/wallet';
+import NetworkContextProvider, { Updater as NetworkContextUpdater } from './contexts/network';
+import TransactionContextProvider, { Updater as TransactionContextUpdater } from './contexts/transaction';
 import UserInputContextProvider from './contexts/user-input';
 
 // Page Templates
@@ -34,15 +34,15 @@ function AppContexts({ children }) {
     return (
         <RootContextProvider>
             <LocalStorageContextProvider>
-                <NetworkContextProvider>
-                    <WalletContextProvider>
+                <WalletContextProvider>
+                    <NetworkContextProvider>
                         <TransactionContextProvider>
                             <UserInputContextProvider>
                                 {children}
                             </UserInputContextProvider>
                         </TransactionContextProvider>
-                    </WalletContextProvider>
-                </NetworkContextProvider>
+                    </NetworkContextProvider>
+                </WalletContextProvider>
             </LocalStorageContextProvider>
         </RootContextProvider>
     );
@@ -52,6 +52,9 @@ function AppUpdaters() {
     return (
         <>
             <LocalStorageContextUpdater />
+            <WalletContextUpdater />
+            <NetworkContextUpdater />
+            <TransactionContextUpdater />
         </>
     );
 }
@@ -60,8 +63,8 @@ function App() {
     return (
         <ThemeProvider theme={{...rimbleTheme, ...theme}}>
             <AppContexts>
+                <AppUpdaters />
                 <AppLayout>
-                    <AppUpdaters />
                     <Router>
                         <Market path={GLOBALS.ACCELERATOR_ROOT} />
                         <Create path={`${GLOBALS.ACCELERATOR_ROOT}/create`} />

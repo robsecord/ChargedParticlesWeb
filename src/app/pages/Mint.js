@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import UseAnimations from 'react-useanimations';
 import * as _ from 'lodash';
 
@@ -16,7 +16,7 @@ import { ContractHelpers } from '../blockchain/contract-helpers';
 import { AcceleratorTabs } from '../components/AcceleratorTabs';
 
 // Data Context for State
-import { WalletContext } from '../contexts/wallet';
+import { useWalletContext } from '../contexts/wallet';
 
 // Custom Styles
 import useRootStyles from '../layout/styles/root.styles';
@@ -25,7 +25,7 @@ import useRootStyles from '../layout/styles/root.styles';
 // Mint Route
 const Mint = ({ location, typeId }) => {
     const classes = useRootStyles();
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { allReady, connectedAddress } = walletState;
     const [ isSubmitting, setSubmitting ] = useState(false);
     const [ txData, setTxData ] = useState({});

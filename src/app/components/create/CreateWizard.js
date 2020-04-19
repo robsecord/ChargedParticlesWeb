@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +27,7 @@ import TokenTypeBadge from '../TokenTypeBadge';
 import partyPopperImg from '../../../images/party-popper.png';
 
 // Data Context for State
-import { RootContext } from '../../contexts/root';
+import { useRootContext } from '../../contexts/root';
 
 
 const useCustomStyles = makeStyles(theme => ({
@@ -72,7 +72,7 @@ const getSteps = ({createParticleData, onSubmitForm, back, next}) => {
 function CreateWizard({ onSubmitForm }) {
     const customClasses = useCustomStyles();
 
-    const [rootState, rootDispatch] = useContext(RootContext);
+    const [rootState, rootDispatch] = useRootContext();
     const { createParticleData } = rootState;
 
     const [activeStep, setActiveStep] = useState(0);

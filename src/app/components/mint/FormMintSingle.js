@@ -1,10 +1,10 @@
 // Frameworks
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as _ from 'lodash';
 
 // Data Context for State
-import { WalletContext } from '../../contexts/wallet';
-import { TransactionContext } from '../../contexts/transaction';
+import { useWalletContext } from '../../contexts/wallet';
+import { useTransactionContext } from '../../contexts/transaction';
 
 // Material UI
 import Box from '@material-ui/core/Box';
@@ -29,10 +29,10 @@ const FormMintSingle = ({ typeId, onSubmit }) => {
     let isMounted = true;
     const classes = useRootStyles();
 
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { connectedAddress } = walletState;
 
-    const [ txState ] = useContext(TransactionContext);
+    const [ txState ] = useTransactionContext();
     const {
         loadState,
         loadError,

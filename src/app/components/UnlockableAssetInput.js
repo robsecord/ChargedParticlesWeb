@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as _ from 'lodash';
 
 // App Components
@@ -7,8 +7,8 @@ import { Helpers } from '../../utils/helpers';
 import { AssetTokenHelpers } from '../blockchain/asset-token-helpers';
 
 // Data Context for State
-import { RootContext } from '../contexts/root';
-import { WalletContext } from '../contexts/wallet';
+import { useNetworkContext } from '../contexts/network';
+import { useWalletContext } from '../contexts/wallet';
 
 // Material UI
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -92,10 +92,10 @@ const UseMaxButton = withStyles(theme => ({
 const UnlockableAssetInput = ({ particle, onUpdate }) => {
     const customClasses = useCustomStyles();
 
-    const [ rootState ] = useContext(RootContext);
-    const { isNetworkConnected } = rootState;
+    const [ networkState ] = useNetworkContext();
+    const { isNetworkConnected } = networkState;
     //
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { allReady, connectedAddress } = walletState;
 
     // Asset Amount for Funding

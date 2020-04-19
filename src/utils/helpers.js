@@ -53,6 +53,12 @@ Helpers.getNetworkName = (networkId) => {
     }
 };
 
+Helpers.getCorrectNetwork = () => {
+    const correctNetwork = _.parseInt(GLOBALS.CHAIN_ID, 10);
+    const correctNetworkName = _.upperFirst(Helpers.getNetworkName(correctNetwork));
+    return { correctNetwork, correctNetworkName };
+};
+
 Helpers.toEther = (value) => {
     if (!_.isString(value)) {
         value = value.toLocaleString('fullwide', {useGrouping: false});

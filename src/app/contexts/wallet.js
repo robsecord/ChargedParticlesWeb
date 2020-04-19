@@ -1,9 +1,12 @@
-import React, { createContext, useReducer } from 'react';
+// Frameworks
+import React, { createContext, useContext, useEffect, useReducer, useMemo } from 'react';
+import { useStaticQuery, graphql } from 'gatsby';
 
+// App Components
+import Wallet from '../wallets';
 
 const initialState = {
     networkId           : 0,
-
     allReady            : false,
 
     // Connected Wallet
@@ -13,6 +16,10 @@ const initialState = {
     connectedBalance    : 0,
 };
 export const WalletContext = createContext(initialState);
+
+export function useWalletContext() {
+    return useContext(WalletContext);
+}
 
 const WalletReducer = (state, action) => {
     switch (action.type) {
@@ -45,13 +52,38 @@ const WalletReducer = (state, action) => {
     }
 };
 
-const WalletContextProvider = ({children}) => {
+export default function Provider({children}) {
     const [state, dispatch] = useReducer(WalletReducer, initialState);
     return (
         <WalletContext.Provider value={[state, dispatch]}>
             {children}
         </WalletContext.Provider>
     )
-};
+}
 
-export default WalletContextProvider;
+export function Updater() {
+    const wallet = useMemo(() => Wallet.instance(), [Wallet]);
+    const [, walletDispatch ] = useWalletContext();
+
+    const data = useStaticQuery(graphql`
+        query SiteDataWalletQuery {
+            site {
+                siteMetadata {
+                    title
+                    logoUrl
+                }
+            }
+        }
+    `);
+    const siteTitle = data.site.siteMetadata.title;
+    const siteLogoUrl = data.site.siteMetadata.logoUrl;
+
+
+    // Prepare Wallet Interface
+    useEffect(() => {
+        wallet.init({walletDispatch, siteTitle, siteLogoUrl});
+    }, [wallet, walletDispatch]);
+
+
+    return null;
+}

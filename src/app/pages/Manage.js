@@ -1,5 +1,5 @@
 // Frameworks
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import UseAnimations from 'react-useanimations';
 import * as _ from 'lodash';
 
@@ -15,9 +15,9 @@ import ParticleTypesList from '../components/ParticleTypesList';
 import { AcceleratorTabs } from '../components/AcceleratorTabs';
 
 // Data Context for State
-import { RootContext } from '../contexts/root';
-import { WalletContext } from '../contexts/wallet';
-import { TransactionContext } from '../contexts/transaction';
+import { useNetworkContext } from '../contexts/network';
+import { useWalletContext } from '../contexts/wallet';
+import { useTransactionContext } from '../contexts/transaction';
 
 // Custom Styles
 import useRootStyles from '../layout/styles/root.styles';
@@ -29,13 +29,13 @@ import 'react-toastify/dist/ReactToastify.css';
 // Manage Route
 const Manage = ({ location }) => {
     const classes = useRootStyles();
-    const [ rootState ] = useContext(RootContext);
-    const { networkId, isNetworkConnected } = rootState;
+    const [ networkState ] = useNetworkContext();
+    const { networkId, isNetworkConnected } = networkState;
 
-    const [ walletState ] = useContext(WalletContext);
+    const [ walletState ] = useWalletContext();
     const { allReady, connectedAddress } = walletState;
 
-    const [ txState ] = useContext(TransactionContext);
+    const [ txState ] = useTransactionContext();
     const {
         searchState,
         searchError,
