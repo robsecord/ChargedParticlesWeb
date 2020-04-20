@@ -302,7 +302,7 @@ const ParticleCard = ({ particle, noFooter = false, expansionPanel = false }) =>
                                 !_.isEmpty(connectedAddress) && (
                                     <>
                                         <DisplayContractValue
-                                            contractName="ChargedParticles"
+                                            contractName="ChargedParticlesERC1155"
                                             method="balanceOf"
                                             methodArgs={[connectedAddress, particle.typeId]}
                                             formatValue={Helpers.toEtherWithLocale}

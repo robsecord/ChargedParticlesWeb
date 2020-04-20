@@ -23,14 +23,10 @@ export function useWalletContext() {
 
 const WalletReducer = (state, action) => {
     switch (action.type) {
-        case 'ALL_READY':
-            return {
-                ...state,
-                allReady: action.payload
-            };
         case 'CONNECTED_ACCOUNT':
             return {
                 ...state,
+                allReady         : action.payload.allReady,
                 networkId        : action.payload.networkId,
                 connectedType    : action.payload.type,
                 connectedAddress : action.payload.address,
@@ -40,12 +36,7 @@ const WalletReducer = (state, action) => {
         case 'LOGOUT':
             return {
                 ...state,
-                allReady         : false,
-                networkId        : 0,
-                connectedType    : '',
-                connectedAddress : '',
-                connectedName    : '',
-                connectedBalance : 0,
+                ...initialState,
             };
         default:
             return state;

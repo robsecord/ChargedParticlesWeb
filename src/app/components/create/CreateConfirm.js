@@ -105,7 +105,7 @@ const CreateConfirm = ({ back, next }) => {
             <Grid container spacing={3} className={classes.gridRow}>
                 <Grid item xs={12} sm={8}>
                     <DisplayContractValue
-                        contractName="ChargedParticles"
+                        contractName="ChargedParticlesERC1155"
                         method="balanceOf"
                         methodArgs={[connectedAddress, GLOBALS.ION_TOKEN_ID]}
                         formatValue={Helpers.toEtherWithLocale}

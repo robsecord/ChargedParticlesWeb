@@ -127,18 +127,19 @@ class Wallet {
 
     async changeUserAccount() {
         const payload = {
+            allReady    : false,
             networkId   : 0,
             type        : '',
             name        : '',
             address     : '',
             balance     : 0,
         };
-        this.dispatchState({type: 'ALL_READY', payload: false});
         this.dispatchState({type: 'CONNECTED_ACCOUNT', payload});
 
         const accounts = await this.web3.eth.getAccounts();
         if (_.isEmpty(accounts)) { return; }
 
+        const { correctNetwork } = Helpers.getCorrectNetwork();
         const address = _.first(accounts) || '';
 
         console.log('>>>>>  this.web3.eth', this.web3.eth);
@@ -151,15 +152,11 @@ class Wallet {
         payload.address = address;
         payload.name = _.join([..._.slice(address, 0, 6), '...', ..._.slice(address, -4)], '');
         payload.balance = 0; // await this.web3.eth.getBalance(address);
+        payload.allReady = correctNetwork === payload.networkId;
 
         console.log('>>>>>  payload', payload);
 
         this.dispatchState({type: 'CONNECTED_ACCOUNT', payload});
-
-        setTimeout(() => {
-            this.dispatchState({type: 'ALL_READY', payload: true});
-        }, 1);
-
         return payload;
     }
 

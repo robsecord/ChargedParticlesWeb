@@ -12,10 +12,12 @@ import { GLOBALS } from '../../utils/globals';
 import {
     ChargedParticles,
     ChargedParticlesEscrow,
+    ChargedParticlesERC1155,
     DAI,
 } from '../blockchain/contracts';
 import ChargedParticlesData from '../blockchain/contracts/ChargedParticles';
 import ChargedParticlesEscrowData from '../blockchain/contracts/ChargedParticlesEscrow';
+import ChargedParticlesERC1155Data from '../blockchain/contracts/ChargedParticlesERC1155';
 
 // Transactions Monitor
 import Transactions from '../blockchain/transactions';
@@ -188,6 +190,7 @@ export function Updater() {
 
             const chargedParticlesAddress = _.get(ChargedParticlesData.networks[networkId], 'address', '');
             const chargedParticlesEscrowAddress = _.get(ChargedParticlesEscrowData.networks[networkId], 'address', '');
+            const chargedParticlesTokenAddress = _.get(ChargedParticlesERC1155Data.networks[networkId], 'address', '');
             const daiAddress = _.get(GLOBALS.ASSET_TOKENS.DAI.ADDRESS, networkId, '');
 
             ChargedParticles.prepare({web3, address: chargedParticlesAddress});
@@ -195,6 +198,9 @@ export function Updater() {
 
             ChargedParticlesEscrow.prepare({web3, address: chargedParticlesEscrowAddress});
             ChargedParticlesEscrow.instance();
+
+            ChargedParticlesERC1155.prepare({web3, address: chargedParticlesTokenAddress});
+            ChargedParticlesERC1155.instance();
 
             DAI.prepare({web3, address: daiAddress});
             DAI.instance();

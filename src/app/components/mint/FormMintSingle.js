@@ -30,7 +30,7 @@ const FormMintSingle = ({ typeId, onSubmit }) => {
     const classes = useRootStyles();
 
     const [ walletState ] = useWalletContext();
-    const { connectedAddress } = walletState;
+    const { allReady: isWalletReady, connectedAddress } = walletState;
 
     const [ txState ] = useTransactionContext();
     const {
@@ -42,7 +42,7 @@ const FormMintSingle = ({ typeId, onSubmit }) => {
     const [ currentParticle, setCurrentParticle ] = useState({});
 
     useEffect(() => {
-        if (!_.isEmpty(typeId)) {
+        if (isWalletReady && !_.isEmpty(typeId)) {
             (async () => {
                 _newSearch = true;
                 const transactions = Transactions.instance();
@@ -54,10 +54,10 @@ const FormMintSingle = ({ typeId, onSubmit }) => {
                 await transactions.loadPublicParticle({partialQuery});
             })();
         }
-    }, [typeId]);
+    }, [typeId, isWalletReady]);
 
     useEffect(() => {
-        if (_newSearch && loadState === 'complete') {
+        if (isWalletReady && _newSearch && loadState === 'complete') {
             if (_.isEmpty(loadError)) {
                 const onlyFirst = _.first(loadTransactions);
                 const transactions = ParticleHelpers.cleanCommonTxnFields([onlyFirst]);
@@ -71,7 +71,7 @@ const FormMintSingle = ({ typeId, onSubmit }) => {
                     .catch(console.error);
             }
         }
-    }, [loadState, loadError, loadTransactions, setCurrentParticle]);
+    }, [isWalletReady, loadState, loadError, loadTransactions, setCurrentParticle]);
 
     useEffect(() => {
         return () => {
