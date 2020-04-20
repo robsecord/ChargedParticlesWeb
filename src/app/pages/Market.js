@@ -58,7 +58,6 @@ const Market = ({ location }) => {
         };
     }, []);
 
-
     const _getContent = () => {
         if (!allReady) {
             return (

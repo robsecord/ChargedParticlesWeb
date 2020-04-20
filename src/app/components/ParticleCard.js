@@ -27,10 +27,12 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ImageIcon from '@material-ui/icons/Image';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import LaunchIcon from '@material-ui/icons/Launch';
 import PermMediaIcon from '@material-ui/icons/PermMedia';
@@ -116,7 +118,6 @@ const useCustomStyles = makeStyles(theme => ({
 }));
 
 
-// List of Particle Types
 const ParticleCard = ({ particle, noFooter = false, expansionPanel = false }) => {
     const classes = useRootStyles();
     const customClasses = useCustomStyles();
@@ -200,17 +201,35 @@ const ParticleCard = ({ particle, noFooter = false, expansionPanel = false }) =>
                     justify="flex-end"
                     alignItems="center"
                 >
-                    <Box mr={3} component="span">
-                        <YouTubeIcon
-                            fontSize="large"
-                            color={hasYoutubeUrl ? 'primary' : 'disabled'}
-                        />
+                    <Box mt={-1} component="span">
+                        <IconButton
+                            color={'secondary'}
+                            disabled={!particle.isNF}
+                        >
+                            <ImageIcon
+                                fontSize="large"
+                            />
+                        </IconButton>
                     </Box>
-                    <Box mr={3} component="span">
-                        <PermMediaIcon
-                            fontSize="large"
-                            color={hasAnimationUrl ? 'primary' : 'disabled'}
-                        />
+                    <Box mt={-1} component="span">
+                        <IconButton
+                            color={'secondary'}
+                            disabled={!hasYoutubeUrl}
+                        >
+                            <YouTubeIcon
+                                fontSize="large"
+                            />
+                        </IconButton>
+                    </Box>
+                    <Box mt={-1} component="span">
+                        <IconButton
+                            color={'secondary'}
+                            disabled={!hasAnimationUrl}
+                        >
+                            <PermMediaIcon
+                                fontSize="large"
+                            />
+                        </IconButton>
                     </Box>
                 </Grid>
             </Box>

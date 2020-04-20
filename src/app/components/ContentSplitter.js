@@ -8,7 +8,7 @@ import Drawer from '@material-ui/core/Drawer';
 
 const drawerOpenWidth = '90%';
 const drawerClosedWidth = 60;
-const drawerHeight = 190;
+const drawerHeight = 200;
 
 const useCustomStyles = makeStyles(theme => ({
     contentSplitterContainer: {

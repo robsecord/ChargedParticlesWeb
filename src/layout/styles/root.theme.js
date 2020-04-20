@@ -2,6 +2,8 @@
 import React from 'react';
 import { createMuiTheme, createStyles } from '@material-ui/core/styles';
 
+import { GLOBALS } from '../../utils/globals';
+
 // Material UI
 // see https://v3.material-ui.com/style/color/
 // see https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=EC407A&secondary.color=8E24AA
@@ -13,14 +15,14 @@ export default createMuiTheme({
     palette: {
         type: 'dark',
         background: {
-            default: '#111',
-            paper:   '#222',
+            default: GLOBALS.BRANDING.BACKGROUND.DEFAULT,
+            paper:   GLOBALS.BRANDING.BACKGROUND.PAPER,
         },
         primary: {
-            main: '#EC407A',
+            main: GLOBALS.BRANDING.PRIMARY,
         },
         secondary: {
-            main: '#8E24AA',
+            main: GLOBALS.BRANDING.SECONDARY,
         },
     },
 

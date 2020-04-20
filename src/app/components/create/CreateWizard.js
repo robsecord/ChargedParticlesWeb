@@ -1,5 +1,6 @@
 // Frameworks
 import React, { useState } from 'react';
+import * as _ from 'lodash';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,6 +29,7 @@ import partyPopperImg from '../../../images/party-popper.png';
 
 // Data Context for State
 import { useRootContext } from '../../contexts/root';
+import { useTransactionContext } from '../../contexts/transaction';
 
 
 const useCustomStyles = makeStyles(theme => ({
@@ -75,6 +77,9 @@ function CreateWizard({ onSubmitForm }) {
     const [rootState, rootDispatch] = useRootContext();
     const { createParticleData } = rootState;
 
+    const [ txState ] = useTransactionContext();
+    const { streamState } = txState;
+
     const [activeStep, setActiveStep] = useState(0);
 
     // useEffect(() => {
@@ -108,6 +113,55 @@ function CreateWizard({ onSubmitForm }) {
         next: handleNext,
     });
 
+    const _getFinalStepNotice = () => {
+        if (activeStep === steps.length) {
+            if (streamState === 'started') {
+                return _getTxStartedNotice();
+            } else if (!_.isEmpty(streamState)) {
+                return _getTxCompletedNotice();
+            }
+        }
+        return '';
+    };
+
+    const _getTxStartedNotice = () => {
+        return (
+            <Paper square elevation={0} className={customClasses.resetContainer}>
+                <Grid container direction="row" justify="center" alignItems="center">
+                    <img src={partyPopperImg} alt="Party Popper" style={{width: 200}} />
+                </Grid>
+                <Box py={3}>
+                    <Grid container direction="row" justify="center" alignItems="center">
+                        <Typography>Transaction Started!  Please check your wallet to Sign the Transaction!</Typography>
+                    </Grid>
+                </Box>
+            </Paper>
+        );
+    };
+
+    const _getTxCompletedNotice = () => {
+        return (
+            <Paper square elevation={0} className={customClasses.resetContainer}>
+                <Grid container direction="row" justify="center" alignItems="center">
+                    <img src={partyPopperImg} alt="Party Popper" style={{width: 200}} />
+                </Grid>
+                <Box py={3}>
+                    <Grid container direction="row" justify="center" alignItems="center">
+                        <Typography>Finished! Your Particle is being created!</Typography>
+                    </Grid>
+                </Box>
+                <Box py={2}>
+                    <Divider />
+                </Box>
+                <Grid container direction="row" justify="center" alignItems="center">
+                    <Button onClick={handleReset} variant="outlined" color="primary" className={customClasses.button}>
+                        Restart
+                    </Button>
+                </Grid>
+            </Paper>
+        );
+    };
+
     return (
         <div className={customClasses.root}>
             {
@@ -127,26 +181,9 @@ function CreateWizard({ onSubmitForm }) {
                     </Step>
                 ))}
             </Stepper>
-            {activeStep === steps.length && (
-                <Paper square elevation={0} className={customClasses.resetContainer}>
-                    <Grid container direction="row" justify="center" alignItems="center">
-                        <img src={partyPopperImg} alt="Party Popper" style={{width: 200}} />
-                    </Grid>
-                    <Box py={3}>
-                        <Grid container direction="row" justify="center" alignItems="center">
-                            <Typography>Finished! Your Particle is being Created!</Typography>
-                        </Grid>
-                    </Box>
-                    <Box py={2}>
-                        <Divider />
-                    </Box>
-                    <Grid container direction="row" justify="center" alignItems="center">
-                        <Button onClick={handleReset} variant="outlined" color="primary" className={customClasses.button}>
-                            Restart
-                        </Button>
-                    </Grid>
-                </Paper>
-            )}
+            {
+                _getFinalStepNotice()
+            }
         </div>
     );
 }

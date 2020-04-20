@@ -117,7 +117,6 @@ const UnlockableAssetInput = ({ particle, onUpdate }) => {
         if (allReady && isNetworkConnected) {
             AssetTokenHelpers.getApprovalAmount({owner: connectedAddress, assetPairId: particle.assetPairId})
                 .then(amount => {
-                    console.log('getApprovalAmount - amount', amount);
                     setApprovalAmount(Helpers.toEther(amount));
                 })
                 .catch(err => {
@@ -126,7 +125,6 @@ const UnlockableAssetInput = ({ particle, onUpdate }) => {
 
             AssetTokenHelpers.getBalance({owner: connectedAddress, assetPairId: particle.assetPairId})
                 .then(balance => {
-                    console.log('getBalance - balance', balance);
                     setAssetBalance(Helpers.toEther(balance));
                 })
                 .catch(err => {

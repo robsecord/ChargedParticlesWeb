@@ -52,7 +52,6 @@ const FormMintSingleSeries = ({ particle, onSubmit }) => {
             setReceiver(connectedAddress);
             setReceiverValid(!_.isEmpty(connectedAddress));
         }
-        console.log('FormMintSingleSeries - particle:', particle);
     }, []);
 
     useEffect(() => {

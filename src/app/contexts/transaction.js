@@ -22,6 +22,8 @@ import Transactions from '../blockchain/transactions';
 
 
 const initialState = {
+    submittedTransaction: {},
+
     // For Streaming Transactions
     transactionHash: '',
     streamState: '',
@@ -46,17 +48,33 @@ export function useTransactionContext() {
 
 const TransactionReducer = (state, action) => {
     switch (action.type) {
+        case 'BEGIN_TX':
+            return {
+                ...state,
+                submittedTransaction: {},
+                transactionType: action.transactionType,
+                transactionHash: '',
+                streamState: 'started',
+                streamError: '',
+                streamTransitions: [],
+            };
+        case 'SUBMIT_TX':
+            return {
+                ...state,
+                submittedTransaction: action.payload,
+                streamState: 'submitted',
+            };
         case 'BEGIN_STREAMING':
             return {
                 ...state,
+                submittedTransaction: {},
                 transactionHash: action.payload.transactionHash,
                 streamState: 'streaming',
-                streamError: '',
-                streamTransitions: [],
             };
         case 'STREAM_ERROR':
             return {
                 ...state,
+                streamState: 'completed',
                 streamError: action.payload.streamError
             };
         case 'STREAM_TRANSITION':
@@ -68,13 +86,18 @@ const TransactionReducer = (state, action) => {
             return {
                 ...state,
                 transactionHash: '',
-                streamState: 'completed'
+                streamState: 'completed',
+                streamTransitions: [],
             };
         case 'CLEAR_STREAM':
             return {
                 ...state,
+                submittedTransaction: {},
+                transactionType: '',
                 transactionHash: '',
-                streamState: ''
+                streamState: '',
+                streamError: '',
+                streamTransitions: [],
             };
 
         case 'BEGIN_SEARCH':
@@ -148,12 +171,17 @@ export default function Provider({children}) {
 
 export function Updater() {
     const wallet = useMemo(() => Wallet.instance(), [Wallet]);
-    const [, txDispatch ] = useTransactionContext();
-    const [, networkDispatch ] = useNetworkContext();
+
+    const [ txState, txDispatch ] = useTransactionContext();
+    const { submittedTransaction } = txState;
 
     const [ walletState ] = useWalletContext();
     const { allReady: isWalletReady, networkId } = walletState;
 
+    const [, networkDispatch ] = useNetworkContext();
+
+
+    // Prepare Contracts and Resume Incomplete Transactions
     useEffect(() => {
         if (isWalletReady) {
             const web3 = wallet.getWeb3();
@@ -177,6 +205,25 @@ export function Updater() {
             transactions.resumeIncompleteStreams();
         }
     }, [isWalletReady, networkId, wallet]);
+
+
+    // Watch for Submitted Transactions
+    useEffect(() => {
+        if (!_.isEmpty(submittedTransaction)) {
+            // dFuse - watch transaction
+            const { transactionHash } = submittedTransaction;
+            (async () => {
+                const transactions = Transactions.instance();
+                await transactions.streamTransaction({transactionHash});
+            })();
+
+            txDispatch({
+                type: 'STREAM_TRANSITION', payload: {
+                    streamTransitions: [{to: 'CREATE', transition: 'TX_INIT'}]
+                }
+            });
+        }
+    }, [submittedTransaction]);
 
     return null;
 }

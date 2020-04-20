@@ -248,7 +248,7 @@ class Transactions {
         const plasmaMethodHash = Helpers.keccakStr(transactionEventMap[plasmaEventId].method);
 
         const query = `address: ${contractAddress} ${partialQuery} (topic.0:${particleMethodHash} OR topic.0:${plasmaMethodHash})`;
-        console.log('query', query);
+        // console.log('query', query);
         const activeSearchId = Helpers.keccakStr(query);
         this.activeSearchId = activeSearchId;
 
