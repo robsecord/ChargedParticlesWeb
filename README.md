@@ -1,4 +1,4 @@
-## Charged Particles - Particle Accelerator (Public Particle Minting Station) v0.2.7
+## Charged Particles - Particle Accelerator (Public Particle Minting Station) v0.2.9
 
 **Charged Particles** are Non-Fungible Tokens (NFTs) that are minted with **DAI** and accrue interest via **CHAI** 
 giving the Token a "Charge". 
