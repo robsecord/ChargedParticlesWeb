@@ -28,7 +28,7 @@
     "@toruslabs/torus-embed": "^0.2.6",
     "@walletconnect/browser": "^1.0.0-beta.39",
     "@walletconnect/qrcode-modal": "^1.0.0-beta.39",
-    "@walletconnect/web3-provider": "^1.0.0-beta.47",
+    "@walletconnect/web3-provider": "^1.0.0",
     "authereum": "0.0.4-beta.100",
     "babel-plugin-styled-components": "^1.10.7",
     "bitski": "^0.10.6",
@@ -72,7 +72,7 @@
     "uport": "^0.7.0-alpha-13",
     "uport-connect": "^1.1.11",
     "walletlink": "^1.0.0",
-    "web3": "^1.2.4",
+    "web3": "^1.2.8",
     "web3connect": "^1.0.0-beta.32"
   },
   "devDependencies": {},
