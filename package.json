@@ -60,7 +60,7 @@
     "react-dom": "^16.12.0",
     "react-helmet": "^6.0.0-beta.2",
     "react-particles-js": "^2.7.1",
-    "react-scripts": "^3.4.0",
+    "react-scripts": "^3.4.2",
     "react-swipeable-views": "^0.13.9",
     "react-toastify": "^5.5.0",
     "react-use-localstorage": "^3.4.1",
