@@ -29,7 +29,7 @@
     "@walletconnect/browser": "^1.0.0-beta.39",
     "@walletconnect/qrcode-modal": "^1.0.0-beta.39",
     "@walletconnect/web3-provider": "^1.0.0-beta.47",
-    "authereum": "0.0.4-beta.100",
+    "authereum": "0.1.0",
     "babel-plugin-styled-components": "^1.10.7",
     "bitski": "^0.10.6",
     "buffer": "^5.4.3",
